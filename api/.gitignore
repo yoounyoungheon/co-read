@@ -50,5 +50,7 @@ build/config\.gypi
 .npmrc
 pnpm-lock.yaml
 
-#
+# Env
 .env
+/postgresql
+/dist
