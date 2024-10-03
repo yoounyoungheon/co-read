@@ -22,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
         return addTransactionalDataSource(new DataSource(options));
       },
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthModule],

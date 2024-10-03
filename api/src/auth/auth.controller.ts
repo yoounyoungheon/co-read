@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Req,
   UseGuards,
@@ -37,5 +38,11 @@ export class AuthController {
   @UseGuards(AuthGuard())
   authTest(@Req() req) {
     console.log(req.user.memberId);
+  }
+
+  @Get('/')
+  getAuthTest(): string {
+    console.log('test');
+    return 'test Success';
   }
 }

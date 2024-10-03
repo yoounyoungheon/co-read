@@ -8,12 +8,16 @@ async function bootstrap() {
   initializeTransactionalContext();
 
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
 
   const config = new DocumentBuilder()
-    .setTitle('11M Documentation')
+    .setTitle('CO-READ Documentation')
     .addServer(process.env.SWAGGER_PREFIX)
-    .setDescription('11M의 API 문서입니다.')
+    .setDescription('CO-READ API 문서입니다.')
     .setVersion('0.0.0')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', name: 'JWT', in: 'header' },
@@ -32,5 +36,6 @@ async function bootstrap() {
       disableErrorMessages: false,
     }),
   );
+  await app.listen(3001);
 }
 bootstrap();
