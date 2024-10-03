@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import BookLogo from './ui/book-logo';
-import { lusitana } from '@/app/ui/fonts';
+import BookLogo from './ui/components/view/atom/book-logo';
+import { lusitana } from './ui/components/util/fonts';
 
 export default function Home() {
   return (
@@ -9,8 +9,9 @@ export default function Home() {
       <BookLogo />
     </div> <br/>
     <p className={`${lusitana.className} text-2xl text-gray-800 md:text-3xl md:leading-normal`}>
-      <strong>Welcome to <Link href ="/dashboard" className="text-blue-500">Read us !</Link>! Check your dashboard. </strong>
+      <strong>Welcome to <Link href ="/main-board" className="text-blue-500">Read us !</Link>! Check your dashboard. </strong>
     </p>
+    
   </main>
   );
 }
