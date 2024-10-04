@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { authenticate } from "../services/auth/auth.service";
 
-export function useLogin(){
+export function useSignIn(){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,9 +14,18 @@ export function useLogin(){
       setPassword(value);
     }
   }
+
+  const handleAuthentication = (email: string, password: string) => {
+    const formData = new FormData();
+    formData.append('email', email)
+    formData.append('password', password);
+    authenticate(formData);
+  }
+
   return{
     email,
     password,
-    onChange
+    onChange,
+    handleAuthentication
   }
 }

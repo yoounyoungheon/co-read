@@ -1,9 +1,8 @@
 import { ReactNode } from "react";
-import { LoginInput } from "../atom/input";
 
-export function Form({ children, onSubmit }: { children: ReactNode, onSubmit:()=>void }) {
+export function SignIninForm({ children, onSignIn }: { children: ReactNode, onSignIn:()=>void }) {
   return (
-    <form className="mt-12 mb-2 flex flex-col gap-2.5 w-full" onSubmit={onSubmit}>
+    <form className="mt-12 mb-2 flex flex-col gap-2.5 w-full" onSubmit={onSignIn}>
     {children}
     </form>
   );
