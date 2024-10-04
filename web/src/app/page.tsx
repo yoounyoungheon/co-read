@@ -27,30 +27,7 @@ export default function Home() {
         formData.append('password', password);
         authenticate(formData);
       }}>
-        <input
-          type='email'
-          className="p-2.5 px-5 rounded-full w-full
-            text-base cursor-pointer 
-            bg-blue-100 text-black 
-            hover:opacity-80 border-none"
-          name="email"
-          value={email}
-          onChange={onChange}
-          placeholder='email'
-          required
-        />
-        <input 
-          type='password'
-          className="p-2.5 px-5 rounded-full w-full
-            text-base cursor-pointer 
-            bg-blue-100 text-black 
-            hover:opacity-80 border-none" 
-          name="password"
-          value={password}
-          onChange={onChange}
-          placeholder='password'
-          required
-        />
+        <LoginInput email={email} password={password} onChange={onChange}/>
         <SubmitInput/>
       </Form>
     </Wrapper>
