@@ -1,5 +1,5 @@
 import React from "react";
-import SideNav from "../ui/nav/sidenav";
+import SideNav from "@/app/ui/nav/sidenav";
 
 export default function Layout({children}:{children: React.ReactNode}) {
   return (

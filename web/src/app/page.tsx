@@ -3,9 +3,9 @@ import Link from 'next/link';
 import BookLogo from './ui/components/view/atom/book-logo';
 import { lusitana } from './ui/components/util/fonts';
 import { Wrapper } from './ui/components/view/atom/wrapper';
-import { LoginInput, SubmitInput } from './ui/components/view/atom/input';
-import { SignIninForm } from './ui/components/view/molecule/form';
-import { useSignIn } from './business/hooks/useLogin';
+import { SignInInput, SubmitInput } from './ui/components/view/atom/auth-input';
+import { SignIninForm } from './ui/components/view/molecule/auth-form';
+import { useSignIn } from './business/hooks/auth/use-sign-in.hook';
 
 export default function Home() {
   const {email, password, onChange, handleAuthentication} = useSignIn();
@@ -18,12 +18,13 @@ export default function Home() {
     
     <Wrapper >
     <p className={`${lusitana.className} text-2xl text-gray-800 md:text-3xl md:leading-normal`}>
-      <strong> Welcome to <Link href ="/main-board" className="text-blue-500">Read us !</Link>! Check your dashboard. </strong>
+      <strong> Welcome to CO-READ ! </strong>
     </p>
       <SignIninForm onSignIn={()=>{handleAuthentication(email, password)}}>
-        <LoginInput email={email} password={password} onChange={onChange}/>
+        <SignInInput email={email} password={password} onChange={onChange}/>
         <SubmitInput/>
       </SignIninForm>
+      <Link href ="/routes/main-board" className="text-blue-500">Do you have no account?</Link>
     </Wrapper>
     
   </main>
