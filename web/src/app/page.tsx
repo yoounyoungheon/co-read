@@ -4,7 +4,6 @@ import BookLogo from './ui/components/view/atom/book-logo';
 import { lusitana } from './ui/components/util/fonts';
 import { Wrapper } from './ui/components/view/atom/wrapper';
 import { LoginInput, SubmitInput } from './ui/components/view/atom/input';
-import { authenticate } from './business/services/auth/auth.service';
 import { SignIninForm } from './ui/components/view/molecule/form';
 import { useSignIn } from './business/hooks/useLogin';
 
