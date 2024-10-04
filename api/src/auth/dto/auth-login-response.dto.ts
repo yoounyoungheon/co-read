@@ -1,6 +1,6 @@
 export class AuthLogInResponseDto {
   memberId: string;
-  name: string;
+  email: string;
   memberName: string;
   accessToken: string;
 }

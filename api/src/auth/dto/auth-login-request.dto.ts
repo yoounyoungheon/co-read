@@ -6,10 +6,10 @@ export class AuthLoginRequestDto {
   @MinLength(2)
   @MaxLength(20)
   @ApiProperty({
-    example: '사용자id',
-    description: '사용자가 로그인에 사용할 id',
+    example: '사용자 email',
+    description: '사용자가 로그인에 사용할 email',
   })
-  name: string;
+  email: string;
 
   @IsString()
   @MinLength(2)

@@ -6,7 +6,7 @@ export class MemberEntity extends BaseEntity {
   memberId: string;
 
   @Column()
-  name: string;
+  email: string;
 
   @Column()
   memberName: string;

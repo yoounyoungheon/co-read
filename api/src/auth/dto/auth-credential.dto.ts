@@ -9,7 +9,7 @@ export class AuthCredentialsDto {
   @IsString()
   @MinLength(2)
   @MaxLength(20)
-  name: string;
+  email: string;
 
   @ApiProperty({
     example: '사용자 이름',

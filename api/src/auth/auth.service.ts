@@ -23,15 +23,15 @@ export class AuthService {
 
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<string> {
     try {
-      const { name, password, memberName } = authCredentialsDto;
-      const checkMember = await this.memberCheck(name);
+      const { email, password, memberName } = authCredentialsDto;
+      const checkMember = await this.memberCheck(email);
       if (checkMember == true) {
         return '이미 존재하는 Id입니다.';
       } else {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         const memberEntity = this.memberRepository.create({
-          name: name,
+          email: email,
           memberName: memberName,
           password: hashedPassword,
         });
@@ -54,21 +54,21 @@ export class AuthService {
   async signIn(
     authLoginDto: AuthLoginRequestDto,
   ): Promise<AuthLogInResponseDto> {
-    const { name, password } = authLoginDto;
-    const memberEntity = await this.memberRepository.findOneBy({ name });
+    const { email, password } = authLoginDto;
+    const memberEntity = await this.memberRepository.findOneBy({ email });
     console.log(memberEntity);
 
     if (
       memberEntity &&
       (await bcrypt.compare(password, memberEntity.password))
     ) {
-      const payload = { name };
+      const payload = { email };
       const accessToken = this.jwtService.sign(payload);
       const response = new AuthLogInResponseDto();
       response.accessToken = accessToken;
       response.memberId = memberEntity.memberId;
       response.memberName = memberEntity.memberName;
-      response.name = memberEntity.name;
+      response.email = memberEntity.email;
       return response;
     } else {
       throw new UnauthorizedException('login failed');
@@ -79,8 +79,8 @@ export class AuthService {
     return await this.memberRepository.findOneBy({ memberId });
   }
 
-  async memberCheck(name: string) {
-    const member = await this.memberRepository.findOneBy({ name: name });
+  async memberCheck(email: string) {
+    const member = await this.memberRepository.findOneBy({ email: email });
     if (member) {
       return true;
     } else {

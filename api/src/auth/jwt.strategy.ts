@@ -12,15 +12,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly memberRepository: Repository<MemberEntity>,
   ) {
     super({
-      secretOrKey: 'Secret11m',
+      secretOrKey: 'SecretYH',
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
 
   async validate(payload) {
-    const name = payload.name;
+    const email = payload.email;
     const member: MemberEntity = await this.memberRepository.findOneBy({
-      name,
+      email,
     });
 
     if (!member) {
