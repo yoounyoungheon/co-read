@@ -26,7 +26,13 @@ export class AuthService {
       const { email, password, memberName } = authCredentialsDto;
       const checkMember = await this.memberCheck(email);
       if (checkMember == true) {
-        return '이미 존재하는 Id입니다.';
+        throw new BadRequestException({
+          HttpStatus: HttpStatus.BAD_REQUEST,
+          error:
+            '[ERROR] 회원가입에 실해했습니다. 이미 존재하는 ID입니다. 다시 입력해주세요.',
+          message: '이미 존재하는 회원입니다.',
+          cause: 'Duplicated ID',
+        });
       } else {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
