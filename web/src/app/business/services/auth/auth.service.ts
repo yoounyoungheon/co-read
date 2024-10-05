@@ -12,7 +12,7 @@ interface FormState {
   validationError: Record<string, string[] | undefined>;
 };
 
-export async function transmitSignUpInfo(formData: FormData): Promise<FormState>{
+export async function transmitSignUpInfo(formData: FormData):Promise<FormState>{
   // validation for "zod parse"
   const validatedFields = SignUpFormSchema.safeParse({
     memberName: formData.get('memberName'),
@@ -40,9 +40,20 @@ export async function transmitSignUpInfo(formData: FormData): Promise<FormState>
       body: JSON.stringify(body),
     })
 
+    if (!response.ok) {
+      throw new HttpError(response.status, '서버 에러');
+    }
+    
+
     console.log(response);
     console.log("회원가입에 성공했습니다.");
-    
+
+    return {
+      isSuccess: true,
+      isFailure: false,
+      validationError: {},
+      message: '회원가입에 성공했습니다.'
+    }
   } catch (error){
     console.log(error);
     if(error instanceof HttpError && error.statusCode === 404){
@@ -54,12 +65,10 @@ export async function transmitSignUpInfo(formData: FormData): Promise<FormState>
       }
     }
     throw error;
-  } finally {
-    redirect('/');
   }
  }
 
-export async function authenticate(formData: FormData): Promise<FormState>{
+export async function authenticate(formData: FormData):Promise<FormState>{
   // validation for "zod parse"
   const validatedFields = SignInFormSchema.safeParse({
     email: formData.get('email'),
@@ -98,6 +107,12 @@ export async function authenticate(formData: FormData): Promise<FormState>{
       secure: true,
       path: '/',
     });
+    return {
+      isSuccess: true,
+      isFailure: false,
+      validationError: {},
+      message: '로그인에 성공했습니다.'
+    }
   } catch(error){
     console.log(error);
     if(error instanceof HttpError && error.statusCode === 404){
@@ -109,7 +124,5 @@ export async function authenticate(formData: FormData): Promise<FormState>{
       }
     }
     throw error;
-  } finally {
-    redirect('/');
   }
 };

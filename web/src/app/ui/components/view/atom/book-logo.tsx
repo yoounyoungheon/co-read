@@ -7,8 +7,8 @@ export default function BookLogo() {
     <div
       className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
     >
-      <BookOpenIcon className="h-5 w-5 rotate-[15deg]"/>
-      <p className="text-[30px]"> Read Us</p>
+      {/* <BookOpenIcon className="h-5 w-5 rotate-[15deg]"/> */}
+      <p className="text-[30px]"> CO READ</p>
     </div>
   );
 }

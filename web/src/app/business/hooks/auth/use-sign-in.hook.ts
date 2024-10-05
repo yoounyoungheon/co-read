@@ -15,11 +15,12 @@ export function useSignIn(){
     }
   }
 
-  const handleAuthentication = (email: string, password: string) => {
+  const handleAuthentication = async (email: string, password: string) => {
     const formData = new FormData();
     formData.append('email', email)
     formData.append('password', password);
-    authenticate(formData);
+    const result = await authenticate(formData);
+    return result.isSuccess;
   }
 
   return{

@@ -18,12 +18,13 @@ export function useSignUp(){
     }
   }
 
-  const handleTransmition = (email: string, password: string) => {
+  const handleTransmition = async (email: string, password: string ,memberName: string) => {
     const formData = new FormData();
     formData.append('email', email);
     formData.append('memberName', memberName);
     formData.append('password', password);
-    transmitSignUpInfo(formData);
+    const result = await transmitSignUpInfo(formData);
+    return result.isSuccess;
   }
 
   return{
