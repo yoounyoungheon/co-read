@@ -8,7 +8,7 @@ export class AuthCredentialsDto {
   })
   @IsString()
   @MinLength(2)
-  @MaxLength(20)
+  @MaxLength(100)
   email: string;
 
   @ApiProperty({
@@ -26,6 +26,6 @@ export class AuthCredentialsDto {
   })
   @IsString()
   @MinLength(2)
-  @MaxLength(20)
+  @MaxLength(30)
   password: string;
 }

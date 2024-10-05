@@ -4,7 +4,7 @@ import { IsString, MinLength, MaxLength } from 'class-validator';
 export class AuthLoginRequestDto {
   @IsString()
   @MinLength(2)
-  @MaxLength(20)
+  @MaxLength(100)
   @ApiProperty({
     example: '사용자 email',
     description: '사용자가 로그인에 사용할 email',
@@ -13,7 +13,7 @@ export class AuthLoginRequestDto {
 
   @IsString()
   @MinLength(2)
-  @MaxLength(20)
+  @MaxLength(30)
   @ApiProperty({
     example: '사용자Password',
     description: '사용자가 로그인에 사용할 password',
