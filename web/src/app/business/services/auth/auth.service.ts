@@ -42,6 +42,7 @@ export async function transmitSignUpInfo(formData: FormData): Promise<FormState>
 
     console.log(response);
     console.log("회원가입에 성공했습니다.");
+    
   } catch (error){
     console.log(error);
     if(error instanceof HttpError && error.statusCode === 404){
@@ -97,7 +98,6 @@ export async function authenticate(formData: FormData): Promise<FormState>{
       secure: true,
       path: '/',
     });
-
   } catch(error){
     console.log(error);
     if(error instanceof HttpError && error.statusCode === 404){

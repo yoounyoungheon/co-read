@@ -7,7 +7,7 @@ interface LoginInputProps{
   onChange: (e: React.ChangeEvent<HTMLInputElement>)=>void
 }
 
-export function SignInInput({email, password, memberName = undefined, onChange}:LoginInputProps){
+export function SignInInput({email, password, onChange}:LoginInputProps){
   return (
     <>
     <input
@@ -81,7 +81,7 @@ export function SignUpInput({email, password, memberName = undefined, onChange}:
   )
 }
 
-export function SubmitInput(){
+export function SubmitInput({content}:{content: string}){
     return (
       <input 
         type='submit'
@@ -89,8 +89,9 @@ export function SubmitInput(){
           text-base cursor-pointer 
           bg-blue-500 text-white 
           hover:opacity-80 border-none" 
-        value='submit'
+        value={content}
         required
-      />
+      >
+      </input>
     )
   }

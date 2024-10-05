@@ -18,7 +18,7 @@ export function useSignUp(){
     }
   }
 
-  const handleTranmition = (email: string, password: string) => {
+  const handleTransmition = (email: string, password: string) => {
     const formData = new FormData();
     formData.append('email', email);
     formData.append('memberName', memberName);
@@ -31,6 +31,6 @@ export function useSignUp(){
     password,
     memberName,
     onChange,
-    handleTranmition
+    handleTransmition
   }
 }
