@@ -3,10 +3,7 @@ import Link from 'next/link';
 import BookLogo from './ui/components/view/atom/book-logo';
 import { lusitana } from './ui/components/util/fonts';
 import { Wrapper } from './ui/components/view/atom/wrapper';
-import { SignInInput, SubmitInput } from './ui/components/view/atom/auth-input';
-import { SignInForm } from './ui/components/view/molecule/auth-form';
-import { useSignIn } from './business/hooks/auth/use-sign-in.hook';
-
+import { SignInForm } from './ui/components/view/molecule/auth-forms';
 export default function Home() {
   return (
   <main className="flex min-h-screen flex-col p-6">

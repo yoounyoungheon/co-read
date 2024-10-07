@@ -1,9 +1,8 @@
 'use server';
-import { API_PATH } from "@/app/store/queries/api-path";
+import { API_PATH } from "@/app/store/api-path";
 import { SignInFormSchema, SignInRequestBody, SignUpFormSchema, SignUpRequestBody } from "./auth-validation.service";
 import { HttpError } from "@/app/utils/http/http-error";
 import { cookies } from "next/headers";
-import { redirect } from 'next/navigation';
 
 interface FormState {
   isSuccess: boolean;
@@ -107,6 +106,7 @@ export async function authenticate(formData: FormData):Promise<FormState>{
       secure: true,
       path: '/',
     });
+
     return {
       isSuccess: true,
       isFailure: false,
