@@ -11,7 +11,7 @@ interface FormState {
   validationError: Record<string, string[] | undefined>;
 };
 
-export async function transmitSignUpInfo(formData: FormData):Promise<FormState>{
+export async function transmitSignUpInfo(prevState: FormState, formData: FormData):Promise<FormState>{
   // validation for "zod parse"
   const validatedFields = SignUpFormSchema.safeParse({
     memberName: formData.get('memberName'),
@@ -67,7 +67,7 @@ export async function transmitSignUpInfo(formData: FormData):Promise<FormState>{
   }
  }
 
-export async function authenticate(formData: FormData):Promise<FormState>{
+export async function authenticate(prevState: FormState, formData: FormData):Promise<FormState>{
   // validation for "zod parse"
   const validatedFields = SignInFormSchema.safeParse({
     email: formData.get('email'),
