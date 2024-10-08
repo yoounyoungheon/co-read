@@ -7,7 +7,6 @@ import Link from 'next/link';
 export default function Home() {
   // const router = useRouter();
   // router.push("/routes/main-board");
- 
   return (
   <main className="flex min-h-[100dvh] items-center justify-center bg-gray-100 px-4 dark:bg-gray-950">
     <div className="w-full max-w-md space-y-6">

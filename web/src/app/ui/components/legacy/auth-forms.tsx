@@ -1,4 +1,4 @@
-import { SignInInput, SignUpInput, SubmitInput } from "../atom/auth-input";
+import { SignInInput, SignUpInput, SubmitInput } from "./auth-input";
 import { useSignIn } from "@/app/business/hooks/auth/use-sign-in.hook";
 import { useSignUp } from "@/app/business/hooks/auth/use-sign-up.hook";
 import { useRouter } from "next/navigation"; 

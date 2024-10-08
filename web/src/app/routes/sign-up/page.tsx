@@ -13,10 +13,7 @@ export default function SignUp() {
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight">Sign UP</h1>
         <p className="mt-2 text-gray-500 dark:text-gray-400">
-          Welcome to CO-READ !
-        </p>
-        <p className="mt-2 text-gray-500 dark:text-gray-400">
-          below to sign up
+          Welcome to CO-READ! below to sign up
         </p>
       </div>
       <Card>
