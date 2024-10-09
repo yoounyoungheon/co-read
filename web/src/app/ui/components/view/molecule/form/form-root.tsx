@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { FormSubmitButton } from "./form-submit-button";
 import { FormContext } from "./form.context";
 import Callout from "../callout";
+import { useToast } from "@/app/utils/hook/use-toast";
 
 export interface FormState {
   isSuccess: boolean;
@@ -33,16 +34,17 @@ export function FormRoot({
 }: React.PropsWithChildren<FormRootProps>) {
   const initialState: FormState = { isSuccess: false, isFailure: false, message: null, validationError: {} };
   const [formState, dispatch] = useFormState(action, initialState);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (formState.isSuccess) {
       onSuccess?.();
     }
     if (formState.isFailure && failMessageControl === 'toast') {
-      // toast({
-      //   title: formState.message ? formState.message : '',
-      //   variant: 'destructive',
-      // });
+      toast({
+        title: formState.message ? formState.message : '',
+        variant: 'destructive',
+      });
     }
   }, [formState]);
 
