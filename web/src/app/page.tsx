@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter } from './ui/components/view/molecule/car
 import Form from './ui/components/view/molecule/form';
 import { authenticate } from './business/services/auth/auth.service';
 import Link from 'next/link';
+import HanaLogo from './ui/components/view/atom/hana-logo';
 // import { useRouter } from 'next/navigation';
 export default function Home() {
   // const router = useRouter();
@@ -10,14 +11,8 @@ export default function Home() {
   return (
   <main className="flex min-h-[100dvh] items-center justify-center bg-gray-100 px-4 dark:bg-gray-950">
     <div className="w-full max-w-md space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold tracking-tight">Sign in to your account</h1>
-        <p className="mt-2 text-gray-500 dark:text-gray-400">
-          Enter your email and password
-        </p>
-        <p className="mt-2 text-gray-500 dark:text-gray-400">
-          below to access your account.
-        </p>
+      <div className="flex flex-col justify-center items-center text-center">
+        <HanaLogo/>
       </div>
       <Card>
         <Form id="sign-in" action={authenticate} failMessageControl={'alert'}>
@@ -36,7 +31,7 @@ export default function Home() {
       </Card>
       <div className="text-center text-sm text-gray-500 dark:text-gray-400">
           Dont have an account?
-          <Link className="font-medium hover:underline" href="/routes/sign-up">
+          <Link className="font-medium hover:underline" href="/sign-up">
             Register
           </Link>
         </div>

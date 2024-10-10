@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { inter } from "./ui/components/util/fonts";
+import { inter } from "./utils/style/fonts";
 
 export const metadata: Metadata = {
   title: "Web Tutorials",

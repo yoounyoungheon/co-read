@@ -13,7 +13,7 @@ interface navLinkType {
 }
 
 const links: navLinkType[] = [
-  {name: 'Home', href: '/dashboard', icon: HomeIcon},
+  {name: 'Home', href: '/main-board', icon: HomeIcon},
   {name: 'User', href: '/user', icon: UserGroupIcon},
   {name: 'Trend', href: '/trend', icon: DocumentDuplicateIcon},
 ]
@@ -31,12 +31,12 @@ export default function NavLinks(){
             className={clsx(
               `flex h-[48px] grow items-center
               justify-center gap-2 rounded-md 
-              bg-gray-50 p-3 text-sm 
+              bg-emerald-50 p-3 text-sm text-emerald-600
               font-medium
-              hover:bg-sky-100 hover:text-blue-600
+              hover:bg-emerald-100 hover:text-emerald-600
               md:flex-none md:justify-start
               md:p-2 md:px-3`,
-              {'bg-sky-100 text-blue-600': pathName === link.href}
+              {'bg-emerald-200 text-emerald-800': pathName === link.href}
             )}>
                 <LinkIcon className='w-6'/>
                 <p className='hidden md:block'>{link.name}</p>

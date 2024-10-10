@@ -1,4 +1,4 @@
-import { lusitana } from "@/app/ui/components/util/fonts"
+import { lusitana } from "@/app/utils/style/fonts"
 import { Card, CardContent, CardFooter } from "@/app/ui/components/view/molecule/card/card"
 
 export default function Page(){
