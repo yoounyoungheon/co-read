@@ -5,21 +5,18 @@ export default function Page(){
   const numbers: number[] = [1,2,3,4];
 
   const gridCards: JSX.Element[] = numbers.map((number, index)=>(
-    <>
-    <Card key={index}>
+    <div key={index}>
+      <Card>
         <CardContent className="space-y-4 pt-6">
           <div className="space-y-2">
-          <p>This is card contents area {number}.</p>
-          </div>
-          <div className="space-y-2">
-            
+            <p>This is card contents area {number}.</p>
           </div>
         </CardContent>
         <CardFooter>
           <p>This is card footer area</p>
         </CardFooter>
       </Card>
-    </>
+    </div>
   ))
   
   return (
