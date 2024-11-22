@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
 import Logo from "../../components/view/atom/logo";
-import NavLinks from "./manager-nav-link";
+import ManagerNavLinks from "./manager-nav-link";
 
 export default function ManagerSideNav() {
   return (
@@ -10,7 +10,7 @@ export default function ManagerSideNav() {
         <div><Logo/></div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <NavLinks/>
+        <ManagerNavLinks/>
         <div className="hidden h-auto w-full grow rounded-md bg-emerald-10 md:block"></div>
       </div>
     </div>

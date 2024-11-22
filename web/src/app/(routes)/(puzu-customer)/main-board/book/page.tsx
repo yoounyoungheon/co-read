@@ -3,7 +3,6 @@ import { lusitana } from "@/app/utils/style/fonts"
 import { Card } from "@/app/ui/components/view/molecule/card/card"
 import { totalData } from "@/app/business/mock/mock";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
 import AchromaticButton from "@/app/ui/components/view/atom/button/achromatic-button";
 import { Dialog, DialogTrigger, DialogContent } from "@/app/ui/components/view/molecule/dialog/dialog";
 import { BookDialog } from "./components/book-dialog";
@@ -18,7 +17,6 @@ export default function Page(){
 
   return (
     <main>
-      <Suspense fallback={<div>페이지가 로딩중입니다...</div>}>
       <h1 className={`${lusitana.className} text-xl font-semibold`}>{item?.title}</h1>
       <div className={`grid gap-3`}>
         <Card
@@ -46,7 +44,6 @@ export default function Page(){
           </DialogContent>
         </Dialog>
       </div>
-      </Suspense>
     </main>
   )
 }

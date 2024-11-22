@@ -9,7 +9,6 @@ export default function Page(){
 
   const forkCards: JSX.Element[] = forkData.map((val, index)=>(
     <div key={index}>
-      <Link href={`/main-board/book?item=${val.id}`}>
         <Card
           className="relative"
           style={{
@@ -29,7 +28,6 @@ export default function Page(){
             <p>{`${val.price}원 (100g)`}</p>
           </CardFooter>
         </Card>
-      </Link>
     </div>
   ))
 
