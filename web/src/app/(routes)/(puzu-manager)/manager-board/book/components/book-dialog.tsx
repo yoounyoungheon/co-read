@@ -13,7 +13,7 @@ interface BookDialogProps{
 export function BookDialog({item}:BookDialogProps){
   const router = useRouter()
   
-  // TO-DO: 비즈니스 로직 분리
+  // TO-DO: 비즈니스 로직 분리 및 api 연동 시 비동기 처리
   function bookAction(prevState: FormState, formData: FormData):FormState{
     console.log(formData.get("amount"))
     console.log(formData.get("phone-number"))
