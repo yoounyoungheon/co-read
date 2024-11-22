@@ -1,13 +1,14 @@
 'use client'
 import { Card, CardContent, CardFooter } from './ui/components/view/molecule/card/card';
 import Form from './ui/components/view/molecule/form';
-import { authenticate } from './business/services/auth/auth.service';
+// import { authenticate } from './business/services/auth/auth.service';
 import Link from 'next/link';
 import Logo from './ui/components/view/atom/logo';
-// import { useRouter } from 'next/navigation';
+import { FormState } from './ui/components/view/molecule/form/form-root';
+import { useRouter } from 'next/navigation';
+
 export default function Home() {
-  // const router = useRouter();
-  // router.push("/routes/main-board");
+  const router = useRouter();
   return (
   <main className="flex min-h-[100dvh] items-center justify-center bg-gray-100 px-4 dark:bg-gray-950">
     <div className="w-full max-w-md space-y-6">
@@ -15,7 +16,15 @@ export default function Home() {
         <Logo/>
       </div>
       <Card>
-        <Form id="sign-in" action={authenticate} failMessageControl={'alert'}>
+        <Form id="sign-in" action={
+          (prevState: FormState, formData: FormData)=>{
+            console.log(formData.get("email"))
+            return{isSuccess: true, isFailure: false, message: "로그인 성공", validationError:{}}
+          }
+          }
+          failMessageControl={'alert'}
+          onSuccess={()=>{router.push("/main-board")}}
+        >
           <CardContent className="space-y-4 pt-6">
             <div className="space-y-2">
               <Form.TextInput label="Email" id="email" placeholder="m@example.com" />
