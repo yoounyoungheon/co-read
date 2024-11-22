@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter } from './ui/components/view/molecule/car
 import Form from './ui/components/view/molecule/form';
 import { authenticate } from './business/services/auth/auth.service';
 import Link from 'next/link';
-import HanaLogo from './ui/components/view/atom/hana-logo';
+import Logo from './ui/components/view/atom/logo';
 // import { useRouter } from 'next/navigation';
 export default function Home() {
   // const router = useRouter();
@@ -12,7 +12,7 @@ export default function Home() {
   <main className="flex min-h-[100dvh] items-center justify-center bg-gray-100 px-4 dark:bg-gray-950">
     <div className="w-full max-w-md space-y-6">
       <div className="flex flex-col justify-center items-center text-center">
-        <HanaLogo/>
+        <Logo/>
       </div>
       <Card>
         <Form id="sign-in" action={authenticate} failMessageControl={'alert'}>

@@ -2,7 +2,7 @@
 import { Card, CardContent, CardFooter } from '@/app/ui/components/view/molecule/card/card'
 import Form from '@/app/ui/components/view/molecule/form';
 import { transmitSignUpInfo } from '@/app/business/services/auth/auth.service';
-import HanaLogo from '@/app/ui/components/view/atom/hana-logo';
+import HanaLogo from '@/app/ui/components/view/atom/logo';
 // import { useRouter } from 'next/navigation';
 
 export default function SignUp() {

@@ -13,9 +13,9 @@ interface navLinkType {
 }
 
 const links: navLinkType[] = [
-  {name: 'Home', href: '/main-board', icon: HomeIcon},
-  {name: 'User', href: '/user', icon: UserGroupIcon},
-  {name: 'Trend', href: '/trend', icon: DocumentDuplicateIcon},
+  {name: '오늘의 상품', href: '/main-board', icon: HomeIcon},
+  {name: '주문하기', href: '/book', icon: UserGroupIcon},
+  {name: '푸줏간 소개', href: '/about', icon: DocumentDuplicateIcon},
 ]
 
 export default function NavLinks(){
@@ -31,15 +31,15 @@ export default function NavLinks(){
             className={clsx(
               `flex h-[48px] grow items-center
               justify-center gap-2 rounded-md 
-              bg-emerald-50 p-3 text-sm text-emerald-600
+              bg-emerald-50 p-2 text-xs text-emerald-600
               font-medium
               hover:bg-emerald-100 hover:text-emerald-600
               md:flex-none md:justify-start
-              md:p-2 md:px-3`,
+              md:p-1 md:px-2`,
               {'bg-emerald-200 text-emerald-800': pathName === link.href}
             )}>
-                <LinkIcon className='w-6'/>
-                <p className='hidden md:block'>{link.name}</p>
+                <LinkIcon className='w-4'/>
+                <p>{link.name}</p>
           </Link>
         )
      })}
