@@ -36,7 +36,7 @@ export function ManageProductDialog({item}:ManageProductDialogProps){
           <div className="space-y-2">
             <FormTextInput label={""} id={"update-name"} placeholder={item.title}/>
             <FormNumberInput label={""} id={"update-price"} placeholder={`${item.price}`}/>
-            <textarea className="rounded-xl w-60 h-32" id={"update-description"} placeholder={item.description}/>
+            <textarea className="items-center rounded-lg border outline-none transition duration-100 shadow-sm w-60 h-32" id={"update-description"}/>
             <FormSubmitButton label={"업데이트하기"} position="center"/>
           </div>
         </Form>
