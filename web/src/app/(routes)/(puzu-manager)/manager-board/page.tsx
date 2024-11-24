@@ -2,7 +2,6 @@
 import { lusitana } from "@/app/utils/style/fonts"
 import { Card, CardContent, CardFooter } from "@/app/ui/components/view/molecule/card/card"
 import { mockBeefMenu, mockForkMenu } from "@/app/business/mock/mock";
-import Link from "next/link";
 import { Dialog, DialogTrigger, DialogContent } from "@/app/ui/components/view/molecule/dialog/dialog";
 import { ManageProductDialog } from "./components/manage-product-dialog";
 import AchromaticButton from "@/app/ui/components/view/atom/button/achromatic-button";
