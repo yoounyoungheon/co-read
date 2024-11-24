@@ -15,7 +15,7 @@ interface navLinkType {
 const links: navLinkType[] = [
   {name: '오늘의 상품', href: '/main-board', icon: HomeIcon},
   {name: '이벤트', href: '/event', icon: UserGroupIcon},
-  {name: '푸줏간 소개', href: '/about', icon: DocumentDuplicateIcon},
+  {name: '예약 내역', href: '/user', icon: DocumentDuplicateIcon},
 ]
 
 export default function NavLinks(){

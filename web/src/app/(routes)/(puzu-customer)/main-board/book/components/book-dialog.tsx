@@ -1,6 +1,7 @@
 'use client'
 
 import { ItemType } from "@/app/business/domain/item";
+import { Calender, DateSelector } from "@/app/ui/components/view/molecule/calender/date-selector";
 import { Card, CardTitle } from "@/app/ui/components/view/molecule/card/card"
 import Form from "@/app/ui/components/view/molecule/form";
 import { FormNumberInput } from "@/app/ui/components/view/molecule/form/form-number-input";
@@ -14,6 +15,7 @@ interface BookDialogProps{
 
 export function BookDialog({item}:BookDialogProps){
   const router = useRouter();
+
   function bookAction(prevState: FormState, formData: FormData):FormState{
     console.log(formData.get("amount"))
     console.log(formData.get("phone-number"))
@@ -21,7 +23,7 @@ export function BookDialog({item}:BookDialogProps){
       isSuccess: true,
       isFailure: false,
       validationError: {},
-      message: '회원가입에 성공했습니다.'
+      message: '예약에 성공했습니다.'
     }
   }
   
@@ -30,7 +32,8 @@ export function BookDialog({item}:BookDialogProps){
       <Card className="border-none shadow-none">
         <CardTitle>{item.title} 예약하기</CardTitle>
         <Form id={"book-action"} action={bookAction} onSuccess={()=>{ router.push("/main-board"); alert("예약 되었습니다.");}} failMessageControl={"alert"}>
-          <div className="space-y-2">
+          <div className="mt-2 space-y-2">
+            <Calender/>
             <FormNumberInput label={""} id={"amount"} placeholder={"몇 그램 예약하시겠어요?"}/>
             <FormNumberInput label={""} id={"people"} placeholder={"인원수를 입력해주세요!"}/>
             <FormNumberInput label={""} id={"phone-number"} placeholder={"전화번호를 입력해주세요!"}/>
