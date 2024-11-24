@@ -1,7 +1,7 @@
 'use client'
 
 import { ItemType } from "@/app/business/domain/item";
-import { Calender, DateSelector } from "@/app/ui/components/view/molecule/calender/date-selector";
+import { Calender } from "@/app/ui/components/view/molecule/calender/date-selector";
 import { Card, CardTitle } from "@/app/ui/components/view/molecule/card/card"
 import Form from "@/app/ui/components/view/molecule/form";
 import { FormNumberInput } from "@/app/ui/components/view/molecule/form/form-number-input";
