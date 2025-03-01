@@ -9,7 +9,7 @@ export class AuthLoginRequestDto {
     example: '사용자 email',
     description: '사용자가 로그인에 사용할 email',
   })
-  email: string;
+  username: string;
 
   @IsString()
   @MinLength(2)

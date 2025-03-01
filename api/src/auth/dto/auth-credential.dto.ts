@@ -9,7 +9,7 @@ export class AuthCredentialsDto {
   @IsString()
   @MinLength(2)
   @MaxLength(100)
-  email: string;
+  username: string;
 
   @ApiProperty({
     example: '사용자 이름',
@@ -18,7 +18,7 @@ export class AuthCredentialsDto {
   @IsString()
   @MinLength(2)
   @MaxLength(20)
-  memberName: string;
+  name: string;
 
   @ApiProperty({
     example: '사용자 password',

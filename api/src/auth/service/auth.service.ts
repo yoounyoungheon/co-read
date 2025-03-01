@@ -4,14 +4,14 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { MemberEntity } from './member.entity';
+import { MemberEntity } from '../member/member.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthCredentialsDto } from './dto/auth-credential.dto';
+import { AuthCredentialsDto } from '../dto/auth-credential.dto';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { AuthLoginRequestDto } from './dto/auth-login-request.dto';
-import { AuthLogInResponseDto } from './dto/auth-login-response.dto';
+import { AuthLoginRequestDto } from '../dto/auth-login-request.dto';
+import { AuthLogInResponseDto } from '../dto/auth-login-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,8 +23,8 @@ export class AuthService {
 
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<string> {
     try {
-      const { email, password, memberName } = authCredentialsDto;
-      const checkMember = await this.memberCheck(email);
+      const { username, password, name } = authCredentialsDto;
+      const checkMember = await this.memberCheck(username);
       if (checkMember == true) {
         throw new BadRequestException({
           HttpStatus: HttpStatus.BAD_REQUEST,
@@ -37,8 +37,8 @@ export class AuthService {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         const memberEntity = this.memberRepository.create({
-          email: email,
-          memberName: memberName,
+          username: username,
+          name: name,
           password: hashedPassword,
         });
         await this.memberRepository.save(memberEntity);
@@ -60,21 +60,21 @@ export class AuthService {
   async signIn(
     authLoginDto: AuthLoginRequestDto,
   ): Promise<AuthLogInResponseDto> {
-    const { email, password } = authLoginDto;
-    const memberEntity = await this.memberRepository.findOneBy({ email });
+    const { username, password } = authLoginDto;
+    const memberEntity = await this.memberRepository.findOneBy({ username });
     console.log(memberEntity);
 
     if (
       memberEntity &&
       (await bcrypt.compare(password, memberEntity.password))
     ) {
-      const payload = { email };
+      const payload = { username };
       const accessToken = this.jwtService.sign(payload);
       const response = new AuthLogInResponseDto();
       response.accessToken = accessToken;
       response.memberId = memberEntity.memberId;
-      response.memberName = memberEntity.memberName;
-      response.email = memberEntity.email;
+      response.name = memberEntity.name;
+      response.username = memberEntity.username;
       return response;
     } else {
       throw new UnauthorizedException('login failed');
@@ -85,8 +85,10 @@ export class AuthService {
     return await this.memberRepository.findOneBy({ memberId });
   }
 
-  async memberCheck(email: string) {
-    const member = await this.memberRepository.findOneBy({ email: email });
+  async memberCheck(username: string) {
+    const member = await this.memberRepository.findOneBy({
+      username: username,
+    });
     if (member) {
       return true;
     } else {

@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
-import { TypeOrmConfigService } from './utils/typeorm.config';
+import { TypeOrmConfigService } from './utils/config/typeorm.config';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
 @Module({
@@ -25,7 +25,7 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AuthModule],
+  providers: [AppService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}

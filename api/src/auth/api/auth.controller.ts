@@ -7,12 +7,12 @@ import {
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthLoginRequestDto } from './dto/auth-login-request.dto';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { AuthLogInResponseDto } from './dto/auth-login-response.dto';
+import { AuthService } from '../service/auth.service';
+import { AuthCredentialsDto } from '../dto/auth-credential.dto';
+import { AuthLoginRequestDto } from '../dto/auth-login-request.dto';
+import { AuthLogInResponseDto } from '../dto/auth-login-response.dto';
 
 @ApiTags('Auth Controller')
 @Controller('/auth')

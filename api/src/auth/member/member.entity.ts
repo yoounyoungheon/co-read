@@ -6,10 +6,10 @@ export class MemberEntity extends BaseEntity {
   memberId: string;
 
   @Column()
-  email: string;
+  username: string;
 
   @Column()
-  memberName: string;
+  name: string;
 
   @Column()
   password: string;
