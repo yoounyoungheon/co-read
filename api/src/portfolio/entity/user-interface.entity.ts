@@ -2,16 +2,16 @@ import { BaseEntity } from 'src/utils/database/base-entity';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class MemberEntity extends BaseEntity {
+export class UserInterfaceEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  memberId: string;
+  id: string;
 
   @Column()
-  username: string;
+  projectId: string;
 
   @Column()
-  name: string;
+  fileUrl: string;
 
   @Column()
-  password: string;
+  description: string;
 }

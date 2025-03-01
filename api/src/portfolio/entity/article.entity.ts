@@ -2,16 +2,19 @@ import { BaseEntity } from 'src/utils/database/base-entity';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class MemberEntity extends BaseEntity {
+export class ArticleEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  memberId: string;
+  id: string;
 
   @Column()
-  username: string;
+  userId: string;
 
   @Column()
-  name: string;
+  title: string;
 
   @Column()
-  password: string;
+  description: string;
+
+  @Column()
+  url: string;
 }
