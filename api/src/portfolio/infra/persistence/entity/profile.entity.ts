@@ -9,6 +9,9 @@ export class ProfileEntity extends BaseEntity {
   @Column()
   userId: string;
 
+  @Column()
+  introduce: string;
+
   @Column('jsonb', { nullable: true })
   words: string[];
 
@@ -17,4 +20,20 @@ export class ProfileEntity extends BaseEntity {
 
   @Column()
   blogUrl: string;
+
+  static create(
+    userId: string,
+    introduce: string,
+    words: string[],
+    gitUrl: string,
+    blogUrl: string,
+  ): ProfileEntity {
+    const profile = new ProfileEntity();
+    profile.userId = userId;
+    profile.introduce = introduce;
+    profile.words = words;
+    profile.gitUrl = gitUrl;
+    profile.blogUrl = blogUrl;
+    return profile;
+  }
 }

@@ -1,11 +1,6 @@
 import { Profile } from 'src/portfolio/domain/profile/profile.domain';
+import { ProfileEntity } from 'src/portfolio/infra/persistence/entity/profile.entity';
 
 export interface CreateProfilePort {
-  createProfile(
-    userId: string,
-    introduce: string,
-    words: string[],
-    gitUrl: string,
-    blogUrl: string,
-  ): Promise<Profile>;
+  createProfile(profile: Profile): Promise<ProfileEntity>;
 }

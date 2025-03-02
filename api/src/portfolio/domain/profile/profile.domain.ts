@@ -7,32 +7,32 @@ export class Profile extends AggregateRoot {
     example: 'c6a99067-27d0-4358-b3d5-e63a64b604c0',
     description: 'id',
   })
-  private readonly id: string;
+  readonly id: string;
   @ApiProperty({
     example: 'c6a99067-27d0-4358-b3d5-e63a64b604c0',
     description: 'user id',
   })
-  private userId: string;
+  userId: string;
   @ApiProperty({
     example: '안녕하세요.',
     description: '한줄 소개',
   })
-  private introduce: string;
+  introduce: string;
   @ApiProperty({
     example: ['c6a99067-27d0-4358-b3d5-e63a64b604c0'],
     description: '소개 줄글',
   })
-  private words: string[];
+  words: string[];
   @ApiProperty({
     example: 'www.example.com',
     description: 'git url',
   })
-  private gitUrl: string;
+  gitUrl: string;
   @ApiProperty({
     example: 'www.example.com',
     description: 'blog url',
   })
-  private blogUrl: string;
+  blogUrl: string;
 
   static create(userId: string, introduce: string) {
     return new Profile(null, userId, introduce, [], '', '');

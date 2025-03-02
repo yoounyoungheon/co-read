@@ -8,10 +8,17 @@ import { ArticleEntity } from './infra/persistence/entity/article.entity';
 import { ProjectEntity } from './infra/persistence/entity/project.entity';
 import { UserInterfaceEntity } from './infra/persistence/entity/user-interface.entity';
 import { AuthService } from 'src/auth/service/auth.service';
+import { ProfilePersistenceAdapter } from './infra/persistence/adapter/profile.persistence.adapter';
 
 @Module({
   controllers: [],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: 'CreateProfilePort',
+      useClass: ProfilePersistenceAdapter,
+    },
+  ],
   imports: [
     CqrsModule,
     HttpModule.registerAsync({
