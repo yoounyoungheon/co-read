@@ -11,10 +11,12 @@ import { ProfileController } from './controller/\bprofile.controller';
 import { ProfileService } from './service/profile.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from 'src/auth/auth.module';
+import { ArticleService } from './service/article.service';
+import { ArticleController } from './controller/article.controller';
 
 @Module({
-  controllers: [ProfileController],
-  providers: [AuthService, ProfileService, JwtService],
+  controllers: [ProfileController, ArticleController],
+  providers: [AuthService, ProfileService, JwtService, ArticleService],
   imports: [
     AuthModule,
     HttpModule.registerAsync({
