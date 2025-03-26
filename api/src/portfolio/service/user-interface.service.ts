@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { UserInterfaceEntity } from '../entity/user-interface.entity';
 import { CreateUserInterfaceDto } from '../dto/create-user-interface.dto';
 import { ProjectEntity } from '../entity/project.entity';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class UserInterfaceService {
@@ -14,6 +15,7 @@ export class UserInterfaceService {
     private projectRepository: Repository<ProjectEntity>,
   ) {}
 
+  @Transactional()
   async createUserInterface(
     projectId: string,
     createUserInterfaceDto: CreateUserInterfaceDto,
@@ -30,12 +32,14 @@ export class UserInterfaceService {
     return await this.userInterfaceRepository.save(newUserInterface);
   }
 
+  @Transactional()
   async getUserInterfaceById(
     id: string,
   ): Promise<UserInterfaceEntity | undefined> {
     return await this.userInterfaceRepository.findOneBy({ id });
   }
 
+  @Transactional()
   async getUserInterfacesByProjectId(
     projectId: string,
   ): Promise<UserInterfaceEntity[]> {
@@ -44,6 +48,7 @@ export class UserInterfaceService {
     });
   }
 
+  @Transactional()
   async deleteUserInterface(id: string): Promise<void> {
     await this.userInterfaceRepository.delete(id);
   }
