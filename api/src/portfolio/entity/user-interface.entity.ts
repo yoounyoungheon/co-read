@@ -10,6 +10,9 @@ export class UserInterfaceEntity extends BaseEntity {
   projectId: string;
 
   @Column()
+  order: number;
+
+  @Column()
   fileUrl: string;
 
   @Column()

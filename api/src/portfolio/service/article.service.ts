@@ -26,7 +26,7 @@ export class ArticleService {
   }
 
   async getArticleById(id: string): Promise<ArticleEntity | undefined> {
-    return await this.articleRepository.findOne({ where: { id } });
+    return await this.articleRepository.findOneBy({ id });
   }
 
   async getArticles(): Promise<ArticleEntity[]> {
