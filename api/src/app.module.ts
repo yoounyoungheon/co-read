@@ -7,6 +7,7 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
 import { TypeOrmConfigService } from './utils/config/typeorm.config';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
+import { PortfolioModule } from './portfolio/portfolio.moule';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
       },
     }),
     AuthModule,
+    PortfolioModule,
   ],
   controllers: [AppController],
   providers: [AppService],

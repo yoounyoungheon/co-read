@@ -1,4 +1,5 @@
 import { BaseEntity } from 'src/utils/database/base-entity';
+import { UserInterface } from 'src/utils/type/type';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
@@ -16,7 +17,7 @@ export class ProjectEntity extends BaseEntity {
   description: string;
 
   @Column('jsonb', { nullable: true })
-  userInterfaces: string[];
+  userInterfaces: UserInterface[];
 
   @Column('jsonb', { nullable: true })
   beTechs: string[];

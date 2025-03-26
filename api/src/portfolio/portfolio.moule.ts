@@ -1,26 +1,22 @@
 import { Module } from '@nestjs/common';
-import { CqrsModule } from '@nestjs/cqrs';
 import { HttpModule } from '@nestjs/axios';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProfileEntity } from './infra/persistence/entity/profile.entity';
+import { ProfileEntity } from './entity/profile.entity';
 import { MemberEntity } from 'src/auth/member/member.entity';
-import { ArticleEntity } from './infra/persistence/entity/article.entity';
-import { ProjectEntity } from './infra/persistence/entity/project.entity';
-import { UserInterfaceEntity } from './infra/persistence/entity/user-interface.entity';
+import { ArticleEntity } from './entity/article.entity';
+import { ProjectEntity } from './entity/project.entity';
+import { UserInterfaceEntity } from './entity/user-interface.entity';
 import { AuthService } from 'src/auth/service/auth.service';
-import { ProfilePersistenceAdapter } from './infra/persistence/adapter/profile.persistence.adapter';
+import { ProfileController } from './controller/\bprofile.controller';
+import { ProfileService } from './service/profile.service';
+import { JwtService } from '@nestjs/jwt';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  controllers: [],
-  providers: [
-    AuthService,
-    {
-      provide: 'CreateProfilePort',
-      useClass: ProfilePersistenceAdapter,
-    },
-  ],
+  controllers: [ProfileController],
+  providers: [AuthService, ProfileService, JwtService],
   imports: [
-    CqrsModule,
+    AuthModule,
     HttpModule.registerAsync({
       useFactory: () => ({
         timeout: 20000,
