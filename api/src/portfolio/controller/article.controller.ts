@@ -38,7 +38,7 @@ export class ArticleController {
   }
 
   @ApiOperation({ summary: '모든 기사를 가져옵니다.' })
-  @Get('/all')
+  @Post('/all')
   async getArticles(): Promise<ArticleEntity[]> {
     return this.articleService.getArticles();
   }

@@ -7,16 +7,32 @@ import { ArticleEntity } from './entity/article.entity';
 import { ProjectEntity } from './entity/project.entity';
 import { UserInterfaceEntity } from './entity/user-interface.entity';
 import { AuthService } from 'src/auth/service/auth.service';
-import { ProfileController } from './controller/\bprofile.controller';
+import { ProfileController } from './controller/profile.controller';
 import { ProfileService } from './service/profile.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from 'src/auth/auth.module';
 import { ArticleService } from './service/article.service';
 import { ArticleController } from './controller/article.controller';
+import { ProjectService } from './service/project.service';
+import { ProjectController } from './controller/project.controller';
+import { UserInterfaceController } from './controller/user-interface.controller';
+import { UserInterfaceService } from './service/user-interface.service';
 
 @Module({
-  controllers: [ProfileController, ArticleController],
-  providers: [AuthService, ProfileService, JwtService, ArticleService],
+  controllers: [
+    ProfileController,
+    ArticleController,
+    ProjectController,
+    UserInterfaceController,
+  ],
+  providers: [
+    AuthService,
+    ProfileService,
+    JwtService,
+    ArticleService,
+    ProjectService,
+    UserInterfaceService,
+  ],
   imports: [
     AuthModule,
     HttpModule.registerAsync({

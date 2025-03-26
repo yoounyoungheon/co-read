@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly memberRepository: Repository<MemberEntity>,
   ) {
     super({
-      secretOrKey: 'SecretYH',
+      secretOrKey: 'SecreteYH',
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }

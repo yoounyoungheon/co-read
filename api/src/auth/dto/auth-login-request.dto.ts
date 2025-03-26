@@ -6,7 +6,7 @@ export class AuthLoginRequestDto {
   @MinLength(2)
   @MaxLength(100)
   @ApiProperty({
-    example: '사용자 email',
+    example: 'iddyoon@gmail.com',
     description: '사용자가 로그인에 사용할 email',
   })
   username: string;
@@ -15,7 +15,7 @@ export class AuthLoginRequestDto {
   @MinLength(2)
   @MaxLength(30)
   @ApiProperty({
-    example: '사용자Password',
+    example: '!tbvjgjsl912',
     description: '사용자가 로그인에 사용할 password',
   })
   password: string;

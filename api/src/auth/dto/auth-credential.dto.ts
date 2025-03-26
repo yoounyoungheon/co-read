@@ -3,7 +3,7 @@ import { IsString, MinLength, MaxLength } from 'class-validator';
 
 export class AuthCredentialsDto {
   @ApiProperty({
-    example: '사용자id',
+    example: 'iddyoon@gmail.com',
     description: '회원가입시 사용자가 서비스에서 사용할 id',
   })
   @IsString()
@@ -21,7 +21,7 @@ export class AuthCredentialsDto {
   name: string;
 
   @ApiProperty({
-    example: '사용자 password',
+    example: '!tbvjgjsl912',
     description: '회원가입시 사용자가 서비스에서 사용할 password',
   })
   @IsString()

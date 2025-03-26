@@ -1,13 +1,14 @@
 import { BaseEntity } from 'src/utils/database/base-entity';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { ProjectEntity } from './project.entity';
 
 @Entity()
 export class UserInterfaceEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  projectId: string;
+  @ManyToOne(() => ProjectEntity, (project) => project.userInterfaces)
+  project: ProjectEntity;
 
   @Column()
   order: number;

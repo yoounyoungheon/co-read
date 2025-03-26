@@ -16,10 +16,9 @@ export class ProjectEntity extends BaseEntity {
   @Column()
   description: string;
 
-  @Column('jsonb', { nullable: true })
   @OneToMany(
     () => UserInterfaceEntity,
-    (userInterface) => userInterface.projectId,
+    (userInterface) => userInterface.project,
   )
   userInterfaces: UserInterfaceEntity[];
 
