@@ -39,6 +39,12 @@ export class ProfileController {
     return this.profileService.getProfileByUserId(member.memberId);
   }
 
+  @ApiOperation({ summary: '게스트가 사용자의 프로필을 가져옵니다.' })
+  @Get('/guest')
+  async loadProfileForGuest() {
+    return this.profileService.getProfileForGuest();
+  }
+
   @ApiOperation({ summary: '사용자의 프로필을 삭제합니다.' })
   @Delete(':id')
   @ApiBearerAuth('access-token')

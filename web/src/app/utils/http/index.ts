@@ -1,5 +1,18 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
+
+export interface APIResponseType<T> {
+  isSuccess: boolean;
+  isFailure: boolean;
+  data: T | null;
+  message?: string 
+}
+
+export const checkResponseStatus = (statusCode: number) => {
+  if (statusCode !== 200 && statusCode !== 201) {
+    throw new AxiosError();
+  }
+};
 
 export const instance = axios.create({
   withCredentials: true,

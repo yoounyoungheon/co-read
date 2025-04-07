@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProfileEntity } from '../entity/profile.entity';
 import { Repository } from 'typeorm';
@@ -11,6 +11,15 @@ export class ProfileService {
     @InjectRepository(ProfileEntity)
     private profileRepository: Repository<ProfileEntity>,
   ) {}
+
+  @Transactional()
+  async getProfileForGuest(): Promise<ProfileEntity | undefined> {
+    const profiles = await this.profileRepository.find();
+    if (profiles.length === 0) {
+      throw new NotFoundException('프로필이 없습니다.');
+    }
+    return profiles[0];
+  }
 
   @Transactional()
   async createProfile(
