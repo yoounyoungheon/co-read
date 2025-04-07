@@ -7,7 +7,7 @@ export class UserInterfaceEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => ProjectEntity, (project) => project.userInterfaces)
+  @ManyToOne(() => ProjectEntity)
   project: ProjectEntity;
 
   @Column()
