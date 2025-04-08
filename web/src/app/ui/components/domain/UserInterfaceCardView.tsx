@@ -62,16 +62,16 @@ export function UserInterfaceView({ userInterfaces }: UserInterfaceViewProps) {
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
           {slides.map((slide, slideIndex) => (
-            <div
-              key={slideIndex}
-              className="grid grid-cols-4 gap-4 shrink-0 w-full"
-            >
-              {slide.map((userInterface, index) => (
-                <div key={index}>
-                  <UserInterfaceCardView userInterface={userInterface} />
-                </div>
-              ))}
-            </div>
+          <div
+            key={slideIndex}
+            className="grid grid-cols-4 gap-4 w-full shrink-0 min-w-full"
+          >
+            {slide.map((userInterface, index) => (
+              <div key={index} className="min-w-0">
+                <UserInterfaceCardView userInterface={userInterface} />
+              </div>
+            ))}
+          </div>
           ))}
         </div>
       </div>
@@ -79,13 +79,18 @@ export function UserInterfaceView({ userInterfaces }: UserInterfaceViewProps) {
   );
 }
 
-export function UserInterfaceCardView({userInterface}: UserInterfaceCardViewProps) {
-  
+export function UserInterfaceCardView({ userInterface }: UserInterfaceCardViewProps) {
   return (
-    <div className="flex flex-col bg-white shadow-md rounded-lg p-4">
-      <Image src={userInterface.fileUrl} alt={userInterface.description} className="rounded-lg mb-4" width={400} height={200} />
+    <div className="flex flex-col bg-white shadow-md rounded-lg p-4 w-full h-full">
+      <div className="relative w-full aspect-[4/3] mb-4">
+        <Image
+          src={userInterface.fileUrl}
+          alt={userInterface.description}
+          fill
+          className="rounded-lg object-cover"
+        />
+      </div>
       <p className="text-sm text-gray-500">{userInterface.description}</p>
     </div>
   );
-  
 }

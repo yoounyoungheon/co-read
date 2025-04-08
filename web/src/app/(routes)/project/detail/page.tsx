@@ -30,7 +30,7 @@ export default async function ProjectPage({
       <div className="text-3xl font-bold">{`project`}</div>
       <div className="grid grid-cols-2 gap-3">
         <Card>
-            <div className="py-3 px-6 font-bold">{project?.title}</div>
+            <div className="p-3 ml-3 text-xl font-bold">{project?.title}</div>
             <div className="mb-1 px-6 text-sm text-gray-500 text-end">{`${project?.startDate.toLocaleDateString()} ~ ${project?.endDate.toLocaleDateString()}`}</div>
             <hr/>
             <div className="py-3 px-6">{project?.description}</div>
@@ -38,7 +38,7 @@ export default async function ProjectPage({
         <TechStackView betechs={project?.beTechs || []} fetechs={project?.feTechs || []} infratechs={project?.infraTechs || []}/>
       </div>
       <Card className="bg-slate-100 border-none shadow-none">
-        <CardTitle className="text-xl font-bold">
+        <CardTitle className="text-xl font-bold mb-3">
           주요 기능
         </CardTitle>
         <UserInterfaceView userInterfaces={userInterfaces}/>
