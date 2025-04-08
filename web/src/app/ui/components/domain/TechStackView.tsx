@@ -11,7 +11,7 @@ export function TechStackView({ betechs, fetechs, infratechs }: TechStackViewPro
     techs.map((tech, index) => (
       <span
         key={index}
-        className="flex items-center gap-1 bg-[#1E1E2F] text-white text-sm font-medium px-3 py-1 rounded-full"
+        className="flex items-center gap-1 bg-blue-900 text-white text-sm font-medium px-3 py-1 rounded-full"
       >
         {tech}
       </span>
