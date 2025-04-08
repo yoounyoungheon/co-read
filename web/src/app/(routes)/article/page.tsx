@@ -3,7 +3,7 @@ import { Card } from "@/app/ui/components/view/molecule/card/card";
 
 export default async function ArticlePage() {
   const loadArticlesResponse = await loadAllArticles();
-  
+  console.log(loadArticlesResponse);
   return (
     <main>
       <div className="text-center text-3xl font-bold p-5">ARTICLE</div>
