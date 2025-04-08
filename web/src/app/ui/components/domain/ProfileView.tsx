@@ -14,7 +14,7 @@ export function ProfileView({profile}:ProfileViewProps){
   return (
   <main>
     <div className="grid grid-cols-1 mb-3 gap-5">
-      <div className="text-center text-2xl font-bold">About ME!</div>
+      <div className="text-center text-2xl font-bold">About Me!</div>
       <IntoduceView introduce={`"${introduce}"`}/>
       <WordsView words={words}/>
       <div className="grid grid-cols-[1fr_9fr]">
@@ -32,7 +32,7 @@ export function ProfileView({profile}:ProfileViewProps){
 
 function IntoduceView({introduce}:{introduce: string}){
   return (
-    <div className="text-center text-xl font-semibold mb-3 italic animate-fade-in">
+    <div className="text-center text-xl font-semibold mb-1 italic animate-fade-in">
       {introduce}
     </div>
   )
