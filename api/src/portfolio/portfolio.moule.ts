@@ -17,6 +17,8 @@ import { ProjectService } from './service/project.service';
 import { ProjectController } from './controller/project.controller';
 import { UserInterfaceController } from './controller/user-interface.controller';
 import { UserInterfaceService } from './service/user-interface.service';
+import { S3Module } from 'src/s3/s3.moudle';
+import { S3Service } from './service/s3.service';
 
 @Module({
   controllers: [
@@ -32,9 +34,11 @@ import { UserInterfaceService } from './service/user-interface.service';
     ArticleService,
     ProjectService,
     UserInterfaceService,
+    S3Service,
   ],
   imports: [
     AuthModule,
+    S3Module,
     HttpModule.registerAsync({
       useFactory: () => ({
         timeout: 20000,

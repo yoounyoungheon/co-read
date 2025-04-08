@@ -6,26 +6,51 @@ import {
   Body,
   Param,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiConsumes,
+} from '@nestjs/swagger';
 import { UserInterfaceService } from '../service/user-interface.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserInterfaceDto } from '../dto/create-user-interface.dto';
 import { UserInterfaceEntity } from '../entity/user-interface.entity';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { S3Service } from '../service/s3.service';
 
 @ApiTags('User Interface Controller')
 @Controller('/user-interface')
 export class UserInterfaceController {
-  constructor(private userInterfaceService: UserInterfaceService) {}
+  constructor(
+    private readonly userInterfaceService: UserInterfaceService,
+    private readonly s3Service: S3Service,
+  ) {}
 
   @ApiOperation({ summary: '사용자 인터페이스를 생성합니다.' })
   @Post()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('fileUrl'))
   @ApiBearerAuth('access-token')
   @UseGuards(AuthGuard())
   async createUserInterface(
     @Body() createUserInterfaceDto: CreateUserInterfaceDto,
+    @UploadedFile() fileUrl: Express.Multer.File,
     @Param('projectId') projectId: string,
   ): Promise<UserInterfaceEntity> {
+    const fileExtension = fileUrl.originalname.split('.').pop();
+    const fileName = `${Date.now()}-${fileUrl.originalname}`;
+
+    const uploadedFileUrl = await this.s3Service.uploadFile(
+      fileName,
+      fileUrl,
+      fileExtension,
+    );
+    createUserInterfaceDto.fileUrl = uploadedFileUrl;
+
     return this.userInterfaceService.createUserInterface(
       projectId,
       createUserInterfaceDto,

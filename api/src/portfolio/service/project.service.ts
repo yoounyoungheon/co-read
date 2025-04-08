@@ -6,6 +6,7 @@ import { CreateProjectDto } from '../dto/create-project.dto';
 import { UserInterfaceEntity } from '../entity/user-interface.entity';
 import { UserInterfaceService } from './user-interface.service';
 import { Transactional } from 'typeorm-transactional';
+import { S3Service } from './s3.service';
 
 @Injectable()
 export class ProjectService {
@@ -15,6 +16,7 @@ export class ProjectService {
     @InjectRepository(UserInterfaceEntity)
     private userInterfaceRepository: Repository<UserInterfaceEntity>,
     private userInterfaceService: UserInterfaceService,
+    private readonly s3Service: S3Service,
   ) {}
 
   @Transactional()
@@ -22,8 +24,17 @@ export class ProjectService {
     userId: string,
     createProjectDto: CreateProjectDto,
   ): Promise<ProjectEntity> {
-    const { title, description, beTechs, feTechs, infraTechs } =
-      createProjectDto;
+    const {
+      title,
+      description,
+      beTechs,
+      feTechs,
+      infraTechs,
+      imageUrl,
+      startDate,
+      endDate,
+    } = createProjectDto;
+
     const newProject = this.projectRepository.create({
       userId,
       title,
@@ -31,18 +42,34 @@ export class ProjectService {
       beTechs,
       feTechs,
       infraTechs,
+      imageUrl,
+      startDate,
+      endDate,
     });
     return await this.projectRepository.save(newProject);
   }
 
   @Transactional()
   async getProjectById(id: string): Promise<ProjectEntity | undefined> {
-    return await this.projectRepository.findOneBy({ id });
+    const project = await this.projectRepository.findOneBy({ id });
+    if (!project) {
+      return undefined;
+    }
+    project.imageUrl = await this.s3Service.getFileDownloadUrls(
+      project.imageUrl,
+    );
+    return project;
   }
 
   @Transactional()
   async getProjects(): Promise<ProjectEntity[]> {
-    return await this.projectRepository.find();
+    const projects = await this.projectRepository.find();
+    for (const project of projects) {
+      project.imageUrl = await this.s3Service.getFileDownloadUrls(
+        project.imageUrl,
+      );
+    }
+    return projects;
   }
 
   @Transactional()

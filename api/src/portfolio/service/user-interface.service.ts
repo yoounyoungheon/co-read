@@ -5,6 +5,7 @@ import { UserInterfaceEntity } from '../entity/user-interface.entity';
 import { CreateUserInterfaceDto } from '../dto/create-user-interface.dto';
 import { ProjectEntity } from '../entity/project.entity';
 import { Transactional } from 'typeorm-transactional';
+import { S3Service } from './s3.service';
 
 @Injectable()
 export class UserInterfaceService {
@@ -13,6 +14,7 @@ export class UserInterfaceService {
     private userInterfaceRepository: Repository<UserInterfaceEntity>,
     @InjectRepository(ProjectEntity)
     private projectRepository: Repository<ProjectEntity>,
+    private readonly s3Service: S3Service,
   ) {}
 
   @Transactional()
@@ -36,16 +38,31 @@ export class UserInterfaceService {
   async getUserInterfaceById(
     id: string,
   ): Promise<UserInterfaceEntity | undefined> {
-    return await this.userInterfaceRepository.findOneBy({ id });
+    const userInterface = await this.userInterfaceRepository.findOneBy({ id });
+    if (!userInterface) {
+      return undefined;
+    }
+    userInterface.fileUrl = await this.s3Service.getFileDownloadUrls(
+      userInterface.fileUrl,
+    );
+    return userInterface;
   }
 
   @Transactional()
   async getUserInterfacesByProjectId(
     projectId: string,
   ): Promise<UserInterfaceEntity[]> {
-    return await this.userInterfaceRepository.find({
+    const userInterfaces = await this.userInterfaceRepository.find({
       where: { project: { id: projectId } },
     });
+
+    for (const userInterface of userInterfaces) {
+      userInterface.fileUrl = await this.s3Service.getFileDownloadUrls(
+        userInterface.fileUrl,
+      );
+    }
+
+    return userInterfaces;
   }
 
   @Transactional()

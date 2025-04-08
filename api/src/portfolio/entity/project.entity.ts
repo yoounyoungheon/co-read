@@ -15,12 +15,6 @@ export class ProjectEntity extends BaseEntity {
   @Column()
   description: string;
 
-  // @OneToMany(
-  //   () => UserInterfaceEntity,
-  //   (userInterface) => userInterface.project,
-  // )
-  // userInterfaces: UserInterfaceEntity[];
-
   @Column('jsonb', { nullable: true })
   beTechs: string[];
 
@@ -29,4 +23,13 @@ export class ProjectEntity extends BaseEntity {
 
   @Column('jsonb', { nullable: true })
   infraTechs: string[];
+
+  @Column()
+  imageUrl: string;
+
+  @Column()
+  startDate: Date;
+
+  @Column()
+  endDate: Date;
 }
