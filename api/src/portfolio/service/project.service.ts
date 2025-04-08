@@ -27,6 +27,7 @@ export class ProjectService {
     const {
       title,
       description,
+      thinks,
       beTechs,
       feTechs,
       infraTechs,
@@ -39,6 +40,7 @@ export class ProjectService {
       userId,
       title,
       description,
+      thinks,
       beTechs,
       feTechs,
       infraTechs,
@@ -46,6 +48,7 @@ export class ProjectService {
       startDate,
       endDate,
     });
+
     return await this.projectRepository.save(newProject);
   }
 

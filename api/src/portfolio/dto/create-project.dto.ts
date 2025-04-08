@@ -11,11 +11,33 @@ export class CreateProjectDto {
   title: string;
 
   @ApiProperty({
-    example: '프로젝트 설명',
-    description: '프로젝트의 설명',
+    example: ['이러한 프로젝트입니다.', '이러한 프로젝트입니다.'],
+    description: '설명들',
+    required: false,
+    type: [String],
   })
-  @IsString()
-  description: string;
+  @IsArray()
+  @IsOptional()
+  @Transform(({ value }) =>
+    Array.isArray(value) ? value : String(value).split(','),
+  )
+  description: string[];
+
+  @ApiProperty({
+    example: [
+      '이러한 문제가 있었고 고민했습니다.',
+      '이러한 문제가 있었고 고민했습니다.',
+    ],
+    description: '고민한 내용',
+    required: false,
+    type: [String],
+  })
+  @IsArray()
+  @IsOptional()
+  @Transform(({ value }) =>
+    Array.isArray(value) ? value : String(value).split(','),
+  )
+  thinks: string[];
 
   @ApiProperty({
     type: 'string',
@@ -37,7 +59,7 @@ export class CreateProjectDto {
   @Transform(({ value }) =>
     Array.isArray(value) ? value : String(value).split(','),
   )
-  beTechs?: string[];
+  beTechs: string[];
 
   @ApiProperty({
     example: ['React', 'Redux'],
@@ -50,7 +72,7 @@ export class CreateProjectDto {
   @Transform(({ value }) =>
     Array.isArray(value) ? value : String(value).split(','),
   )
-  feTechs?: string[];
+  feTechs: string[];
 
   @ApiProperty({
     example: ['AWS', 'Docker'],
@@ -63,7 +85,7 @@ export class CreateProjectDto {
   @Transform(({ value }) =>
     Array.isArray(value) ? value : String(value).split(','),
   )
-  infraTechs?: string[];
+  infraTechs: string[];
 
   @ApiProperty({
     example: '2024-03-08T02:34:57.630Z',

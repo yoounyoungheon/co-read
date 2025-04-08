@@ -12,8 +12,11 @@ export class ProjectEntity extends BaseEntity {
   @Column()
   title: string;
 
-  @Column()
-  description: string;
+  @Column('jsonb', { nullable: true })
+  description: string[];
+
+  @Column('jsonb', { nullable: true })
+  thinks: string[];
 
   @Column('jsonb', { nullable: true })
   beTechs: string[];

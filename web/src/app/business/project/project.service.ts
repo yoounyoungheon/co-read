@@ -7,7 +7,8 @@ interface LoadProjectResponse {
   id: string;
   userId: string;
   title: string;
-  description: string;
+  description: string[];
+  thinks: string[];
   beTechs: string[];
   feTechs: string[];
   infraTechs: string[];
@@ -51,6 +52,7 @@ export const loadProjectsForGuestRequest = async ():Promise<APIResponseType<Proj
         project.userId,
         project.title,
         project.description,
+        project.thinks,
         project.beTechs,
         project.feTechs,
         project.infraTechs,
@@ -80,12 +82,13 @@ export const loadProjectForGuestRequest = async (id: string):Promise<APIResponse
   try {
     const response = await instance.get(`${API_PATH}/project/${id}`);
     checkResponseStatus(response.status);
-    const responseData = response.data;
+    const responseData: LoadProjectResponse = response.data;
     const project =  createProjectDomain(
       responseData.id,
       responseData.userId,
       responseData.title,
       responseData.description,
+      responseData.thinks,
       responseData.beTechs,
       responseData.feTechs,
       responseData.infraTechs,
