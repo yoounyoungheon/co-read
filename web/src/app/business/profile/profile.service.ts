@@ -2,7 +2,7 @@ import { APIResponseType, checkResponseStatus, instance } from "@/app/utils/http
 import { createProfileDomain, Profile } from "./profile.domain";
 import { API_PATH } from "@/app/utils/http/api-path";
 
-export const loadProfileForGuestReq = async ():Promise<APIResponseType<Profile>> => {
+export const loadProfileForGuestRequest = async ():Promise<APIResponseType<Profile>> => {
   const response = await instance.get(`${API_PATH}/profile/guest`);
   checkResponseStatus(response.status);
   const responseData = response.data;

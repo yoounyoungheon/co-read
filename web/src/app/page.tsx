@@ -2,8 +2,12 @@
 import { Card } from "@/app/ui/components/view/molecule/card/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/app/ui/components/view/molecule/dialog/dialog";
 import OfficeImage from "../app/assets/officeimage.png";
+import { loadProfileForGuestRequest } from "./business/profile/profile.service";
+import { ProfileView } from "./ui/components/domain/ProfileView";
 
-export default function MainPage() {
+export default async function MainPage() {
+  const loadProfileReponse = await loadProfileForGuestRequest();
+  const profile = loadProfileReponse.data;
 
   return (
     <main>
@@ -24,7 +28,9 @@ export default function MainPage() {
               </Card>
             </DialogTrigger>
             <DialogContent>
-              
+              {profile?
+                <ProfileView profile={profile}/>:
+                <div>서버 오류입니다. 잠시만 기다려주세요.</div>}
             </DialogContent>
           </Dialog>
           
