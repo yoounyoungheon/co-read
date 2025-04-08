@@ -13,6 +13,8 @@ export interface Project {
 
   infraTechs: string[];
 
+  imageUrl: string;
+
   startDate: Date;
 
   endDate: Date;
@@ -32,9 +34,10 @@ export const createProjectDomain = (
   infraTechs: string[],
   startDate: Date,
   endDate: Date,
+  imageUrl: string,
   createdAt: string,
   updatedAt: string,
 ): Project => {
-  const project: Project = { id, userId, title, description, beTechs, feTechs, infraTechs, startDate, endDate, createdAt, updatedAt };
+  const project: Project = { id, userId, title, description, beTechs, feTechs, infraTechs, startDate, endDate, imageUrl, createdAt, updatedAt };
   return project;
 };

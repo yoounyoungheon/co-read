@@ -13,6 +13,7 @@ interface LoadProjectResponse {
   infraTechs: string[];
   startDate: string;
   endDate: string;
+  imageUrl: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -55,6 +56,7 @@ export const loadProjectsForGuestRequest = async ():Promise<APIResponseType<Proj
         project.infraTechs,
         new Date(project.startDate),
         new Date(project.endDate),
+        project.imageUrl,
         project.createdAt,
         project.updatedAt
       )
@@ -89,6 +91,7 @@ export const loadProjectForGuestRequest = async (id: string):Promise<APIResponse
       responseData.infraTechs,
       new Date(responseData.startDate),
       new Date(responseData.endDate),
+      responseData.imageUrl,
       responseData.createdAt,
       responseData.updatedAt,
     )

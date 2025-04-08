@@ -1,6 +1,5 @@
 'use client'
 import { UserInterface } from "@/app/business/project/user-interface.domain";
-import OfficeImage from "@/app/assets/officeimage.png";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from 'react';
@@ -84,7 +83,7 @@ export function UserInterfaceCardView({userInterface}: UserInterfaceCardViewProp
   
   return (
     <div className="flex flex-col bg-white shadow-md rounded-lg p-4">
-      <Image src={OfficeImage.src} alt={userInterface.description} className="rounded-lg mb-4" width={400} height={200} />
+      <Image src={userInterface.fileUrl} alt={userInterface.description} className="rounded-lg mb-4" width={400} height={200} />
       <p className="text-sm text-gray-500">{userInterface.description}</p>
     </div>
   );
