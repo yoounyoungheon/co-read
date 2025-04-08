@@ -34,7 +34,9 @@ export class CreateProjectDto {
   })
   @IsArray()
   @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @Transform(({ value }) =>
+    Array.isArray(value) ? value : String(value).split(','),
+  )
   beTechs?: string[];
 
   @ApiProperty({
@@ -45,7 +47,9 @@ export class CreateProjectDto {
   })
   @IsArray()
   @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @Transform(({ value }) =>
+    Array.isArray(value) ? value : String(value).split(','),
+  )
   feTechs?: string[];
 
   @ApiProperty({
@@ -56,7 +60,9 @@ export class CreateProjectDto {
   })
   @IsArray()
   @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @Transform(({ value }) =>
+    Array.isArray(value) ? value : String(value).split(','),
+  )
   infraTechs?: string[];
 
   @ApiProperty({
