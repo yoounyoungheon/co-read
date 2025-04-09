@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 
 export interface APIResponseType<T> {
@@ -10,7 +10,7 @@ export interface APIResponseType<T> {
 
 export const checkResponseStatus = (statusCode: number) => {
   if (statusCode !== 200 && statusCode !== 201) {
-    throw new AxiosError();
+    throw new Error();
   }
 };
 

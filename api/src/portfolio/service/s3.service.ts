@@ -60,7 +60,7 @@ export class S3Service {
 
     await this.s3Client.send(command);
 
-    return uniqueFileName;
+    return `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${uniqueFileName}`;
   }
 
   async getFileDownloadUrls(fileName: string): Promise<string> {

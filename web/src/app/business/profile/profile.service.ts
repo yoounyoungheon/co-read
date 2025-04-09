@@ -1,12 +1,17 @@
 'use server'
-import { APIResponseType, checkResponseStatus, instance } from "@/app/utils/http";
+import { APIResponseType, checkResponseStatus } from "@/app/utils/http";
 import { createProfileDomain, Profile } from "./profile.domain";
 import { API_PATH } from "@/app/utils/http/api-path";
 
 export const loadProfileForGuestRequest = async ():Promise<APIResponseType<Profile>> => {
-  const response = await instance.get(`${API_PATH}/profile/guest`);
+  const response = await fetch(`${API_PATH}/profile/guest`,
+    {  headers: {
+      "Cache-Control": "no-cache",
+      "Pragma": "no-cache",
+    },}
+  );
   checkResponseStatus(response.status);
-  const responseData = response.data;
+  const responseData = await response.json();
   
   try {
     return {

@@ -1,5 +1,5 @@
 'use server'
-import { APIResponseType, checkResponseStatus, instance } from "@/app/utils/http"
+import { APIResponseType, checkResponseStatus } from "@/app/utils/http"
 import { API_PATH } from "@/app/utils/http/api-path"
 import { createProjectDomain, Project } from "./project.domain";
 import { UserInterface } from "./user-interface.domain";
@@ -22,10 +22,15 @@ interface LoadProjectResponse {
 
 export const loadUserInterfaceRequest = async (projectId: string):Promise<APIResponseType<UserInterface[]>> => {
   try {
-    const response = await instance.get(`${API_PATH}/user-interface/project/${projectId}`)
+    const response = await fetch(`${API_PATH}/user-interface/project/${projectId}`,
+      {  headers: {
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+      },}
+    )
     checkResponseStatus(response.status);
 
-    const responseData: UserInterface[] = response.data;
+    const responseData: UserInterface[] = await response.json();
     return {
       isSuccess: true,
       isFailure: false,
@@ -43,10 +48,15 @@ export const loadUserInterfaceRequest = async (projectId: string):Promise<APIRes
 
 export const loadProjectsForGuestRequest = async ():Promise<APIResponseType<Project[]>> => {
   try {
-    const response = await instance.get(`${API_PATH}/project`)
+    const response = await fetch(`${API_PATH}/project`,
+      {  headers: {
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+      },}
+    )
     checkResponseStatus(response.status);
 
-    const responseData = response.data;
+    const responseData = await response.json();
     const projects = responseData.map((project: LoadProjectResponse) => {
       return createProjectDomain(
         project.id,
@@ -81,9 +91,15 @@ export const loadProjectsForGuestRequest = async ():Promise<APIResponseType<Proj
 
 export const loadProjectForGuestRequest = async (id: string):Promise<APIResponseType<Project>> => {
   try {
-    const response = await instance.get(`${API_PATH}/project/${id}`);
+    const response = await fetch(`${API_PATH}/project/${id}`,
+      {  headers: {
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+      },}
+    );
     checkResponseStatus(response.status);
-    const responseData: LoadProjectResponse = response.data;
+    const responseData: LoadProjectResponse = await response.json();
+
     const project =  createProjectDomain(
       responseData.id,
       responseData.userId,

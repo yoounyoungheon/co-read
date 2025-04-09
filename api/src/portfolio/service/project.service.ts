@@ -6,7 +6,6 @@ import { CreateProjectDto } from '../dto/create-project.dto';
 import { UserInterfaceEntity } from '../entity/user-interface.entity';
 import { UserInterfaceService } from './user-interface.service';
 import { Transactional } from 'typeorm-transactional';
-import { S3Service } from './s3.service';
 
 @Injectable()
 export class ProjectService {
@@ -16,7 +15,6 @@ export class ProjectService {
     @InjectRepository(UserInterfaceEntity)
     private userInterfaceRepository: Repository<UserInterfaceEntity>,
     private userInterfaceService: UserInterfaceService,
-    private readonly s3Service: S3Service,
   ) {}
 
   @Transactional()
@@ -58,20 +56,14 @@ export class ProjectService {
     if (!project) {
       return undefined;
     }
-    project.imageUrl = await this.s3Service.getFileDownloadUrls(
-      project.imageUrl,
-    );
+
     return project;
   }
 
   @Transactional()
   async getProjects(): Promise<ProjectEntity[]> {
     const projects = await this.projectRepository.find();
-    for (const project of projects) {
-      project.imageUrl = await this.s3Service.getFileDownloadUrls(
-        project.imageUrl,
-      );
-    }
+
     return projects;
   }
 
