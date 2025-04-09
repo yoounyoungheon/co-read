@@ -27,11 +27,11 @@ export default async function ProjectPage({
   }
   return (
     <main className="grid grid-cols-1 gap-3 p-6 text-start">
-      <div className="text-3xl font-bold">{`PROJECT`}</div>
+      <div className="text-3xl font-bold"><span>PROJECT</span></div>
       <div className="grid grid-cols-2 gap-3">
         <Card>
             <div className="p-3 ml-3 text-xl font-bold">{project?.title}</div>
-            <div className="mb-1 px-6 text-sm text-gray-500 text-end">{`${project?.startDate.toLocaleDateString()} ~ ${project?.endDate.toLocaleDateString()}`}</div>
+            <div className="mb-1 px-6 text-sm text-gray-500 text-end">{`${project?.startDate.toLocaleString().substring(0,8)} ~ ${project?.endDate.toLocaleString().substring(0,8)}`}</div>
             <hr/>
             <div className="pl-6 mt-2 text-lg font-semibold ">📝 프로젝트 소개</div>
             <div className="py-3 px-6 text-gray-700">
