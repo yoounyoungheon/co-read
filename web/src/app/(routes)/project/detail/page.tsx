@@ -51,7 +51,7 @@ export default async function ProjectPage({
         <CardTitle className="text-xl font-bold mb-3">
           주요 기능
         </CardTitle>
-        <UserInterfaceView userInterfaces={userInterfaces}/>
+        <UserInterfaceView userInterfaces={userInterfaces.sort((a, b)=>{return a.order - b.order})}/>
       </Card>
     </main>
   )
