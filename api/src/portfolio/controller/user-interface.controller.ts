@@ -31,7 +31,7 @@ export class UserInterfaceController {
   ) {}
 
   @ApiOperation({ summary: '사용자 인터페이스를 생성합니다.' })
-  @Post()
+  @Post(':projectId')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('fileUrl'))
   @ApiBearerAuth('access-token')

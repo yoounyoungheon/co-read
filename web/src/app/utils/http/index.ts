@@ -16,6 +16,11 @@ export const checkResponseStatus = (statusCode: number) => {
 
 export const instance = axios.create({
   withCredentials: true,
+  headers: {
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  },
 });
 
 instance.interceptors.response.use((response: AxiosResponse) => {

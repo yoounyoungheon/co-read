@@ -23,6 +23,7 @@ export class UserInterfaceService {
     createUserInterfaceDto: CreateUserInterfaceDto,
   ): Promise<UserInterfaceEntity> {
     const { order, fileUrl, description } = createUserInterfaceDto;
+    console.log(projectId);
     const project = await this.projectRepository.findOneBy({ id: projectId });
 
     const newUserInterface = this.userInterfaceRepository.create({

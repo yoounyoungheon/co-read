@@ -1,3 +1,4 @@
+'use server'
 import { APIResponseType, checkResponseStatus, instance } from "@/app/utils/http";
 import { createProfileDomain, Profile } from "./profile.domain";
 import { API_PATH } from "@/app/utils/http/api-path";

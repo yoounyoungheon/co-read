@@ -33,13 +33,13 @@ export default async function ProjectPage({
             <div className="p-3 ml-3 text-xl font-bold">{project?.title}</div>
             <div className="mb-1 px-6 text-sm text-gray-500 text-end">{`${project?.startDate.toLocaleDateString()} ~ ${project?.endDate.toLocaleDateString()}`}</div>
             <hr/>
-            <div className="pl-6 mt-2 text-lg font-semibold ">📖 프로젝트 소개</div>
+            <div className="pl-6 mt-2 text-lg font-semibold ">📝 프로젝트 소개</div>
             <div className="py-3 px-6 text-gray-700">
               {project?.description.map((val)=>{
                 return (<p className="mb-3" key={val}>{val}</p>)})}
             </div>
             <hr/>
-            <div className="pl-6 mt-2 text-lg font-semibold">🤔 고민한 내용</div>
+            <div className="pl-6 mt-2 text-lg font-semibold">💡 고민한 내용</div>
             <div className="py-3 px-6 text-gray-700">
               {project?.thinks.map((val)=>{
                 return (<p className="mb-3" key={val}>{val}</p>)})}

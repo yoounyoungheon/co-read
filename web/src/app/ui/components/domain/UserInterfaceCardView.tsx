@@ -88,6 +88,7 @@ export function UserInterfaceCardView({ userInterface }: UserInterfaceCardViewPr
           alt={userInterface.description}
           fill
           className="rounded-lg object-cover"
+          unoptimized
         />
       </div>
       <p className="text-sm text-gray-500">{userInterface.description}</p>
