@@ -32,7 +32,7 @@ export function ProfileView({profile}:ProfileViewProps){
 
 function IntoduceView({introduce}:{introduce: string}){
   return (
-    <div className="text-center text-xl font-semibold mb-1 italic animate-fade-in">
+    <div className="text-center text font-semibold mb-1 italic animate-fade-in">
       {introduce}
     </div>
   )
@@ -40,9 +40,9 @@ function IntoduceView({introduce}:{introduce: string}){
 
 function WordsView({ words }: { words: string[] }) {
   return (
-    <div className="border-l-2 border-black pl-2 space-y-2">
+    <div className="border-l-2 border-black pl-2 space-y-1.5">
       {words.map((word, index) => (
-        <div key={index} className="text-gray-800 text-base italic p-1">
+        <div key={index} className={`text-gray-700 p-1 ${word[0]==='['?'font-semibold text-lg':'text-sm italic'}`}>
           {word}
         </div>
       ))}
