@@ -5,10 +5,7 @@ import { API_PATH } from "@/app/utils/http/api-path";
 
 export const loadProfileForGuestRequest = async ():Promise<APIResponseType<Profile>> => {
   const response = await fetch(`${API_PATH}/profile/guest`,
-    {  headers: {
-      "Cache-Control": "no-cache",
-      "Pragma": "no-cache",
-    },}
+    { cache: 'no-store' }
   );
   checkResponseStatus(response.status);
   const responseData = await response.json();

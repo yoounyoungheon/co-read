@@ -23,10 +23,7 @@ interface LoadProjectResponse {
 export const loadUserInterfaceRequest = async (projectId: string):Promise<APIResponseType<UserInterface[]>> => {
   try {
     const response = await fetch(`${API_PATH}/user-interface/project/${projectId}`,
-      {  headers: {
-        "Cache-Control": "no-cache",
-        "Pragma": "no-cache",
-      },}
+      { cache: 'no-store' }
     )
     checkResponseStatus(response.status);
 
@@ -49,10 +46,7 @@ export const loadUserInterfaceRequest = async (projectId: string):Promise<APIRes
 export const loadProjectsForGuestRequest = async ():Promise<APIResponseType<Project[]>> => {
   try {
     const response = await fetch(`${API_PATH}/project`,
-      {  headers: {
-        "Cache-Control": "no-cache",
-        "Pragma": "no-cache",
-      },}
+      { cache: 'no-store' }
     )
     checkResponseStatus(response.status);
 
@@ -92,10 +86,7 @@ export const loadProjectsForGuestRequest = async ():Promise<APIResponseType<Proj
 export const loadProjectForGuestRequest = async (id: string):Promise<APIResponseType<Project>> => {
   try {
     const response = await fetch(`${API_PATH}/project/${id}`,
-      {  headers: {
-        "Cache-Control": "no-cache",
-        "Pragma": "no-cache",
-      },}
+      { cache: 'no-store' }
     );
     checkResponseStatus(response.status);
     const responseData: LoadProjectResponse = await response.json();
