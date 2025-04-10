@@ -13,7 +13,7 @@ export default async function ProjectPage() {
       {projects?.length === 0 || lodaProjectsReponse.isFailure ? (
         <div className="p-10 text-center text-3xl text-blue-950 font-bold">{`프로젝트가 없습니다.`}</div>
       ) : (
-        <div className="grid grid-cols-4 gap-5 p-10">
+        <div className="grid grid-cols-1 gap-5 p-10 xl:grid-cols-4 lg:grid-cols-4 base:grid-cols-4 sm:grid-cols-3">
           {projects?.map((project) => (
             <Card
               key={project.id}

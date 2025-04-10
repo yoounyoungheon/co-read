@@ -37,7 +37,7 @@ export default async function MainPage() {
                 <div>서버 오류입니다. 잠시만 기다려주세요.</div>}
             </DialogContent>
           </Dialog>
-        <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 gap-5 xl:grid-cols-2 lg:grid-cols-2 base:grid-cols-2 sm:grid-cols-2">
           
           <Link href={`/project`}>
             <Card

@@ -28,7 +28,7 @@ export default async function ProjectPage({
   return (
     <main className="grid grid-cols-1 gap-3 p-6 text-start">
       <div className="text-3xl font-bold"><span>PROJECT</span></div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 lg:grid-cols-2 base:grid-cols-2 sm:grid-cols-2">
         <Card>
             <div className="p-3 ml-3 text-xl font-bold">{project?.title}</div>
             <div className="mb-1 px-6 text-sm text-gray-500 text-end">{`${project?.startDate.toLocaleString().substring(0,8)} ~ ${project?.endDate.toLocaleString().substring(0,8)}`}</div>

@@ -10,7 +10,7 @@ export default async function ArticlePage() {
       <div className="text-center mb-5 italic">
         {`"개발자로서 공부하고 고민했던 내용을 기록한 공간입니다."`}
       </div>
-      <div className="px-10 grid grid-cols-3 gap-3">
+      <div className="px-10 grid grid-cols-1 gap-3 xl:grid-cols-3 lg:grid-cols-3 base:grid-cols-3 sm:grid-cols-2">
         {loadArticlesResponse.isSuccess && loadArticlesResponse.data ? (
         loadArticlesResponse.data.map((article, index) => {
             const { title, description, url } = article;
