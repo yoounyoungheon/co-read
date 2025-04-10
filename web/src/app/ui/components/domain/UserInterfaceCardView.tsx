@@ -3,6 +3,7 @@ import { UserInterface } from "@/app/business/project/user-interface.domain";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from 'react';
+import { Dialog, DialogContent, DialogTrigger } from "../view/molecule/dialog/dialog";
 
 
 interface UserInterfaceCardViewProps {
@@ -82,15 +83,28 @@ export function UserInterfaceView({ userInterfaces }: UserInterfaceViewProps) {
 export function UserInterfaceCardView({ userInterface }: UserInterfaceCardViewProps) {
   return (
     <div className="flex flex-col bg-white shadow-md rounded-lg p-4 w-full h-full">
-      <div className="relative w-full aspect-[4/3] mb-4">
-        <Image
-          src={userInterface.fileUrl}
-          alt={userInterface.description}
-          fill
-          className="rounded-lg object-cover"
-          unoptimized
-        />
-      </div>
+      <Dialog>
+        <DialogTrigger>
+          <div className="relative w-full aspect-square mb-4">
+            <Image
+              src={userInterface.fileUrl}
+              alt={userInterface.description}
+              fill
+              className="rounded-lg object-cover"
+            />
+          </div>
+        </DialogTrigger>
+        <DialogContent className="max-w-screen-lg">
+          <div className="h-full w-full aspect-square mb-4">
+            <Image
+              src={userInterface.fileUrl}
+              alt={userInterface.description}
+              fill
+              className="rounded-lg object-cover"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
       <p className="text-sm text-gray-500">{userInterface.description}</p>
     </div>
   );
