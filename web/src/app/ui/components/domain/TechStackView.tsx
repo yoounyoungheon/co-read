@@ -18,23 +18,27 @@ export function TechStackView({ betechs, fetechs, infratechs }: TechStackViewPro
     ));
 
   return (
-    <Card className="grid gap-4 p-6 rounded-2xl shadow-md">
-      <div className="text-xl font-bold">💻 Tech Stack</div>
+    <Card className="p-6 rounded-2xl shadow-md space-y-6">
 
-      <div>
-        <h3 className="text-lg font-semibold mb-2">🛠️ Backend</h3>
-        <div className="flex flex-wrap gap-3">{renderTechChips(betechs)}</div>
+      <div className="text-xl font-bold py-3">💻 Tech Stack</div>
+
+      <div className="grid grid-cols-1 gap-5 h-full">
+        <div>
+          <h3 className="text-lg font-semibold mb-2">🛠️ Backend</h3>
+          <div className="flex flex-wrap gap-3">{renderTechChips(betechs)}</div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-2">📱 Frontend</h3>
+          <div className="flex flex-wrap gap-3">{renderTechChips(fetechs)}</div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-2">☁️ Infra</h3>
+          <div className="flex flex-wrap gap-3">{renderTechChips(infratechs)}</div>
+        </div>
       </div>
 
-      <div>
-        <h3 className="text-lg font-semibold mb-2">📱 Frontend</h3>
-        <div className="flex flex-wrap gap-3">{renderTechChips(fetechs)}</div>
-      </div>
-
-      <div>
-        <h3 className="text-lg font-semibold mb-2">☁️ Infra</h3>
-        <div className="flex flex-wrap gap-3">{renderTechChips(infratechs)}</div>
-      </div>
     </Card>
   );
 };
