@@ -19,7 +19,7 @@ export default async function ProjectPage() {
               key={project.id}
               className="flex flex-col w-full p-6 text-start rounded-xl shadow-md"
             >
-              <div className="relative w-full aspect-square mb-4">
+              <div className="relative w-full aspect-square mb-4 rounded-lg border border-slate-300">
               <Image
                 src={project.imageUrl}
                 alt=""
@@ -27,10 +27,10 @@ export default async function ProjectPage() {
                 className="rounded-lg object-cover"
               />
               </div>
-              <div className="text-lg font-bold line-clamp-2">{project.title}</div>
-              <div className="mt-auto">
+              <div className="text-lg font-bold line-clamp-2 text-center">{project.title}</div>
+              <div className="mt-3 text-center">
                 <Link href={`/project/detail?projectId=${project.id}`}>
-                  <AchromaticButton>view more</AchromaticButton>
+                  <AchromaticButton className="rounded-3xl">view more</AchromaticButton>
                 </Link>
               </div>
             </Card>
