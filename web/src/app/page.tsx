@@ -27,10 +27,9 @@ export default async function MainPage() {
               >
                 <Image src={AboutMe.src} alt={""} fill className="rounded-lg"/>
                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
-                <div className="relative flex items-center justify-center space-x-2 text-white text-2xl font-semibold">
+                <div className="relative flex items-center justify-center space-x-2 text-white text-3xl font-semibold">
                   <span>ABOUT ME</span>
                 </div>
-                <div className="mt-3 relative text-white italic">간단한 소개글입니다.</div>
               </Card>
             </DialogTrigger>
             <DialogContent>
@@ -45,10 +44,9 @@ export default async function MainPage() {
             >
               <Image src={Project.src} alt={""} fill className="rounded-lg"/>
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
-              <div className="relative flex items-center justify-center space-x-2 text-white text-2xl font-semibold">
+              <div className="relative flex items-center justify-center space-x-2 text-white text-3xl font-semibold">
                 <span>PROJECT</span>
               </div>
-              <div className="mt-3 relative text-white italic">진행했던 프로젝트를 정리한 공간입니다.</div>
             </Card>
           </Link>
 
@@ -58,10 +56,9 @@ export default async function MainPage() {
             >
               <Image src={Article.src} alt={""} fill className="rounded-lg"/>
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
-              <div className="relative flex items-center justify-center space-x-2 text-white text-2xl font-semibold">
+              <div className="relative flex items-center justify-center space-x-2 text-white text-3xl font-semibold">
                 <span>ARTICLE</span>
               </div>
-              <div className="mt-3 relative text-white italic">공부하고 고민했던 내용을 기록한 공간입니다.</div>
             </Card>
           </Link>
 

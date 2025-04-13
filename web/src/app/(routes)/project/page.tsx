@@ -27,8 +27,8 @@ export default async function ProjectPage() {
                 className="rounded-lg object-cover"
               />
               </div>
-              <div className="text-lg font-bold line-clamp-2 text-center">{project.title}</div>
-              <div className="mt-3 text-center">
+              <div className="text-lg font-bold line-clamp-2 text-center mb-3">{project.title}</div>
+              <div className="mt-auto inline-block text-center">
                 <Link href={`/project/detail?projectId=${project.id}`}>
                   <AchromaticButton className="rounded-3xl">view more</AchromaticButton>
                 </Link>
