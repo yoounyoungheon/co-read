@@ -14,7 +14,7 @@ export function ProfileView({profile}:ProfileViewProps){
   return (
   <main>
     <div className="grid grid-cols-1 mb-3 gap-5">
-      <div className="text-center text-3xl font-bold">About Me!</div>
+      <div className="text-center text-3xl font-bold">About Me! 💬</div>
       <IntoduceView introduce={`"${introduce}"`}/>
       <WordsView words={words}/>
       <div className="flex space-x-5">
