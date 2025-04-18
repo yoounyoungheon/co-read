@@ -15,7 +15,7 @@ export default async function MainPage() {
   const profile = loadProfileReponse.data;
 
   return (
-    <main className="py-12">
+    <main className="py-12 overflow-y-scroll">
       <div className="mb-6 text-center text-3xl text-blue-950 font-bold">{`Younghun's Log`}</div>
       <div className="mb-5 text-center text-xl text-blue-950 font-semibold">{`Welocme! This is Younghun's portfolio web`}</div>
       <div className="px-12 grid grid-cols-1 gap-5">
@@ -32,7 +32,7 @@ export default async function MainPage() {
                 </div>
               </Card>
             </DialogTrigger>
-            <DialogContent className="px-16 max-w-screen-xl max-h-screen-2xl overflow-y-scroll">
+            <DialogContent className="px-16 max-w-screen-xl max-h-screen-2xl">
               {profile?
                 <ProfileView profile={profile}/>:
                 <div>서버 오류입니다. 잠시만 기다려주세요.</div>}
