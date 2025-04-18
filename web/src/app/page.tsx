@@ -15,7 +15,7 @@ export default async function MainPage() {
   const profile = loadProfileReponse.data;
 
   return (
-    <main className="py-12 overflow-y-scroll">
+    <main className="py-12">
       <div className="mb-6 text-center text-3xl text-blue-950 font-bold">{`Younghun's Log`}</div>
       <div className="mb-5 text-center text-xl text-blue-950 font-semibold">{`Welocme! This is Younghun's portfolio web`}</div>
       <div className="px-12 grid grid-cols-1 gap-5">
