@@ -32,7 +32,7 @@ export default async function MainPage() {
                 </div>
               </Card>
             </DialogTrigger>
-            <DialogContent className="px-16 max-w-screen-xl max-h-screen-2xl">
+            <DialogContent className="px-16 max-w-screen-xl max-h-screen-2xl overflow-y-scroll">
               {profile?
                 <ProfileView profile={profile}/>:
                 <div>서버 오류입니다. 잠시만 기다려주세요.</div>}
