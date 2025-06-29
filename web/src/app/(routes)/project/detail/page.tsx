@@ -28,8 +28,11 @@ export default async function ProjectPage({
   return (
     <main className="grid grid-cols-1 gap-10 p-6 text-start">
       <Card>
-          <div className="p-3 ml-3 text-xl font-bold">{project?.title}</div>
-          <div className="mb-1 px-6 text-sm text-gray-500">{`${project?.startDate?.toISOString().split('T')[0]} ~ ${project?.endDate?.toISOString().split('T')[0]}`}</div>
+          <div className="py-3">
+            <div className="p-3 ml-3 text-xl font-bold">{project?.title}</div>
+            <div className="mb-1 px-6 text-sm text-gray-500">{`${project?.startDate?.toISOString().split('T')[0]} ~ ${project?.endDate?.toISOString().split('T')[0]}`}</div>
+          </div>
+          
           <hr/>
 
           <div className="py-5">
