@@ -26,33 +26,38 @@ export default async function ProjectPage({
     })
   }
   return (
-    <main className="grid grid-cols-1 gap-3 p-6 text-start">
-      <div className="text-3xl font-bold"><span>PROJECT</span></div>
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 lg:grid-cols-2 base:grid-cols-2 sm:grid-cols-2">
-        <Card>
-            <div className="p-3 ml-3 text-xl font-bold">{project?.title}</div>
-            <div className="mb-1 px-6 text-sm text-gray-500 text-end">{`${project?.startDate?.toISOString().split('T')[0]} ~ ${project?.endDate?.toISOString().split('T')[0]}`}</div>
-            <hr/>
+    <main className="grid grid-cols-1 gap-10 p-6 text-start">
+      <Card>
+          <div className="p-3 ml-3 text-xl font-bold">{project?.title}</div>
+          <div className="mb-1 px-6 text-sm text-gray-500">{`${project?.startDate?.toISOString().split('T')[0]} ~ ${project?.endDate?.toISOString().split('T')[0]}`}</div>
+          <hr/>
+
+          <div className="py-5">
             <div className="pl-6 mt-2 text-lg font-semibold ">📝 프로젝트 소개</div>
             <div className="py-3 px-6 text-gray-700">
               {project?.description.map((val)=>{
                 return (<p className="mb-3" key={val}>{val}</p>)})}
             </div>
-            <hr/>
+          </div>
+
+          <hr/>
+          <div className="py-5">
             <div className="pl-6 mt-2 text-lg font-semibold">💡 고민한 내용</div>
             <div className="py-3 px-6 text-gray-700">
               {project?.thinks.map((val)=>{
                 return (<p className="mb-3" key={val}>{val}</p>)})}
             </div>
-        </Card>
-        <TechStackView betechs={project?.beTechs || []} fetechs={project?.feTechs || []} infratechs={project?.infraTechs || []}/>
-      </div>
-      <Card className="bg-slate-100 border-none shadow-none">
+          </div>
+      </Card>
+
+      <TechStackView betechs={project?.beTechs || []} fetechs={project?.feTechs || []} infratechs={project?.infraTechs || []}/>
+      
+      <div>
         <CardTitle className="text-xl font-bold mb-3">
           주요 기능
         </CardTitle>
         <UserInterfaceView userInterfaces={userInterfaces.sort((a, b)=>{return a.order - b.order})}/>
-      </Card>
+      </div>
     </main>
   )
 }
