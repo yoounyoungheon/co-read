@@ -22,11 +22,11 @@ export default async function ArticlePage() {
           return (
             <Card
               key={index}
-              className="flex flex-col text-start p-4 hover:shadow-lg duration-300"
+              className="flex flex-col text-start p-4 hover:shadow-lg duration-300 h-56"
             >
               <div className="flex-grow flex flex-col gap-2">
                 <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-                <p className="text-sm text-gray-600">{description}</p>
+                <p className="text-sm text-gray-600">{description.length>250?`${description.substring(0,250)}...`:description}</p>
               </div>
               <a
                 href={url}
