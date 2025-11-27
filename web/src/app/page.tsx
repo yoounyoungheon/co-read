@@ -30,7 +30,7 @@ export default async function MainPage() {
 
           <div className="flex flex-row gap-2">
             <Link href={"https://github.com/yoounyoungheon"}>
-              <div className="w-7 h-7 rounded-full overflow-hidden shadow-lg relative">
+              <div className="w-6 h-6 rounded-full overflow-hidden shadow-lg relative">
                 <Image
                   src={GitImage.src}
                   alt={""}
@@ -41,7 +41,7 @@ export default async function MainPage() {
             </Link>
 
             <Link href={"https://younghun123.tistory.com/"}>
-              <div className="w-7 h-7 rounded-full overflow-hidden shadow-lg relative">
+              <div className="w-6 h-6 rounded-full overflow-hidden shadow-lg relative">
                 <Image
                   src={BlogImage.src}
                   alt={""}
