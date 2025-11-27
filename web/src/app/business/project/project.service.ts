@@ -1,6 +1,6 @@
-'use server'
-import { APIResponseType, checkResponseStatus } from "@/app/utils/http"
-import { API_PATH } from "@/app/utils/http/api-path"
+"use server";
+import { APIResponseType, checkResponseStatus } from "@/app/utils/http";
+import { API_PATH } from "@/app/utils/http/api-path";
 import { createProjectDomain, Project } from "./project.domain";
 import { UserInterface } from "./user-interface.domain";
 
@@ -20,34 +20,32 @@ interface LoadProjectResponse {
   updatedAt: string;
 }
 
-export const loadUserInterfaceRequest = async (projectId: string):Promise<APIResponseType<UserInterface[]>> => {
+export const loadUserInterfaceRequest = async (
+  projectId: string
+): Promise<APIResponseType<UserInterface[]>> => {
   try {
-    const response = await fetch(`${API_PATH}/user-interface/project/${projectId}`,
-      { cache: 'no-store' }
-    )
-    checkResponseStatus(response.status);
+    console.log("loadUserInterfaceRequest projectId", projectId);
 
-    const responseData: UserInterface[] = await response.json();
     return {
       isSuccess: true,
       isFailure: false,
-      data: responseData
-    }
+      data: [],
+    };
   } catch (error) {
     return {
       isSuccess: false,
       isFailure: true,
       data: null,
       message: error instanceof Error ? error.message : String(error),
-    }
+    };
   }
-}
+};
 
-export const loadProjectsForGuestRequest = async ():Promise<APIResponseType<Project[]>> => {
+export const loadProjectsForGuestRequest = async (): Promise<
+  APIResponseType<Project[]>
+> => {
   try {
-    const response = await fetch(`${API_PATH}/project`,
-      { cache: 'no-store' }
-    )
+    const response = await fetch(`${API_PATH}/project`, { cache: "no-store" });
     checkResponseStatus(response.status);
 
     const responseData = await response.json();
@@ -66,32 +64,34 @@ export const loadProjectsForGuestRequest = async ():Promise<APIResponseType<Proj
         project.imageUrl,
         project.createdAt,
         project.updatedAt
-      )
-    })
+      );
+    });
     return {
       isSuccess: true,
       isFailure: false,
       data: projects,
-    }
+    };
   } catch (error) {
     return {
       isSuccess: false,
       isFailure: true,
       data: null,
       message: error instanceof Error ? error.message : String(error),
-    }
+    };
   }
-}
+};
 
-export const loadProjectForGuestRequest = async (id: string):Promise<APIResponseType<Project>> => {
+export const loadProjectForGuestRequest = async (
+  id: string
+): Promise<APIResponseType<Project>> => {
   try {
-    const response = await fetch(`${API_PATH}/project/${id}`,
-      { cache: 'no-store' }
-    );
+    const response = await fetch(`${API_PATH}/project/${id}`, {
+      cache: "no-store",
+    });
     checkResponseStatus(response.status);
     const responseData: LoadProjectResponse = await response.json();
 
-    const project =  createProjectDomain(
+    const project = createProjectDomain(
       responseData.id,
       responseData.userId,
       responseData.title,
@@ -104,20 +104,20 @@ export const loadProjectForGuestRequest = async (id: string):Promise<APIResponse
       new Date(responseData.endDate),
       responseData.imageUrl,
       responseData.createdAt,
-      responseData.updatedAt,
-    )
+      responseData.updatedAt
+    );
 
     return {
       isSuccess: true,
       isFailure: false,
       data: project,
-    }
+    };
   } catch (error) {
     return {
       isSuccess: false,
       isFailure: true,
       data: null,
       message: error instanceof Error ? error.message : String(error),
-    }
+    };
   }
-}
+};
