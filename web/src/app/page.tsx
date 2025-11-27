@@ -10,7 +10,7 @@ export default async function MainPage() {
   return (
     <main className="py-12 px-2">
       {/* 프로필 영역 */}
-      <div className="flex flex-row gap-1 items-center justify-center mb-12">
+      <div className="flex flex-row items-center justify-center mb-12">
         <div className="w-32 h-32 rounded-full overflow-hidden border shadow-lg relative">
           <Image
             src={ProfileImage.src}
@@ -29,7 +29,7 @@ export default async function MainPage() {
           </div>
 
           <div className="flex flex-row gap-2">
-            <Link href={"https://younghun123.tistory.com/"}>
+            <Link href={"https://github.com/yoounyoungheon"}>
               <div className="w-7 h-7 rounded-full overflow-hidden shadow-lg relative">
                 <Image
                   src={GitImage.src}
@@ -40,7 +40,7 @@ export default async function MainPage() {
               </div>
             </Link>
 
-            <Link href={" https://github.com/yoounyoungheon"}>
+            <Link href={"https://younghun123.tistory.com/"}>
               <div className="w-7 h-7 rounded-full overflow-hidden shadow-lg relative">
                 <Image
                   src={BlogImage.src}
