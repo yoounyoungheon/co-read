@@ -8,10 +8,10 @@ import Image from "next/image";
 
 export default async function MainPage() {
   return (
-    <main className="py-12">
+    <main className="py-12 px-2">
       {/* 프로필 영역 */}
-      <div className="flex flex-row gap-4 items-center justify-center mb-12">
-        <div className="w-40 h-40 rounded-full overflow-hidden border shadow-lg relative">
+      <div className="flex flex-row gap-1 items-center justify-center mb-12">
+        <div className="w-32 h-32 rounded-full overflow-hidden border shadow-lg relative">
           <Image
             src={ProfileImage.src}
             alt={""}
