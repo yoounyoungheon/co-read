@@ -19,8 +19,8 @@ export default async function MainPage() {
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col gap-2 ml-6">
-          <h1 className="text-xl font-bold">윤영헌</h1>
+        <div className="flex flex-col gap-1 ml-6">
+          <h1 className="text font-bold">윤영헌</h1>
           <p className="text-sm text-gray-600">🖥️ web-developer</p>
           <p className="text-sm italic">open labs 2025.06 ~</p>
           <div className="flex flex-row gap-2 items-stretch">
