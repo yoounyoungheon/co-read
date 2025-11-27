@@ -55,7 +55,7 @@ export default async function MainPage() {
       </div>
 
       {/* 피드 영역 */}
-      <div className="px-12 grid grid-cols-1 gap-5">
+      <div className="px-4 grid grid-cols-1 gap-5">
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-3 lg:grid-cols-3 base:grid-cols-3 sm:grid-cols-3">
           <Link href={`/`}>
             <Card className="aspect-square relative p-10 mt-3 border-none text-center shadow-lg rounded-lg hover:scale-105 transition-transform duration-300 bg-cover bg-center">
