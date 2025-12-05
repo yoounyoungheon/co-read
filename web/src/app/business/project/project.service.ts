@@ -45,31 +45,14 @@ export const loadProjectsForGuestRequest = async (): Promise<
   APIResponseType<Project[]>
 > => {
   try {
-    const response = await fetch(`${API_PATH}/project`, { cache: "no-store" });
-    checkResponseStatus(response.status);
-
-    const responseData = await response.json();
-    const projects = responseData.map((project: LoadProjectResponse) => {
-      return createProjectDomain(
-        project.id,
-        project.userId,
-        project.title,
-        project.description,
-        project.thinks,
-        project.beTechs,
-        project.feTechs,
-        project.infraTechs,
-        new Date(project.startDate),
-        new Date(project.endDate),
-        project.imageUrl,
-        project.createdAt,
-        project.updatedAt
-      );
+    const response = await fetch(`http://localhost:3000/api/projects`, {
+      cache: "no-store",
     });
+
     return {
       isSuccess: true,
       isFailure: false,
-      data: projects,
+      data: await response.json(),
     };
   } catch (error) {
     return {
@@ -93,7 +76,6 @@ export const loadProjectForGuestRequest = async (
 
     const project = createProjectDomain(
       responseData.id,
-      responseData.userId,
       responseData.title,
       responseData.description,
       responseData.thinks,

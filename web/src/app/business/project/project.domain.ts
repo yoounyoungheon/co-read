@@ -1,8 +1,6 @@
 export interface Project {
   id: string;
 
-  userId: string;
-
   title: string;
 
   description: string[];
@@ -28,7 +26,6 @@ export interface Project {
 
 export const createProjectDomain = (
   id: string,
-  userId: string,
   title: string,
   description: string[],
   thinks: string[],
@@ -39,8 +36,21 @@ export const createProjectDomain = (
   endDate: Date,
   imageUrl: string,
   createdAt: string,
-  updatedAt: string,
+  updatedAt: string
 ): Project => {
-  const project: Project = { id, userId, title, description, thinks, beTechs, feTechs, infraTechs, startDate, endDate, imageUrl, createdAt, updatedAt };
+  const project: Project = {
+    id,
+    title,
+    description,
+    thinks,
+    beTechs,
+    feTechs,
+    infraTechs,
+    startDate,
+    endDate,
+    imageUrl,
+    createdAt,
+    updatedAt,
+  };
   return project;
 };

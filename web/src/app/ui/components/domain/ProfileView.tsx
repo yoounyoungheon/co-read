@@ -1,53 +1,55 @@
-import { Profile } from "@/app/business/profile/profile.domain";
-import GitLogo from "@/app/assets/git.png"
-import BlogLogo from "@/app/assets/t.png"
 import Image from "next/image";
 import Link from "next/link";
+import ProfileImage from "@/app/assets/profile.png";
+import GitImage from "@/app/assets/git.png";
+import BlogImage from "@/app/assets/t.png";
 
-interface ProfileViewProps {
-  profile: Profile
-};
-
-export function ProfileView({profile}:ProfileViewProps){
-  const { introduce, words, gitUrl, blogUrl } = profile;
-
+export function ProfileView() {
   return (
-  <main>
-    <div className="grid grid-cols-1 mb-3 gap-5">
-      <div className="text-center text-3xl font-bold">About Me! 💬</div>
-      <IntoduceView introduce={`"${introduce}"`}/>
-      <WordsView words={words}/>
-      <div className="flex space-x-5">
-        <Link href={gitUrl} className="flex space-x-1 font-semibold">
-          <Image src={GitLogo.src} alt={"git logo"} width={25} height={25}/>
-          <div>GitHub</div>
-        </Link>
-        <Link href={blogUrl} className="flex space-x-1 font-semibold">
-          <Image src={BlogLogo.src} alt={"blog logo"} width={25} height={25}/>
-          <div>Blog</div>
-        </Link>
-      </div>
-    </div>
-  </main>
-  )
-}
-
-function IntoduceView({introduce}:{introduce: string}){
-  return (
-    <div className="text-center text-xl font-semibold mb-1 italic animate-fade-in">
-      {introduce}
-    </div>
-  )
-}
-
-function WordsView({ words }: { words: string[] }) {
-  return (
-    <div className="border-l-2 border-black pl-2 space-y-1.5">
-      {words.map((word, index) => (
-        <div key={index} className={`text-gray-700 p-1 ${word[0]==='['?'font-semibold text-xl':'text italic'}`}>
-          {word}
+    <main>
+      <div className="flex flex-row items-center justify-center mb-12">
+        <div className="w-32 h-32 rounded-full overflow-hidden border shadow-lg relative">
+          <Image
+            src={ProfileImage.src}
+            alt={""}
+            fill
+            className="object-cover"
+          />
         </div>
-      ))}
-    </div>
+        <div className="flex flex-col gap-1 ml-6">
+          <h1 className="text font-bold">윤영헌</h1>
+          <p className="text-sm text-gray-600">🖥️ developer</p>
+          <p className="text-sm italic">open labs 2025.06 ~</p>
+          <div className="flex flex-row gap-2 items-stretch">
+            <div className="w-0.5 bg-gray-600" />
+            <p className="text-sm">안녕하세요! 개발자 윤영헌입니다.</p>
+          </div>
+
+          <div className="flex flex-row gap-2">
+            <Link href={"https://github.com/yoounyoungheon"}>
+              <div className="w-6 h-6 rounded-full overflow-hidden shadow-lg relative">
+                <Image
+                  src={GitImage.src}
+                  alt={""}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </Link>
+
+            <Link href={"https://younghun123.tistory.com/"}>
+              <div className="w-6 h-6 rounded-full overflow-hidden shadow-lg relative">
+                <Image
+                  src={BlogImage.src}
+                  alt={""}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }

@@ -1,0 +1,22 @@
+{
+  "id": "p1",
+  "title": "화상 창구 \"화창\"\n(비대면 창구 서비스)",
+  "description": [
+    "React와 Next.js를 활용한 포트폴리오 사이트 개발",
+    "SSR 기반으로 SEO 최적화 적용",
+    "다크모드 및 반응형 UI 구현"
+  ],
+  "thinks": [
+    "Next.js 라우팅 구조에 대한 이해도 향상",
+    "SEO 최적화 경험 축적",
+    "반응형 UI 구현에 대한 경험 강화"
+  ],
+  "beTechs": ["Node.js", "Express"],
+  "feTechs": ["Next.js", "React", "TailwindCSS"],
+  "infraTechs": ["Vercel"],
+  "imageUrl": "/images/p1_1.png",
+  "startDate": "2025-01-01T00:00:00.000Z",
+  "endDate": "2025-02-10T00:00:00.000Z",
+  "createdAt": "2025-02-11T10:00:00.000Z",
+  "updatedAt": "2025-02-12T09:00:00.000Z"
+}
