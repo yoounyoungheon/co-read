@@ -45,7 +45,7 @@ export const loadProjectsForGuestRequest = async (): Promise<
   APIResponseType<Project[]>
 > => {
   try {
-    const response = await fetch(`http://localhost:3000/api/projects`, {
+    const response = await fetch(`https://www.iamyounghun.site/api/projects`, {
       cache: "no-store",
     });
 
