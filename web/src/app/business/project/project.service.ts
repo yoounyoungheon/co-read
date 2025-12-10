@@ -4,22 +4,6 @@ import { API_PATH } from "@/app/utils/http/api-path";
 import { createProjectDomain, Project } from "./project.domain";
 import { UserInterface } from "./user-interface.domain";
 
-interface LoadProjectResponse {
-  id: string;
-  userId: string;
-  title: string;
-  description: string[];
-  thinks: string[];
-  beTechs: string[];
-  feTechs: string[];
-  infraTechs: string[];
-  startDate: string;
-  endDate: string;
-  imageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export const loadUserInterfaceRequest = async (
   projectId: string
 ): Promise<APIResponseType<UserInterface[]>> => {
@@ -45,9 +29,10 @@ export const loadProjectsForGuestRequest = async (): Promise<
   APIResponseType<Project[]>
 > => {
   try {
-    const response = await fetch(`https://www.iamyounghun.site/api/projects`, {
+    const response = await fetch(`${API_PATH}/api/projects`, {
       cache: "no-store",
     });
+    checkResponseStatus(response.status);
 
     return {
       isSuccess: true,
@@ -68,11 +53,11 @@ export const loadProjectForGuestRequest = async (
   id: string
 ): Promise<APIResponseType<Project>> => {
   try {
-    const response = await fetch(`${API_PATH}/project/${id}`, {
+    const response = await fetch(`${API_PATH}/projects/${id}.json`, {
       cache: "no-store",
     });
     checkResponseStatus(response.status);
-    const responseData: LoadProjectResponse = await response.json();
+    const responseData = await response.json();
 
     const project = createProjectDomain(
       responseData.id,

@@ -1,26 +1,15 @@
 export interface Project {
   id: string;
-
   title: string;
-
   description: string[];
-
   thinks: string[];
-
   beTechs: string[];
-
   feTechs: string[];
-
   infraTechs: string[];
-
   imageUrl: string;
-
   startDate: Date;
-
   endDate: Date;
-
   createdAt?: string;
-
   updatedAt?: string;
 }
 

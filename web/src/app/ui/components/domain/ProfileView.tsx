@@ -26,7 +26,11 @@ export function ProfileView() {
           </div>
 
           <div className="flex flex-row gap-2">
-            <Link href={"https://github.com/yoounyoungheon"}>
+            <Link
+              href={"https://github.com/yoounyoungheon"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div className="w-6 h-6 rounded-full overflow-hidden shadow-lg relative">
                 <Image
                   src={GitImage.src}
@@ -37,7 +41,11 @@ export function ProfileView() {
               </div>
             </Link>
 
-            <Link href={"https://younghun123.tistory.com/"}>
+            <Link
+              href={"https://younghun123.tistory.com/"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div className="w-6 h-6 rounded-full overflow-hidden shadow-lg relative">
                 <Image
                   src={BlogImage.src}
