@@ -37,7 +37,7 @@ const Feed = ({
           className="rounded-lg object-contain"
         />
         <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
-        <div className="relative flex items-center justify-center space-x-2 text-white text-xs font-semibold whitespace-pre-wrap">
+        <div className="mt-2 relative flex items-center justify-center space-x-2 text-white text-xs lg:text-lg font-semibold whitespace-pre-wrap">
           <span>{projectName}</span>
         </div>
       </Card>
