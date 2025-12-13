@@ -32,9 +32,7 @@ export function ProfileView() {
                 Dongguk Univ · scsc & biz
               </p>
 
-              <p className="text-sm italic text-gray-500">
-                Open Labs · 2025.06 ~
-              </p>
+              <p className="text-sm italic text-gray-500">Open Labs · 2025 ~</p>
             </div>
           </div>
 
