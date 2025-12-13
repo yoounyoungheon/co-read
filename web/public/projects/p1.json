@@ -18,7 +18,7 @@
   ],
   "beTechs": ["Spring Boot", "STOMP", "JPA"],
   "feTechs": ["Next.js", "React", "WebRTC", "TailwindCSS", "story book"],
-  "infraTechs": ["AWS EC2", "Nginx", "Docker", "Redis"],
+  "infraTechs": ["AWS EC2", "Nginx", "Docker", "Docker-compose", "Redis"],
   "images": [
     "/images/p1_1.png",
     "/images/p1_3.png",
