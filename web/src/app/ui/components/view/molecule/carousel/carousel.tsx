@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
 
@@ -21,13 +20,25 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
   if (images.length === 0) return null;
 
   return (
-    <div className="relative w-full aspect-[3/2] overflow-hidden">
-      <Image
-        src={images[currentIndex]}
-        alt=""
-        fill
-        className="object-cover rounded-xl transition-all duration-300"
-      />
+    <div className="relative w-full aspect-[3/2] overflow-hidden rounded-xl">
+      <div
+        className="flex h-full transition-transform duration-300 ease-in-out"
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+        }}
+      >
+        {images.map((src, idx) => (
+          <div key={idx} className="relative w-full h-full flex-shrink-0">
+            <Image
+              src={src}
+              alt=""
+              fill
+              className="object-cover"
+              priority={idx === 0}
+            />
+          </div>
+        ))}
+      </div>
 
       <button
         onClick={prev}
