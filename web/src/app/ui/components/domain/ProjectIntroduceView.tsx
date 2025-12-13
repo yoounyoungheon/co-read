@@ -7,13 +7,18 @@ export const ProjectIntroduceView = ({ project }: { project: Project }) => {
 
   return (
     <Card className="p-3 rounded-2xl shadow-md flex flex-col items-center space-y-5">
-      <div className="text font-bold text-center">{title}</div>
+      <div className="text font-bold text-center lg:text-lg">{title}</div>
       <ImageCarousel images={images} />
       <div className="w-full space-y-2">
-        <div className="text text-sm font-semibold">프로젝트 소개</div>
+        <div className="text font-semibold text-sm md:text-base lg:text-lg">
+          프로젝트 소개
+        </div>
         <div className="ml-2 space-y-1">
           {description.map((desc, index) => (
-            <div key={index} className="text text-xs mb-1 flex items-start">
+            <div
+              key={index}
+              className="text text-xs lg:text-base mb-1 flex items-start"
+            >
               <span className="mr-2">•</span>
               {desc}
             </div>
@@ -21,12 +26,15 @@ export const ProjectIntroduceView = ({ project }: { project: Project }) => {
         </div>
       </div>
       <div className="w-full space-y-2">
-        <div className="text text-sm w-full font-semibold">
+        <div className="text font-semibold text-sm md:text-base lg:text-lg">
           무엇을 개발했나요?
         </div>
         <div className="ml-2 space-y-1">
           {thinks.map((think, index) => (
-            <div key={index} className="text text-xs mb-1 flex items-start">
+            <div
+              key={index}
+              className="text text-xs lg:text-base mb-1 flex items-start"
+            >
               <span className="mr-2">•</span>
               {think}
             </div>

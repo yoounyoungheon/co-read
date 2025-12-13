@@ -20,7 +20,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
   if (images.length === 0) return null;
 
   return (
-    <div className="relative w-full aspect-[3/2] overflow-hidden rounded-xl">
+    <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl">
       <div
         className="flex h-full transition-transform duration-300 ease-in-out"
         style={{

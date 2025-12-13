@@ -30,7 +30,12 @@ const Feed = ({
   return (
     <Link href={`/project?id=${id}`}>
       <Card className="aspect-square relative p-2 border-none text-center shadow-lg rounded-lg hover:scale-105 transition-transform duration-300 bg-cover bg-center">
-        <Image src={image} alt={""} fill className="rounded-lg" />
+        <Image
+          src={image}
+          alt={""}
+          fill
+          className="rounded-lg object-contain"
+        />
         <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
         <div className="relative flex items-center justify-center space-x-2 text-white text-xs font-semibold whitespace-pre-wrap">
           <span>{projectName}</span>
