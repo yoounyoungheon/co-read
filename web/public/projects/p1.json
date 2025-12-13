@@ -7,16 +7,16 @@
     "고객–상담사 간 실시간 영상/음성 기능 & 화면 공유 기능 구축",
     "화상 통화 중 상품 신청 및 설명을 위한 문서 공유 시스템 제공",
     "상담 내용 녹화 & LLM을 통한 상담 내역 요약 기능 재공",
-    "하나은행 주관 디지털 하나로에사 1차 프로젝트 최우수상 수상"
+    "하나은행 주관 디지털 하나로 1차 프로젝트 과정 내 최우수상 수상"
   ],
   "thinks": [
     "풀스택 개발 참여",
-    "SSR 기반 웹 애플리케이션 개발",
-    "STOMP 프로토콜과 WebRTC 기반 실시간 상담 기능 개발",
-    "co-turn image를 활용해 컨테이너 기반 turn 서버 구축",
-    "팀장으로서 주도적으로 아키텍처 설계 및 프로젝트 전반 관리 경험"
+    "팀장으로서 주도적으로 아키텍처 설계 및 프로젝트 전반 관리 경험",
+    "[FE & BE] STOMP 프로토콜과 WebRTC 기반 실시간 상담 기능 개발",
+    "[INFRA] co-turn image를 활용해 컨테이너 기반 turn 서버 구축",
+    "아쉬운점: 과도한 클라이언트 컴포넌트 사용으로 SSR 기반 웹 애플리케이션의 장점을 살리지 못함"
   ],
-  "beTechs": ["Spring Boot", "STOMP"],
+  "beTechs": ["Spring Boot", "STOMP", "JPA"],
   "feTechs": ["Next.js", "React", "WebRTC", "TailwindCSS", "story book"],
   "infraTechs": ["AWS EC2", "Nginx", "Docker", "Redis"],
   "images": [
