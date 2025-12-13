@@ -20,7 +20,7 @@
     "[BE] 금융 결재원 API를 mocking한 가짜 계정 서버 구축(FastAPI 프레임워크 활용)",
     "[CI/CD] Nginx, Lets encrypt를 활용한 리버스 프록시를 통해 SSL 인증서 적용"
   ],
-  "beTechs": ["Spring Boot", "JPA"],
+  "beTechs": ["Spring Boot", "JPA", "FastAPI"],
   "feTechs": ["Next.js", "React", "TailwindCSS", "story book"],
   "infraTechs": [
     "AWS EC2",
