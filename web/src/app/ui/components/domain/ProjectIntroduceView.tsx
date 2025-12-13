@@ -27,7 +27,7 @@ export const ProjectIntroduceView = ({ project }: { project: Project }) => {
       </div>
       <div className="w-full space-y-2">
         <div className="text font-semibold text-sm md:text-base lg:text-lg">
-          무엇을 개발했나요?
+          개발 내용 및 담당 역할
         </div>
         <div className="ml-2 space-y-1">
           {thinks.map((think, index) => (
