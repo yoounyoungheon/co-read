@@ -1,18 +1,10 @@
 {
   "id": "p2",
   "title": "우아하나\n(시니어 모임 통장)",
-  "description": [
-    "WebSocket 기반 실시간 상담 기능 개발",
-    "STOMP 프로토콜을 활용한 메시지 브로커 구현",
-    "고객–상담사 간 실시간 영상/음성 기능 구축"
-  ],
-  "thinks": [
-    "WebRTC 관련 흐름 이해",
-    "WebSocket 연결 관리 중요성 이해",
-    "STOMP 메시지 구조 설계 경험"
-  ],
-  "beTechs": ["Spring Boot", "MySQL"],
-  "feTechs": ["React", "TypeScript"],
+  "description": [],
+  "thinks": [],
+  "beTechs": [],
+  "feTechs": [],
   "infraTechs": ["AWS EC2", "S3"],
   "imageUrl": "/images/p2_1.png",
   "startDate": "2024-11-01T00:00:00.000Z",

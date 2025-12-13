@@ -1,18 +1,10 @@
 {
   "id": "p3",
   "title": "LLM기반 VOC 분석 서비스",
-  "description": [
-    "GPT API를 이용한 텍스트 요약 서비스 개발",
-    "사용자 입력 글의 핵심 내용을 자동 추출",
-    "반응형 웹 UI 구현"
-  ],
-  "thinks": [
-    "OpenAI API 사용 경험 확보",
-    "프롬프트 설계 중요성 학습",
-    "API 비용 최적화 고려"
-  ],
-  "beTechs": ["Node.js", "MongoDB"],
-  "feTechs": ["Next.js", "React"],
+  "description": [],
+  "thinks": [],
+  "beTechs": [],
+  "feTechs": [],
   "infraTechs": ["Cloudflare Pages"],
   "imageUrl": "/images/p3_1.png",
   "startDate": "2024-07-01T00:00:00.000Z",
