@@ -1,12 +1,23 @@
 {
   "id": "p3",
   "title": "LLM기반 VOC 분석 서비스",
-  "description": [],
-  "thinks": [],
-  "beTechs": [],
+  "description": [
+    "LLM 기반의 코스메틱 분야 리뷰 데이터 분석 서비스",
+    "[Dashboard] 사용자가 사전에 지정한 카테고리 별 언급 빈도 및 VOC 확인",
+    "[Analytics] 카테고리 별 VOC의 주요 키워드 도출 및 긍/부정 비율 확인",
+    "[Analytics] 사용자가 사전에 등록한 회의록에서 도출된 키워드가 언급된 방향성 도출",
+    "동국대학교 융합 소프트웨어 캡스톤 디자인 프로젝트"
+  ],
+  "thinks": [
+    "백엔드 개발 담당",
+    "Nest JS 프레임워크를 활용하여 서버 애플리케이션 개발",
+    "Open AI api를 활용한 LLM 모듈 개발",
+    "CI/CD 파이프라인 구축"
+  ],
+  "beTechs": ["typescript", "Nest JS"],
   "feTechs": [],
-  "infraTechs": ["Cloudflare Pages"],
-  "images": ["/images/p3_1.png"],
+  "infraTechs": ["AWS EC2", "Docker", "GitHub Actions", "PostgreSQL"],
+  "images": ["/images/p3_1.png", "/images/p3_2.png"],
   "startDate": "2024-07-01T00:00:00.000Z",
   "endDate": "2024-09-25T00:00:00.000Z",
   "createdAt": "2024-09-26T09:00:00.000Z"
