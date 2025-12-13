@@ -6,7 +6,7 @@
   "beTechs": [],
   "feTechs": [],
   "infraTechs": ["AWS EC2", "S3"],
-  "imageUrl": "/images/p2_1.png",
+  "images": ["/images/p2_1.png"],
   "startDate": "2024-11-01T00:00:00.000Z",
   "endDate": "2025-01-20T00:00:00.000Z",
   "createdAt": "2025-01-22T12:00:00.000Z",

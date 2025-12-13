@@ -2,23 +2,22 @@
   "id": "p1",
   "title": "화상 창구 \"화창\"\n(비대면 창구 서비스)",
   "description": [
-    "WebSocket 기반 실시간 상담 기능 개발",
-    "STOMP 프로토콜을 활용한 메시지 브로커 구현",
+    "P2P 기반 기술을 활용한 비대면 은행 업무 처리 서비스",
+    "개인, 행원 사용자에 따라 다른 기능 제공",
     "고객–상담사 간 실시간 영상/음성 기능 & 화면 공유 기능 구축",
     "화상 통화 중 상품 신청 및 설명을 위한 문서 공유 시스템 제공",
-    "P2P 기반 기술을 활용한 비대면 은행 업무 처리. 개인, 행원 사용자에 따라 다른 기능 제공",
-    "LLM을 통한 상담 내역 복기 기능 재공"
+    "상담 내용 녹화 & LLM을 통한 상담 내역 요약 기능 재공"
   ],
   "thinks": [
-    "팀장으로서 주도적으로 아키텍처 설계 및 프로젝트 전반 관리 경험 축적",
     "SSR 기반 애플리케이션에 대한 이해도 향상",
-    "SEO 최적화 경험 축적",
-    "co-turn image를 활용해 컨테이너 기반 turn 서버 구축"
+    "STOMP 프로토콜과 WebRTC 기반 실시간 상담 기능 개발",
+    "co-turn image를 활용해 컨테이너 기반 turn 서버 구축",
+    "팀장으로서 주도적으로 아키텍처 설계 및 프로젝트 전반 관리 경험"
   ],
   "beTechs": ["Spring Boot", "STOMP"],
-  "feTechs": ["Next.js", "React", "TailwindCSS"],
+  "feTechs": ["Next.js", "React", "WebRTC", "TailwindCSS", "story book"],
   "infraTechs": ["AWS EC2", "Nginx", "Docker", "Redis"],
-  "imageUrl": "/images/p1_1.png",
+  "images": ["/images/p1_1.png", "/images/p2_1.png"],
   "startDate": "2025-01-01T00:00:00.000Z",
   "endDate": "2025-02-10T00:00:00.000Z",
   "createdAt": "2025-02-11T10:00:00.000Z",

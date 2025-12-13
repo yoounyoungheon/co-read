@@ -1,20 +1,16 @@
 import { Project } from "@/app/business/project/project.domain";
 import { Card } from "../view/molecule/card/card";
-import Image from "next/image";
+import ImageCarousel from "../view/molecule/carousel/carousel";
 
 export const ProjectIntroduceView = ({ project }: { project: Project }) => {
-  const { title, imageUrl, description, thinks } = project;
+  const { title, images, description, thinks } = project;
 
   return (
     <Card className="p-3 rounded-2xl shadow-md flex flex-col items-center space-y-5">
       <div className="text font-bold text-center">{title}</div>
-
-      <div className="relative w-full aspect-[3/2]">
-        <Image src={imageUrl} alt="" fill className="object-cover rounded-xl" />
-      </div>
-
+      <ImageCarousel images={images} />
       <div className="w-full space-y-2">
-        <div className="text text-sm font-semibold">{"Description"}</div>
+        <div className="text text-sm font-semibold">프로젝트 소개</div>
         <div className="ml-2 space-y-1">
           {description.map((desc, index) => (
             <div key={index} className="text text-xs mb-1 flex items-start">
@@ -24,9 +20,10 @@ export const ProjectIntroduceView = ({ project }: { project: Project }) => {
           ))}
         </div>
       </div>
-
       <div className="w-full space-y-2">
-        <div className="text text-sm w-full font-semibold">{"고민한 내용"}</div>
+        <div className="text text-sm w-full font-semibold">
+          무엇을 개발했나요?
+        </div>
         <div className="ml-2 space-y-1">
           {thinks.map((think, index) => (
             <div key={index} className="text text-xs mb-1 flex items-start">

@@ -6,7 +6,7 @@ export interface Project {
   beTechs: string[];
   feTechs: string[];
   infraTechs: string[];
-  imageUrl: string;
+  images: string[];
   startDate: Date;
   endDate: Date;
   createdAt?: string;
@@ -23,7 +23,7 @@ export const createProjectDomain = (
   infraTechs: string[],
   startDate: Date,
   endDate: Date,
-  imageUrl: string,
+  images: string[],
   createdAt: string,
   updatedAt: string
 ): Project => {
@@ -37,7 +37,7 @@ export const createProjectDomain = (
     infraTechs,
     startDate,
     endDate,
-    imageUrl,
+    images,
     createdAt,
     updatedAt,
   };

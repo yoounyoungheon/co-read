@@ -9,7 +9,7 @@ export const FeedView = ({ projects }: { projects: Project[] }) => {
       {projects.map((project) => (
         <Feed
           key={project.id}
-          imageUrl={project.imageUrl}
+          imageUrl={project.images}
           projectName={project.title}
           id={project.id}
         />
