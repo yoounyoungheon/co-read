@@ -7,7 +7,7 @@ import BlogImage from "@/app/assets/t.png";
 export function ProfileView() {
   return (
     <main>
-      <div className="flex flex-col gap-1 mb-12 items-center justify-center">
+      <div className="flex flex-col gap-1 mb-4 items-center justify-center">
         <div className="items-start justify-start space-y-5">
           {/* section1 이미지 + 이름/학교/직업 */}
           <div className="flex flex-row items-center">
