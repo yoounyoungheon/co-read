@@ -1,18 +1,24 @@
 export interface Article {
   id: string;
 
-  userId: string;
-
   title: string;
 
   description: string;
 
   url: string;
-
-  createdAt: Date;
 }
 
-export const createArticleDomain = (id: string, userId: string, title: string, description: string, url: string, createdAt: string): Article => {
-  const article: Article = { id, userId, title, description, url, createdAt: new Date(createdAt) };
+export const createArticleDomain = (
+  id: string,
+  title: string,
+  description: string,
+  url: string
+): Article => {
+  const article: Article = {
+    id,
+    title,
+    description,
+    url,
+  };
   return article;
-}
+};

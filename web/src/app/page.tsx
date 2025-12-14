@@ -4,6 +4,8 @@ import { loadProjectsForGuestRequest } from "./business/project/project.service"
 import AchromaticButton from "./ui/components/view/atom/button/achromatic-button";
 import { PageQueryProps } from "./utils/type";
 import Link from "next/link";
+import { loadAllArticles } from "./business/article/article.service";
+import { ArticleView } from "./ui/components/domain/ArticleView";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
   const ctg =
@@ -13,6 +15,8 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
 
   const projectResponse =
     ctg === "project" ? await loadProjectsForGuestRequest() : null;
+
+  const articleResponse = ctg === "article" ? await loadAllArticles() : null;
 
   const renderFeedSection = () => {
     switch (ctg) {
@@ -27,7 +31,15 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
         return <FeedView projects={projectResponse.data} />;
 
       case "article":
-        return <div className="text-center">준비중입니다.</div>;
+        if (!articleResponse?.data) {
+          return (
+            <div className="text-center">
+              서버에 오류가 발생했습니다. 잠시 후 다시 시도해주세요.
+            </div>
+          );
+        }
+
+        return <ArticleView articles={articleResponse.data} />;
 
       default:
         return null;
