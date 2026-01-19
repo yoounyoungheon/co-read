@@ -22,10 +22,10 @@ export function TechStackView({
     ));
 
   return (
-    <Card className="p-3 rounded-2xl shadow-md space-y-5">
-      <div className="text font-bold py-2">💻 Tech Stack</div>
+    <div className="space-y-5 mx-2 px-3">
+      <div className="text font-bold">💻 Tech Stack</div>
 
-      <div className="flex flex-col gap-3 h-full">
+      <Card className="flex flex-col gap-5 p-3">
         {betechs.length !== 0 && (
           <div>
             <h3 className="text-sm font-semibold mb-2">🛠️ Backend</h3>
@@ -52,7 +52,7 @@ export function TechStackView({
             </div>
           </div>
         )}
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 }

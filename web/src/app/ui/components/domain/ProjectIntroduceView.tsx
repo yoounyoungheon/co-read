@@ -6,10 +6,14 @@ export const ProjectIntroduceView = ({ project }: { project: Project }) => {
   const { title, images, description, thinks } = project;
 
   return (
-    <Card className="p-3 rounded-2xl shadow-md flex flex-col items-center space-y-5">
+    <div className="flex flex-col gap-1">
       <div className="text font-bold text-center lg:text-lg">{title}</div>
-      <ImageCarousel images={images} />
-      <div className="w-full space-y-2">
+      <div className="w-full border-t border-gray-300 my-4" />
+      <Card className="p-3 rounded-2xl shadow-md flex flex-col items-center space-y-5 mx-2">
+        <ImageCarousel images={images} />
+      </Card>
+      <div className="w-full border-t border-gray-300 my-4" />
+      <div className="w-full space-y-2 px-4">
         <div className="text font-semibold text-sm md:text-base lg:text-lg">
           프로젝트 소개
         </div>
@@ -25,7 +29,8 @@ export const ProjectIntroduceView = ({ project }: { project: Project }) => {
           ))}
         </div>
       </div>
-      <div className="w-full space-y-2">
+      <div className="w-full border-t border-gray-300 my-4" />
+      <div className="w-full space-y-2 px-4">
         <div className="text font-semibold text-sm md:text-base lg:text-lg">
           개발 내용 및 담당 역할
         </div>
@@ -41,6 +46,7 @@ export const ProjectIntroduceView = ({ project }: { project: Project }) => {
           ))}
         </div>
       </div>
-    </Card>
+      <div className="w-full border-t border-gray-300 my-4" />
+    </div>
   );
 };

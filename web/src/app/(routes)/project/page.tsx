@@ -10,9 +10,9 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
   const project = response.data;
 
   return (
-    <main className="py-2 px-2">
+    <main className="py-2">
       {project && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-1 whitespace-normal">
+        <div className="grid grid-cols-1 gap-1 whitespace-normal">
           <ProjectIntroduceView project={project} />
           <TechStackView
             betechs={project.beTechs}
