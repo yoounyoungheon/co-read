@@ -1,5 +1,6 @@
 import { loadProjectForGuestRequest } from "@/app/business/project/project.service";
 import { ProjectIntroduceView } from "@/app/ui/components/domain/ProjectIntroduceView";
+import { ProjectMarkdownView } from "@/app/ui/components/domain/ProjectMarkdownView";
 import { TechStackView } from "@/app/ui/components/domain/TechStackView";
 import { PageQueryProps } from "@/app/utils/type";
 
@@ -19,6 +20,8 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
             fetechs={project.feTechs}
             infratechs={project.infraTechs}
           />
+          <br></br>
+          <ProjectMarkdownView markdown={project.markdown} />
         </div>
       )}
     </main>

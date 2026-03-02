@@ -9,6 +9,7 @@ export interface Project {
   images: string[];
   startDate: Date;
   endDate: Date;
+  markdown?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -25,7 +26,8 @@ export const createProjectDomain = (
   endDate: Date,
   images: string[],
   createdAt: string,
-  updatedAt: string
+  updatedAt: string,
+  markdown?: string
 ): Project => {
   const project: Project = {
     id,
@@ -40,6 +42,7 @@ export const createProjectDomain = (
     images,
     createdAt,
     updatedAt,
+    markdown,
   };
   return project;
 };
