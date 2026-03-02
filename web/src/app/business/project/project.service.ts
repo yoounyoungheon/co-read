@@ -49,7 +49,8 @@ export const loadProjectForGuestRequest = async (
       new Date(responseData.endDate),
       responseData.images,
       responseData.createdAt,
-      responseData.updatedAt
+      responseData.updatedAt,
+      responseData.markdown
     );
 
     return {
