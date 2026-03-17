@@ -1,25 +1,17 @@
 import type { Article } from "@/app/business/article/article.domain";
 import type { Project } from "@/app/business/project/project.domain";
-import { Profile, type ProfileProps } from "../ui/Profile";
 import { FeedGrid } from "../ui/FeedGrid";
 import { ArticleList } from "../ui/ArticleList";
 import Link from "next/link";
 import Button from "@/app/shared/ui/atom/button";
 
-export interface ProfilePageProps extends ProfileProps {
+export interface ProfilePageProps {
   projects: Project[];
   articles: Article[];
   type: string;
 }
 
 export function ProfilePage({
-  name,
-  job,
-  spec,
-  intorudctiion,
-  profileImage,
-  githubLink,
-  blogLink,
   projects,
   articles,
   type,
@@ -28,15 +20,6 @@ export function ProfilePage({
 
   return (
     <section className="flex w-full flex-col gap-6">
-      <Profile
-        name={name}
-        job={job}
-        spec={spec}
-        intorudctiion={intorudctiion}
-        profileImage={profileImage}
-        githubLink={githubLink}
-        blogLink={blogLink}
-      />
       {/* 카테고리 버튼 */}
       <div className="flex items-center flex-col gap-5 justify-center">
         <div className="font-semibold">{`차근차근! 구경하고 싶은 내용을 둘러보세요 :)`}</div>
