@@ -1,0 +1,251 @@
+{
+  "version": 1,
+  "generatedAt": "2026-03-16T15:14:25.798Z",
+  "source": {
+    "storybookIndex": "storybook-static/index.json"
+  },
+  "components": [
+    {
+      "name": "Button",
+      "kind": "atom",
+      "componentPath": "./src/app/shared/ui/atom/button.tsx",
+      "storiesPath": "./src/app/shared/ui/atom/button.stories.tsx",
+      "argTypes": {
+        "variant": {
+          "control": {
+            "type": "select"
+          },
+          "options": [
+            "solid",
+            "outline",
+            "text"
+          ]
+        },
+        "type": {
+          "control": {
+            "type": "select"
+          },
+          "options": [
+            "primary",
+            "error",
+            "cancel"
+          ]
+        },
+        "size": {
+          "control": {
+            "type": "select"
+          },
+          "options": [
+            "default",
+            "icon"
+          ]
+        },
+        "radius": {
+          "control": {
+            "type": "select"
+          },
+          "options": [
+            "sm",
+            "lg",
+            "full"
+          ]
+        },
+        "asChild": {
+          "control": {
+            "type": "boolean"
+          },
+          "description": "Slot을 사용해 다른 엘리먼트를 버튼 스타일로 감쌉니다."
+        },
+        "disabled": {
+          "control": {
+            "type": "boolean"
+          }
+        },
+        "onClick": {
+          "action": "clicked"
+        },
+        "className": {
+          "control": {
+            "type": "text"
+          }
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{\n  args: {\n    asChild: true\n  },\n  render: args => <Button {...args}>\n      <a href=\"#\" onClick={e => e.preventDefault()}>\n        asChild link\n      </a>\n    </Button>\n}",
+        "{}",
+        "{\n  args: {\n    disabled: true,\n    children: \"Disabled\"\n  }\n}",
+        "{\n  render: args => <div style={{\n    display: \"flex\",\n    gap: 12,\n    flexWrap: \"wrap\"\n  }}>\n      <Button {...args} radius=\"sm\">\n        sm\n      </Button>\n      <Button {...args} radius=\"lg\">\n        lg\n      </Button>\n      <Button {...args} radius=\"full\">\n        full\n      </Button>\n    </div>\n}",
+        "{\n  render: args => <div style={{\n    display: \"flex\",\n    gap: 12,\n    alignItems: \"center\"\n  }}>\n      <Button {...args} size=\"default\">\n        default\n      </Button>\n      <Button {...args} size=\"icon\" aria-label=\"icon button\">\n        +\n      </Button>\n    </div>\n}",
+        "{\n  render: args => <div style={{\n    display: \"flex\",\n    gap: 12,\n    flexWrap: \"wrap\"\n  }}>\n      <Button {...args} type=\"primary\">\n        primary\n      </Button>\n      <Button {...args} type=\"error\">\n        error\n      </Button>\n      <Button {...args} type=\"cancel\">\n        cancel\n      </Button>\n    </div>,\n  args: {\n    variant: \"solid\",\n    size: \"default\"\n  }\n}",
+        "{\n  render: args => <div style={{\n    display: \"flex\",\n    gap: 12,\n    flexWrap: \"wrap\"\n  }}>\n      <Button {...args} variant=\"solid\">\n        solid\n      </Button>\n      <Button {...args} variant=\"outline\">\n        outline\n      </Button>\n      <Button {...args} variant=\"text\">\n        text\n      </Button>\n    </div>,\n  args: {\n    type: \"primary\",\n    size: \"default\"\n  }\n}"
+      ]
+    },
+    {
+      "name": "TextArea",
+      "kind": "atom",
+      "componentPath": "./src/app/shared/ui/atom/text-area.tsx",
+      "storiesPath": "./src/app/shared/ui/atom/text-area.stories.tsx",
+      "argTypes": {
+        "placeholder": {
+          "control": "text"
+        },
+        "disabled": {
+          "control": "boolean"
+        },
+        "autoResize": {
+          "control": "boolean"
+        },
+        "maxRows": {
+          "control": "number"
+        },
+        "rows": {
+          "control": "number"
+        },
+        "onValueChange": {
+          "action": "valueChanged"
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{\n  render: args => <div className=\"w-[360px] border rounded-lg p-1\">\n      <TextArea {...args} />\n    </div>\n}",
+        "{\n  args: {\n    disabled: true,\n    defaultValue: \"비활성화된 텍스트 영역\"\n  },\n  render: Default.render\n}",
+        "{\n  args: {\n    defaultValue: \"와인 추천 부탁해요. 오늘은 친구들과 매콤한 음식을 먹을 예정이고, 너무 무겁지 않은 바디감이 좋습니다.\"\n  },\n  render: Default.render\n}"
+      ]
+    },
+    {
+      "name": "TextInput",
+      "kind": "atom",
+      "componentPath": "./src/app/shared/ui/atom/text-input.tsx",
+      "storiesPath": "./src/app/shared/ui/atom/text-input.stories.tsx",
+      "argTypes": {
+        "type": {
+          "control": {
+            "type": "select"
+          },
+          "options": [
+            "text",
+            "password",
+            "number"
+          ]
+        },
+        "status": {
+          "control": {
+            "type": "select"
+          },
+          "options": [
+            "default",
+            "error",
+            "success"
+          ]
+        },
+        "withIcon": {},
+        "helperMessages": {
+          "control": "object"
+        },
+        "disabled": {
+          "control": "boolean"
+        },
+        "placeholder": {
+          "control": "text"
+        },
+        "onIconClick": {
+          "action": "iconClicked"
+        },
+        "onValueChange": {
+          "action": "valueChanged"
+        },
+        "label": {
+          "control": "text"
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{}",
+        "{\n  args: {\n    disabled: true,\n    placeholder: \"비활성화\"\n  }\n}",
+        "{\n  args: {\n    status: \"error\",\n    withIcon: SearchIcon,\n    helperMessages: [\"필수 입력 항목입니다.\"],\n    placeholder: \"오류 상태\"\n  }\n}",
+        "{\n  args: {\n    status: \"success\",\n    withIcon: SearchIcon,\n    placeholder: \"성공 상태\"\n  }\n}",
+        "{\n  render: args => <div style={{\n    display: \"grid\",\n    gap: 12,\n    minWidth: 320\n  }}>\n      <TextInput {...args} type=\"text\" placeholder=\"text\" />\n      <TextInput {...args} type=\"password\" placeholder=\"password\" />\n      <TextInput {...args} type=\"number\" placeholder=\"number\" />\n    </div>\n}",
+        "{\n  args: {\n    withIcon: SearchIcon,\n    placeholder: \"Search\"\n  }\n}"
+      ]
+    },
+    {
+      "name": "Card",
+      "kind": "molecule",
+      "componentPath": "./src/app/shared/ui/molecule/card.tsx",
+      "storiesPath": "./src/app/shared/ui/molecule/card.stories.tsx",
+      "argTypes": {
+        "className": {
+          "control": "text"
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{\n  render: args => <Card {...args} className={`w-[360px] ${args.className ?? \"\"}`.trim()}>\n      <CardContent>\n        <div className=\"space-y-2\">\n          <p className=\"text-sm text-slate-600\">\n            헤더 없이 콘텐츠만 사용하는 예시입니다.\n          </p>\n          <p className=\"text-sm text-slate-600\">\n            필요한 레이아웃에 맞춰 구성 요소를 조합하세요.\n          </p>\n        </div>\n      </CardContent>\n    </Card>\n}",
+        "{\n  render: args => <Card {...args} className={`w-[360px] ${args.className ?? \"\"}`.trim()}>\n      <CardHeader>\n        <CardTitle>Card title</CardTitle>\n        <CardDescription>짧은 설명 텍스트</CardDescription>\n      </CardHeader>\n      <CardContent>\n        <p className=\"text-sm text-slate-600\">\n          본문 영역입니다. 카드 내부 콘텐츠를 자유롭게 배치할 수 있습니다.\n        </p>\n      </CardContent>\n      <CardFooter>\n        <span className=\"text-xs textㄴslate-500\">Footer 영역</span>\n      </CardFooter>\n    </Card>\n}",
+        "{\n  render: args => <Card {...args} className={`w-[360px] ${args.className ?? \"\"}`.trim()}>\n      <CardHeader>\n        <CardTitle>액션 포함 카드</CardTitle>\n        <CardDescription>Footer에 액션을 배치한 예시입니다.</CardDescription>\n      </CardHeader>\n      <CardContent>\n        <p className=\"text-sm text-slate-600\">간단한 설명 텍스트.</p>\n      </CardContent>\n      <CardFooter className=\"justify-end gap-2\">\n        <button className=\"text-xs text-slate-500\">취소</button>\n        <button className=\"text-xs font-semibold text-blue-600\">확인</button>\n      </CardFooter>\n    </Card>\n}"
+      ]
+    },
+    {
+      "name": "Dialog",
+      "kind": "molecule",
+      "componentPath": "./src/app/shared/ui/molecule/dialog.tsx",
+      "storiesPath": "./src/app/shared/ui/molecule/dialog.stories.tsx",
+      "argTypes": {
+        "title": {
+          "control": "text"
+        },
+        "description": {
+          "control": "text"
+        },
+        "className": {
+          "control": "text"
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{\n  render: args => {\n    const {\n      defaultOpen,\n      ...contentArgs\n    } = args as typeof args & {\n      defaultOpen?: boolean;\n    };\n    return <Dialog defaultOpen={defaultOpen}>\n        <DialogTrigger asChild>\n          <Button type=\"primary\" variant=\"solid\">\n            Open Dialog\n          </Button>\n        </DialogTrigger>\n        <DialogContent {...contentArgs}>\n          <div className=\"space-y-3\">\n            <p className=\"text-sm text-text-02\">\n              다이얼로그 콘텐츠 영역입니다. 필요한 내용을 자유롭게 배치하세요.\n            </p>\n            <div className=\"flex justify-end gap-2\">\n              <DialogPrimitive.Close asChild>\n                <Button type=\"cancel\" variant=\"text\">\n                  취소\n                </Button>\n              </DialogPrimitive.Close>\n              <DialogPrimitive.Close asChild>\n                <Button type=\"primary\" variant=\"solid\">\n                  확인\n                </Button>\n              </DialogPrimitive.Close>\n            </div>\n          </div>\n        </DialogContent>\n      </Dialog>;\n  }\n}",
+        "{\n  args: {\n    title: \"기본 열림 상태\",\n    description: \"Storybook에서 열려있는 상태로 확인할 수 있습니다.\"\n  },\n  render: Default.render\n}"
+      ]
+    },
+    {
+      "name": "FormSelect",
+      "kind": "molecule",
+      "componentPath": "./src/app/shared/ui/molecule/dropdown/form-select-index.tsx",
+      "storiesPath": "./src/app/shared/ui/molecule/dropdown/form-select.stories.tsx",
+      "argTypes": {
+        "placeholder": {
+          "control": "text"
+        },
+        "defaultValue": {
+          "control": "text"
+        },
+        "name": {
+          "control": "text"
+        },
+        "disabled": {
+          "control": "boolean"
+        },
+        "required": {
+          "control": "boolean"
+        },
+        "error": {
+          "control": "boolean"
+        },
+        "errorMessages": {
+          "control": "object"
+        },
+        "onValueChange": {
+          "action": "valueChange"
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{\n  render: args => <div className=\"w-[320px]\">\n      <FormSelect {...args}>\n        <FormSelect.Item value=\"korean\" placeholder=\"국어\" />\n        <FormSelect.Item value=\"math\" placeholder=\"수학\" />\n        <FormSelect.Item value=\"english\" placeholder=\"영어\" />\n        <FormSelect.Item value=\"science\" placeholder=\"과학\" />\n      </FormSelect>\n    </div>\n}",
+        "{\n  args: {\n    disabled: true\n  },\n  render: Default.render\n}",
+        "{\n  args: {\n    error: true,\n    errorMessages: [\"과목을 선택해주세요.\"]\n  },\n  render: Default.render\n}",
+        "{\n  args: {\n    defaultValue: \"math\"\n  },\n  render: Default.render\n}"
+      ]
+    }
+  ]
+}

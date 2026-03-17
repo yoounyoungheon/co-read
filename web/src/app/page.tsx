@@ -1,11 +1,11 @@
 import { ProfileView } from "./ui/components/domain/ProfileView";
 import { FeedView } from "./ui/components/domain/FeedView";
 import { loadProjectsForGuestRequest } from "./business/project/project.service";
-import AchromaticButton from "./ui/components/view/atom/button/achromatic-button";
 import { PageQueryProps } from "./utils/type";
 import Link from "next/link";
 import { loadAllArticles } from "./business/article/article.service";
 import { ArticleView } from "./ui/components/domain/ArticleView";
+import Button from "./shared/ui/atom/button";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
   const ctg =
@@ -56,13 +56,16 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
         <div className="flex flex-row gap-4 mb-4 w-full max-w-screen-sm">
           {categories.map((category) => (
             <Link key={category} href={`/?ctg=${category}`} className="w-full">
-              <AchromaticButton
+              <Button
                 className={`w-full ${
-                  ctg === category ? "" : "text-black/70 bg-slate-50"
+                  ctg === category
+                    ? ""
+                    : "text-black/70 bg-slate-50 hover:bg-slate-100"
                 }`}
+                type={ctg === category ? "primary" : "cancel"}
               >
                 {category}
-              </AchromaticButton>
+              </Button>
             </Link>
           ))}
         </div>
