@@ -1,6 +1,7 @@
 {
   "id": "p3",
-  "title": "LLM기반 VOC 분석 서비스",
+  "keyword": ["LLM", "Nest JS", "Open AI API"],
+  "title": "LLM기반\nVOC 분석 서비스",
   "description": [
     "LLM 기반의 코스메틱 분야 리뷰 데이터 분석 서비스",
     "[Dashboard] 사용자가 사전에 지정한 카테고리 별 언급 빈도 및 VOC 확인",

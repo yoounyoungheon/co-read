@@ -9,6 +9,7 @@ const sampleProjects: Project[] = [
   {
     id: "co-read",
     title: "Co-Read",
+    keyword: ["Next.js", "NestJS", "Vercel"],
     description: ["협업 기반 문서 독해 서비스"],
     thinks: ["공동 편집 경험 개선"],
     beTechs: ["NestJS"],
@@ -21,6 +22,7 @@ const sampleProjects: Project[] = [
   {
     id: "open-labs",
     title: "Open Labs",
+    keyword: ["React", "Spring Boot", "AWS"],
     description: ["연구 프로젝트 아카이브"],
     thinks: ["탐색 경험 강화"],
     beTechs: ["Spring Boot"],
@@ -33,6 +35,7 @@ const sampleProjects: Project[] = [
   {
     id: "note-flow",
     title: "Note Flow",
+    keyword: ["Next.js", "Go", "Cloud Run"],
     description: ["개인 지식 관리 도구"],
     thinks: ["모바일 입력 최적화"],
     beTechs: ["Go"],
@@ -45,6 +48,7 @@ const sampleProjects: Project[] = [
   {
     id: "focus-board",
     title: "Focus Board",
+    keyword: ["Vue", "FastAPI", "GCP"],
     description: ["작업 집중도 시각화 대시보드"],
     thinks: ["데이터 밀도 조절"],
     beTechs: ["FastAPI"],
@@ -80,7 +84,7 @@ type Story = StoryObj<typeof FeedGrid>;
 
 export const Default: Story = {
   render: (args) => (
-    <div className="w-[720px] max-w-full">
+    <div>
       <FeedGrid {...args} />
     </div>
   ),

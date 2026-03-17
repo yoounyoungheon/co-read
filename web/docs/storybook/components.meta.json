@@ -1,10 +1,96 @@
 {
   "version": 1,
-  "generatedAt": "2026-03-16T15:14:25.798Z",
+  "generatedAt": "2026-03-17T14:38:34.488Z",
   "source": {
     "storybookIndex": "storybook-static/index.json"
   },
   "components": [
+    {
+      "name": "Feed",
+      "kind": "unknown",
+      "componentPath": "./src/app/feature/profile/ui/Feed.tsx",
+      "storiesPath": "./src/app/feature/profile/ui/Feed.stories.tsx",
+      "argTypes": {
+        "image": {
+          "control": "text",
+          "description": "피드 카드에 표시할 대표 이미지 URL입니다."
+        },
+        "projectName": {
+          "control": "text",
+          "description": "카드 중앙에 표시할 프로젝트 이름입니다."
+        },
+        "id": {
+          "control": "text",
+          "description": "프로젝트 상세 페이지 이동에 사용하는 식별자입니다."
+        },
+        "href": {
+          "control": "text",
+          "description": "카드 클릭 시 이동할 경로입니다. 비워두면 id 기반 기본 경로를 사용합니다."
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{\n  render: args => <div className=\"w-[220px] max-w-full\">\n      <Feed {...args} />\n    </div>\n}",
+        "{\n  args: {\n    projectName: \"Co-Read Portfolio Archive Platform\"\n  },\n  render: Default.render\n}"
+      ]
+    },
+    {
+      "name": "FeedGrid",
+      "kind": "unknown",
+      "componentPath": "./src/app/feature/profile/ui/FeedGrid.tsx",
+      "storiesPath": "./src/app/feature/profile/ui/FeedGrid.stories.tsx",
+      "argTypes": {
+        "projects": {
+          "control": "object",
+          "description": "그리드에 표시할 프로젝트 목록입니다."
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{\n  render: args => <div>\n      <FeedGrid {...args} />\n    </div>\n}",
+        "{\n  args: {\n    projects: []\n  },\n  render: Default.render\n}"
+      ]
+    },
+    {
+      "name": "Profile",
+      "kind": "unknown",
+      "componentPath": "./src/app/feature/profile/ui/Profile.tsx",
+      "storiesPath": "./src/app/feature/profile/ui/Profile.stories.tsx",
+      "argTypes": {
+        "name": {
+          "control": "text",
+          "description": "프로필에 표시할 이름입니다."
+        },
+        "job": {
+          "control": "text",
+          "description": "이름 아래에 표시할 직업 또는 역할입니다."
+        },
+        "spec": {
+          "control": "object",
+          "description": "학력이나 이력처럼 줄 단위로 보여줄 경력 정보 목록입니다."
+        },
+        "intorudctiion": {
+          "control": "text",
+          "description": "줄바꿈을 포함할 수 있는 자기소개 문구입니다."
+        },
+        "profileImage": {
+          "description": "프로필 사진으로 사용할 이미지입니다."
+        },
+        "githubLink": {
+          "control": "text",
+          "description": "GitHub 프로필 링크입니다."
+        },
+        "blogLink": {
+          "control": "text",
+          "description": "블로그 링크입니다."
+        }
+      },
+      "args": {},
+      "originalSources": [
+        "{\n  render: args => <div className=\"w-[360px] max-w-full\">\n      <Profile {...args} />\n    </div>\n}",
+        "{\n  args: {\n    spec: [\"Dongguk Univ · Convergence Software\", \"Business Administration · Double Major\", \"Open Labs · Backend Engineer\"],\n    intorudctiion: \"사용자 경험과 제품 완성도를 함께 보는 개발을 지향합니다.\\n빠르게 만드는 것보다 오래 유지되는 구조를 선호하고, 팀 안에서 문제를 명확히 정의하는 과정에도 관심이 많습니다.\\n최근에는 서비스 설계와 실행 사이의 간극을 줄이는 방법을 고민하고 있습니다.\"\n  },\n  render: Default.render\n}"
+      ]
+    },
     {
       "name": "Button",
       "kind": "atom",

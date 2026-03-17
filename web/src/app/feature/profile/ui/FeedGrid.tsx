@@ -1,5 +1,5 @@
 import { Project } from "@/app/business/project/project.domain";
-import { Feed } from "./Feed";
+import { FeedCard } from "./FeedCard";
 
 interface FeedGridProps {
   projects: Project[];
@@ -7,12 +7,13 @@ interface FeedGridProps {
 
 export const FeedGrid = ({ projects }: FeedGridProps) => {
   return (
-    <div className="grid grid-cols-3 gap-1 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 lg:px-4">
+    <div className="grid h-full max-w-[1500px] grid-cols-1 items-start gap-5 p-2 md:grid-cols-3 lg:grid-cols-4">
       {projects.map((project) => (
-        <Feed
+        <FeedCard
           key={project.id}
           image={project.images.at(0) || ""}
           projectName={project.title}
+          keyword={project.keyword}
           id={project.id}
         />
       ))}

@@ -1,78 +1,34 @@
-import { ProfileView } from "./ui/components/domain/ProfileView";
-import { FeedView } from "./ui/components/domain/FeedView";
 import { loadProjectsForGuestRequest } from "./business/project/project.service";
 import { PageQueryProps } from "./utils/type";
-import Link from "next/link";
 import { loadAllArticles } from "./business/article/article.service";
-import { ArticleView } from "./ui/components/domain/ArticleView";
-import Button from "./shared/ui/atom/button";
+import { ProfilePage } from "./feature/profile/page/ProfilePage";
+import ProfileImage from "@/app/assets/profile.png";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
-  const ctg =
-    typeof searchParams.ctg === "string" ? searchParams.ctg : "project";
-
-  const categories = ["project", "article"] as const;
+  const type =
+    typeof searchParams.type === "string" ? searchParams.type : "project";
 
   const projectResponse =
-    ctg === "project" ? await loadProjectsForGuestRequest() : null;
+    type === "project" ? await loadProjectsForGuestRequest() : null;
 
-  const articleResponse = ctg === "article" ? await loadAllArticles() : null;
-
-  const renderFeedSection = () => {
-    switch (ctg) {
-      case "project":
-        if (!projectResponse?.data) {
-          return (
-            <div className="text-center">
-              서버에 오류가 발생했습니다. 잠시 후 다시 시도해주세요.
-            </div>
-          );
-        }
-        return <FeedView projects={projectResponse.data} />;
-
-      case "article":
-        if (!articleResponse?.data) {
-          return (
-            <div className="text-center">
-              서버에 오류가 발생했습니다. 잠시 후 다시 시도해주세요.
-            </div>
-          );
-        }
-
-        return <ArticleView articles={articleResponse.data} />;
-
-      default:
-        return null;
-    }
-  };
+  const articleResponse = type === "article" ? await loadAllArticles() : null;
 
   return (
     <main className="py-4 px-2">
-      {/* 프로필 영역 */}
-      <ProfileView />
-
-      {/* 카테고리 버튼 */}
-      <div className="flex items-center justify-center">
-        <div className="flex flex-row gap-4 mb-4 w-full max-w-screen-sm">
-          {categories.map((category) => (
-            <Link key={category} href={`/?ctg=${category}`} className="w-full">
-              <Button
-                className={`w-full ${
-                  ctg === category
-                    ? ""
-                    : "text-black/70 bg-slate-50 hover:bg-slate-100"
-                }`}
-                type={ctg === category ? "primary" : "cancel"}
-              >
-                {category}
-              </Button>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* 피드 영역 */}
-      {renderFeedSection()}
+      <ProfilePage
+        projects={projectResponse?.data || []}
+        articles={articleResponse?.data || []}
+        type={type}
+        name={"윤영헌"}
+        job={"🖥️ developer"}
+        spec={["Dongguk Univ · scsc & biz", "Open Labs · 2025 ~"]}
+        intorudctiion={
+          "안녕하세요! 개발자 윤영헌입니다.\n융합소프트웨어와 경영학을 전공했습니다.\n비즈니스, 기술적 관점에서 변화에 유연한 소프트웨어 설계를 고민합니다.\ne-mail: iddyoon@gmail.com"
+        }
+        profileImage={ProfileImage}
+        githubLink={""}
+        blogLink={""}
+      />
     </main>
   );
 }

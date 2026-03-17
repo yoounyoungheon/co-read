@@ -1,6 +1,7 @@
 {
   "id": "p1",
-  "title": "화상 창구 \"화창\"\n(비대면 창구 서비스)",
+  "title": "화상 창구 \"화창\"\n비대면 창구 서비스",
+  "keyword": ["WebRTC", "STOMP", "Spring Boot", "Next.js"],
   "description": [
     "P2P 기반 기술을 활용한 비대면 은행 업무 처리 서비스",
     "개인, 행원 사용자에 따라 다른 기능 제공",
