@@ -6,7 +6,7 @@ export function Nav() {
       <nav className="flex justify-between items-center px-1">
         <div className="text-lg font-bold">
           <Link href="/" className="no-underline">
-            iamyounghun
+            IAMYOUNGHUN
           </Link>
         </div>
       </nav>

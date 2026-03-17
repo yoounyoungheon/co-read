@@ -1,6 +1,7 @@
 export interface Project {
   id: string;
   title: string;
+  keyword?: string[];
   description: string[];
   thinks: string[];
   beTechs: string[];
@@ -27,7 +28,8 @@ export const createProjectDomain = (
   images: string[],
   createdAt: string,
   updatedAt: string,
-  markdown?: string
+  keyword?: string[],
+  markdown?: string,
 ): Project => {
   const project: Project = {
     id,
@@ -43,6 +45,7 @@ export const createProjectDomain = (
     createdAt,
     updatedAt,
     markdown,
+    keyword,
   };
   return project;
 };
