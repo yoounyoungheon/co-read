@@ -84,7 +84,7 @@ type Story = StoryObj<typeof FeedGrid>;
 
 export const Default: Story = {
   render: (args) => (
-    <div>
+    <div className="w-[320px] max-w-full md:w-[960px]">
       <FeedGrid {...args} />
     </div>
   ),

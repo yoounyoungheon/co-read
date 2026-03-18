@@ -13,7 +13,7 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
   const articleResponse = type === "article" ? await loadAllArticles() : null;
 
   return (
-    <main>
+    <main className="flex justify-center w-full">
       <ProfilePage
         projects={projectResponse?.data || []}
         articles={articleResponse?.data || []}

@@ -11,15 +11,11 @@ export interface ProfilePageProps {
   type: string;
 }
 
-export function ProfilePage({
-  projects,
-  articles,
-  type,
-}: ProfilePageProps) {
+export function ProfilePage({ projects, articles, type }: ProfilePageProps) {
   const categories = ["project", "article"] as const;
 
   return (
-    <section className="flex w-full flex-col gap-6 px-4 py-6 sm:px-6">
+    <section className="flex w-full max-w-[1500px] flex-col gap-6 px-4 py-6 sm:px-6">
       {/* 카테고리 버튼 */}
       <div className="flex w-full flex-col items-center justify-center gap-5">
         <div className="text-center font-semibold">{`차근차근! 구경하고 싶은 내용을 둘러보세요 :)`}</div>
