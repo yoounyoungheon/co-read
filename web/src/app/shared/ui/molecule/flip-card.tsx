@@ -41,7 +41,7 @@ const FlipCard = React.forwardRef<HTMLDivElement, FlipCardProps>(
         </Card>
         <Card
           className={cn(
-            "absolute inset-0 h-full w-full overflow-hidden [backface-visibility:hidden] [transform:rotateY(180deg)]",
+            "absolute inset-0 h-full w-full overflow-hidden [backface-visibility:hidden] [transform:rotateY(180deg)_translateZ(1px)] [will-change:transform]",
             backClassName
           )}
         >
@@ -56,4 +56,3 @@ FlipCard.displayName = "FlipCard";
 
 export { FlipCard };
 export type { FlipCardProps };
-

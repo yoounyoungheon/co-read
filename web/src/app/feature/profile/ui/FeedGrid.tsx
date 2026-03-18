@@ -7,7 +7,7 @@ interface FeedGridProps {
 
 export const FeedGrid = ({ projects }: FeedGridProps) => {
   return (
-    <div className="grid h-full max-w-[1500px] grid-cols-1 items-start gap-5 p-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid h-full w-full grid-cols-1 items-start gap-5 md:grid-cols-3 lg:max-w-[1500px] lg:grid-cols-4">
       {projects.map((project) => (
         <FeedCard
           key={project.id}

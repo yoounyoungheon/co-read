@@ -19,11 +19,11 @@ export function ProfilePage({
   const categories = ["project", "article"] as const;
 
   return (
-    <section className="flex w-full flex-col gap-6">
+    <section className="flex w-full flex-col gap-6 px-4 py-6 sm:px-6">
       {/* 카테고리 버튼 */}
-      <div className="flex items-center flex-col gap-5 justify-center">
-        <div className="font-semibold">{`차근차근! 구경하고 싶은 내용을 둘러보세요 :)`}</div>
-        <div className="flex flex-row gap-4 mb-4 w-full max-w-screen-sm">
+      <div className="flex w-full flex-col items-center justify-center gap-5">
+        <div className="text-center font-semibold">{`차근차근! 구경하고 싶은 내용을 둘러보세요 :)`}</div>
+        <div className="mb-4 flex w-full flex-col gap-3 sm:max-w-screen-sm sm:flex-row sm:gap-4">
           {categories.map((category) => (
             <Link key={category} href={`/?type=${category}`} className="w-full">
               <Button
@@ -43,7 +43,7 @@ export function ProfilePage({
         </div>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex w-full justify-center">
         {type === "project" ? (
           <FeedGrid projects={projects} />
         ) : (

@@ -13,7 +13,7 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
   const articleResponse = type === "article" ? await loadAllArticles() : null;
 
   return (
-    <main className="py-4 px-2">
+    <main>
       <ProfilePage
         projects={projectResponse?.data || []}
         articles={articleResponse?.data || []}

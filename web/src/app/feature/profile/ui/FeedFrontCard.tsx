@@ -33,7 +33,13 @@ export function FeedFrontCard({
 
       <div className="flex items-end justify-start">
         <Card className="relative h-36 w-36 overflow-hidden rounded-[22px] bg-white shadow-none">
-          <Image src={image} alt={projectName} fill className="object-cover" />
+          <Image
+            src={image}
+            alt={projectName}
+            fill
+            sizes="144px"
+            className="object-cover"
+          />
         </Card>
       </div>
     </div>
