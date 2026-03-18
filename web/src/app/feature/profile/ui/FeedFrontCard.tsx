@@ -18,7 +18,7 @@ export function FeedFrontCard({
     <div className="flex h-full flex-col justify-between p-3">
       <div className="flex items-start justify-between gap-2 p-2">
         <div className="flex-1">
-          <p className="line-clamp-3 pt-1 whitespace-pre-wrap font-bold text-slate-900 sm:text-[1.2rem]">
+          <p className="line-clamp-3 pt-1 whitespace-pre-wrap font-bold text-slate-900 sm:text-sm">
             {projectName}
           </p>
         </div>
@@ -30,10 +30,14 @@ export function FeedFrontCard({
           <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
         </Link>
       </div>
-
-      <div className="flex items-end justify-start">
-        <Card className="relative h-36 w-36 overflow-hidden rounded-[22px] bg-white shadow-none">
-          <Image src={image} alt={projectName} fill className="object-cover" />
+      <div className="p-2">
+        <Card className="relative w-[100%] aspect-square rounded-2xl bg-white shadow-none">
+          <Image
+            src={image}
+            alt={projectName}
+            fill
+            className="object-cover rounded-2xl"
+          />
         </Card>
       </div>
     </div>

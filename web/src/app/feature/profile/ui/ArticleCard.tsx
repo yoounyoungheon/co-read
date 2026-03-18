@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Article } from "@/app/business/article/article.domain";
-import { Card } from "@/app/ui/components/view/molecule/card/card";
+import { Card } from "@/app/shared/ui/molecule/card";
 
 export interface ArticleCardProps {
   article: Article;
@@ -50,4 +50,3 @@ export function ArticleCard({ article }: ArticleCardProps) {
     </Link>
   );
 }
-

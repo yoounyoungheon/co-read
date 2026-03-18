@@ -339,3 +339,245 @@ AGENTS.md는 정책 문서이며,
 
 - AGENTS.md = 행동 규칙
 - components.meta.json = 지식 베이스
+
+# 3. 스타일 프로그래밍 정책
+
+## 목적
+
+이 프로젝트에서 Agent는  
+스타일을 감각적으로 임의 작성하지 않고,  
+레이아웃, 간격, 시각 효과, 애니메이션에 대한  
+일관된 기준에 따라 구현해야 한다.
+
+Tailwind CSS는 단순 유틸리티 모음이 아니라  
+CSS box model, normal flow, flex/grid, stacking context, transform 같은  
+기본 원리를 빠르게 표현하는 도구로 사용해야 한다.
+
+즉, Agent는 먼저 CSS 원리로 문제를 이해하고,  
+그 다음 Tailwind 클래스로 구현한다.
+
+## 0. 적용 범위
+
+- 본 정책은 `className`, `globals.css`, component-level style, animation 작성 전반에 적용된다.
+- Agent는 스타일 문제를 우연한 조합으로 해결하지 않고, 폭(width), 흐름(flow), 정렬(alignment), 쌓임(layer) 기준으로 원인을 먼저 파악해야 한다.
+- Tailwind 유틸리티는 빠른 구현 수단이지만, CSS 이론을 대체하지 않는다.
+
+## 1. 스타일 판단 순서
+
+- 스타일을 수정할 때는 아래 순서로 판단한다 (SHOULD)
+  1. 레이아웃이 왜 깨지는지 width / height / overflow / display 기준으로 먼저 해석한다
+  2. 정렬 문제인지, 크기 문제인지, 간격 문제인지 구분한다
+  3. 필요한 최소 Tailwind 클래스만 적용한다
+  4. 장식 효과(gradient, shadow, blur, animation)는 구조가 안정된 뒤 마지막에 추가한다
+- `justify-center`, `absolute`, 고정 폭, 과도한 `min-w-*`로 레이아웃 문제를 임시 봉합하지 않는다 (SHOULD NOT)
+
+## 2. Tailwind 사용 원칙
+
+### 2.1 기본 원칙
+
+- Tailwind는 가능한 한 semantic grouping이 보이도록 사용한다 (SHOULD)
+- 하나의 요소에 과도하게 긴 className을 몰아넣기보다, 구조적으로 역할이 다른 wrapper를 분리한다 (SHOULD)
+- 스타일은 레이아웃 → spacing → typography → color → effect 순서로 읽히게 작성한다 (SHOULD)
+- 동일한 패턴이 반복되면 유틸리티 조합을 복붙하기보다 공용 컴포넌트 추출을 우선 검토한다 (SHOULD)
+
+### 2.2 허용/지양 기준
+
+- `w-full`, `max-w-*`, `min-w-*`, `grid`, `flex`, `gap-*`, `p-*` 같은 구조 유틸리티를 우선 사용한다 (SHOULD)
+- 임의값(`w-[237px]`, `mt-[13px]`)은 정당한 디자인 이유가 있을 때만 사용한다 (SHOULD)
+- 동일한 파일에서 임의값이 반복되면 설계가 불안정한 신호로 간주한다 (SHOULD)
+- `!important` 성격의 강제 우선순위 해결은 지양한다 (SHOULD NOT)
+- 장식용 class가 콘텐츠 가독성을 해치면 제거를 우선 검토한다 (MUST)
+
+## 3. CSS 이론 기반 레이아웃 규칙
+
+### 3.1 폭(width)과 흐름(flow)
+
+- 레이아웃 문제는 먼저 요소가 normal flow 안에 있는지, flex/grid 문맥인지 확인한다 (MUST)
+- 부모가 `w-full`이 아니면 자식의 `w-full`은 기대한 대로 동작하지 않을 수 있음을 전제로 판단한다 (MUST)
+- `max-w-*`는 상한을 정하는 값이지, 실제 폭을 채우는 값이 아니다. 화면을 꽉 채워야 하면 `w-full`과 함께 사용한다 (MUST)
+- `min-w-*`는 콘텐츠 보존에는 유리하지만 모바일 overflow를 만들 수 있으므로 신중히 사용한다 (SHOULD)
+- `justify-center`는 정렬 도구일 뿐, 폭 문제를 해결하지 못한다. 폭이 비정상적이면 먼저 width 관계를 수정한다 (MUST)
+
+### 3.2 Flex와 Grid 선택 기준
+
+- 1차원 정렬은 `flex`, 2차원 반복 배치는 `grid`를 우선 사용한다 (SHOULD)
+- 카드 목록, 썸네일 목록, 피드 목록처럼 행/열 구조가 있는 경우 `grid`를 우선 검토한다 (SHOULD)
+- 버튼 그룹, 아이콘 그룹, inline 정렬은 `flex`를 우선 사용한다 (SHOULD)
+- `flex-wrap`은 카드 너비가 유동적일 때만 사용하고, 열 수가 명확하면 `grid-cols-*`를 우선한다 (SHOULD)
+
+### 3.3 Mobile-first 반응형 규칙
+
+- 모든 레이아웃은 mobile-first로 작성해야 한다 (MUST)
+- 기본값은 모바일 기준 1열 또는 세로 배치로 두고, `sm:`, `md:`, `lg:`에서 확장한다 (SHOULD)
+- 데스크톱 전용 고정 폭을 기본 class로 두지 않는다 (SHOULD NOT)
+- 모바일에서 `w-full`, `grid-cols-1`, `flex-col`이 자연스럽게 동작하는지 먼저 확인한다 (MUST)
+
+## 4. 간격과 크기 규칙
+
+- 간격은 `gap`, `padding`, `margin`의 역할을 구분해 사용한다 (SHOULD)
+- 형제 요소 간격은 `gap-*`을 우선 사용한다 (SHOULD)
+- 컴포넌트 내부 여백은 `padding`으로, 컴포넌트 외부 간격은 `margin`으로 구분한다 (SHOULD)
+- radius, shadow, padding 크기는 같은 역할의 카드/버튼끼리 일관되게 유지한다 (SHOULD)
+- 시각적으로 비슷한 컴포넌트가 서로 다른 spacing scale을 갖지 않도록 한다 (SHOULD)
+
+## 5. 타이포그래피와 이미지 규칙
+
+- 텍스트 대비(contrast)는 장식보다 우선한다 (MUST)
+- 텍스트가 흐려 보이면 색상, opacity, blur, transform 영향을 먼저 점검한다 (MUST)
+- 제목/본문/보조 텍스트는 계층이 보이도록 크기와 굵기를 구분한다 (SHOULD)
+- `next/image`에서 `fill`을 사용할 때는 가능한 한 `sizes`를 함께 제공한다 (SHOULD)
+- 이미지 비율이 중요한 경우 부모의 aspect ratio를 먼저 정의하고, 이미지에는 `object-cover` 또는 `object-contain`을 의도적으로 선택한다 (SHOULD)
+
+## 6. 색상, 그림자, 배경 효과 규칙
+
+- 색상은 의미 전달과 계층 구분을 위해 사용하고, 장식 목적 남용을 지양한다 (SHOULD)
+- shadow는 깊이감을 보조하는 정도로만 사용한다 (SHOULD)
+- shadow, blur, gradient를 동시에 강하게 사용하는 경우 가독성 저하를 먼저 의심한다 (SHOULD)
+- 텍스트 위 장식 레이어를 둘 때는 opacity를 낮추고, 콘텐츠는 `relative` 레이어로 분리한다 (SHOULD)
+- 불투명도(`text-white/70`, `bg-white/10`)는 미세한 분위기 조절 용도로 쓰되, 정보가 흐려지면 즉시 대비를 높인다 (MUST)
+
+## 7. 애니메이션 규칙
+
+### 7.1 기본 원칙
+
+- 애니메이션은 정보 구조를 보조할 때만 사용한다 (SHOULD)
+- hover, active, open/close, tab, flip 같은 상호작용은 CSS transition 기반을 우선 사용한다 (SHOULD)
+- JS 없이 해결 가능한 애니메이션은 CSS-only 방식으로 구현한다 (SHOULD)
+- 애니메이션이 없어도 콘텐츠 이해가 가능해야 한다 (MUST)
+
+### 7.2 성능과 시각 품질
+
+- 애니메이션은 `transform`, `opacity` 중심으로 작성한다 (SHOULD)
+- layout reflow를 크게 유발하는 `width`, `height`, `top`, `left` 애니메이션은 지양한다 (SHOULD NOT)
+- 3D transform 사용 시 `backface-visibility`, `preserve-3d`, 텍스트 선명도 문제를 확인한다 (SHOULD)
+- flip UI는 가능하면 공용 primitive로 추상화하고, 개별 feature는 앞면/뒷면 콘텐츠 조합만 담당한다 (SHOULD)
+
+### 7.3 강도 기준
+
+- duration은 짧고 예측 가능하게 유지한다 (SHOULD)
+- 과도한 bounce, 반복, attention-seeking animation은 지양한다 (SHOULD NOT)
+- hover 효과는 미세한 scale, translate, opacity 변화 정도로 제한한다 (SHOULD)
+
+## 8. 스타일 디버깅 규칙
+
+- 스타일 버그를 수정할 때는 먼저 아래를 점검한다 (MUST)
+  - 부모에 `w-full`이 있는가
+  - `max-w-*`만 있고 실제 폭이 없는가
+  - `min-w-*` 때문에 모바일이 깨지는가
+  - `justify-center`가 폭 문제를 가리고 있는가
+  - `absolute`가 normal flow를 탈출해서 예상치 못한 겹침을 만드는가
+  - `transform`, `opacity`, `blur` 때문에 텍스트가 흐려지는가
+- 문제를 확인하지 않은 채 class를 추가로 누적해서 해결하려 하지 않는다 (SHOULD NOT)
+
+## 9. 핵심 원칙 요약
+
+- CSS 원리를 먼저 이해하고 Tailwind로 구현한다
+- 모바일을 기본값으로 설계한다
+- 폭 문제는 정렬이 아니라 width 관계로 해결한다
+- 장식보다 가독성을 우선한다
+- 애니메이션은 구조를 보조할 때만 사용한다
+
+## 10. 스타일 정책 근거
+
+이 섹션은 위 스타일 정책이 왜 필요한지 설명한다.  
+Agent는 규칙만 따르는 것이 아니라,  
+CSS 원리와 브라우저 렌더링 특성을 이해한 상태에서 스타일을 작성해야 한다.
+
+### 10.1 왜 "CSS 원리를 먼저 이해하고 Tailwind로 구현"해야 하는가
+
+- Tailwind는 CSS를 대체하는 별도 시스템이 아니라, CSS 속성을 짧은 클래스 형태로 표현한 도구다.
+- 따라서 문제의 원인이 `display`, `width`, `overflow`, `position`, `transform` 중 어디에 있는지 이해하지 못하면, Tailwind 클래스는 빠른 해결 수단이 아니라 문제 은폐 수단이 된다.
+- 예를 들어 `justify-center`는 정렬 속성일 뿐인데, 실제 원인이 부모의 `w-full` 부재인 경우에는 근본 해결이 되지 않는다.
+
+### 10.2 왜 width 관계를 먼저 봐야 하는가
+
+- 브라우저 레이아웃은 부모 박스의 폭과 자식 박스의 폭 관계에 의해 먼저 결정된다.
+- `w-full`은 "가능한 공간을 채운다"는 의미이지, "항상 화면 전체 폭이 된다"는 의미가 아니다.
+- 부모가 shrink-to-fit 상태이거나 width가 명확하지 않으면 자식의 `w-full`은 기대한 대로 동작하지 않는다.
+- `max-w-*`는 상한선만 정한다. 실제 폭을 채우려면 `w-full` 같은 실제 width 지정이 같이 필요하다.
+- 이 원리를 이해하지 못하면 모바일에서 레이아웃이 비거나, 콘텐츠가 왼쪽으로 몰리는 현상이 반복된다.
+
+### 10.3 왜 mobile-first가 중요한가
+
+- 작은 화면에서는 공간 제약이 가장 강하기 때문에, 이 환경을 먼저 만족시키면 큰 화면 확장이 쉬워진다.
+- 반대로 데스크톱 기준 고정 폭을 먼저 만들고 모바일로 줄이면 `min-width`, overflow, 버튼 줄바꿈, 카드 폭 깨짐 같은 문제가 자주 발생한다.
+- Tailwind의 responsive prefix(`sm:`, `md:`, `lg:`)도 mobile-first 전제를 기반으로 설계되어 있다.
+
+### 10.4 왜 flex와 grid를 구분해야 하는가
+
+- `flex`는 한 축(1차원) 정렬에 강하고, `grid`는 행과 열(2차원) 배치에 강하다.
+- 카드 목록처럼 반복 구조가 있고 열 수가 중요하면 `grid`가 더 예측 가능하다.
+- 버튼, 아이콘, inline 정렬처럼 한 줄 또는 한 축 흐름이 핵심이면 `flex`가 적합하다.
+- 이 구분이 없으면 `flex-wrap`과 고정 폭 조합으로 억지로 레이아웃을 만들게 되고, 반응형 제어가 어려워진다.
+
+### 10.5 왜 spacing 규칙이 필요한가
+
+- UI 품질은 색보다 spacing에서 더 크게 드러난다.
+- 사람은 시각적으로 가까운 요소를 같은 그룹으로 인식하고, 멀어진 요소를 다른 그룹으로 인식한다.
+- 따라서 `gap`, `padding`, `margin`을 목적 없이 섞으면 계층이 흐려지고 읽기 어려운 화면이 된다.
+- 같은 역할의 카드/버튼이 서로 다른 radius, padding, shadow를 가지면 시스템보다 임시 구현처럼 보이게 된다.
+
+### 10.6 왜 장식보다 가독성을 우선해야 하는가
+
+- gradient, blur, shadow는 시각적 분위기를 만들지만, 텍스트 대비를 떨어뜨리면 정보 전달력이 즉시 저하된다.
+- 특히 어두운 카드 위의 낮은 opacity 텍스트, blur된 장식 레이어, 3D transform은 텍스트를 흐려 보이게 만들 수 있다.
+- 사용자는 장식을 보러 오는 것이 아니라 내용을 읽기 위해 인터페이스를 사용한다.
+- 따라서 장식은 텍스트와 정보 구조가 안정된 뒤에만 보조적으로 추가하는 것이 바람직하다.
+
+### 10.7 왜 `transform` / `opacity` 중심 애니메이션을 권장하는가
+
+- `transform`, `opacity`는 일반적으로 브라우저가 compositor 단계에서 처리하기 쉬워 성능에 유리하다.
+- 반면 `width`, `height`, `top`, `left` 변경은 layout과 paint를 유발할 가능성이 높아 비용이 커질 수 있다.
+- 따라서 hover, flip, fade 같은 효과는 가능한 한 `transform`, `opacity` 조합으로 구현하는 편이 부드럽고 안정적이다.
+
+### 10.8 왜 3D transform에는 별도 주의가 필요한가
+
+- `rotateY`, `preserve-3d`, `backface-visibility` 같은 3D 효과는 시각적으로 강력하지만, 브라우저 합성 과정에서 텍스트가 상대적으로 흐려질 수 있다.
+- 뒷면 카드가 앞면보다 덜 선명해 보이는 현상은 흔한 합성 레이어 문제다.
+- 따라서 flip UI는 feature마다 제각각 구현하지 말고 공용 primitive로 추상화해, 보정(`translateZ`, 대비 조정, blur 약화`)을 한곳에서 관리하는 것이 좋다.
+
+### 10.9 왜 "문제 원인 확인 없이 class를 누적하지 말라"는 규칙이 필요한가
+
+- 스타일 버그는 자주 "증상"과 "원인"이 다르다.
+- 예를 들어 화면이 좁아 보이는 증상은 카드 자체 문제가 아니라 부모 width, max-width, justify-center 조합 때문일 수 있다.
+- 이런 상황에서 class를 계속 추가하면 우연히 맞아보여도, 다른 화면 크기나 다른 콘텐츠에서 다시 깨진다.
+- 따라서 디버깅은 항상 부모 → 자식 → 흐름 → 정렬 → overflow 순서로 보는 것이 안정적이다.
+
+### 10.10 왜 shared/ui에 공용 스타일 primitive를 두는가
+
+- 반복되는 카드, 버튼, dialog, flip 구조를 feature마다 다시 만들면 시각적 일관성이 무너진다.
+- 공용 primitive는 단순 재사용 이상의 의미가 있다.
+- 이는 프로젝트의 스타일 결정과 렌더링 품질을 한 곳에 모으는 역할을 한다.
+- 결과적으로 feature 레이어는 도메인 콘텐츠에 집중하고, 시각적 구조와 동작은 shared/ui가 책임지는 편이 유지보수에 유리하다.
+
+## 11. 참고 자료
+
+아래 문서는 위 스타일 정책의 근거를 학습하기 위한 공식 자료다.
+
+### 11.1 CSS / 레이아웃 기초
+
+- MDN Responsive Web Design  
+  https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design
+- web.dev Responsive Web Design Basics  
+  https://web.dev/articles/responsive-web-design-basics
+- MDN backface-visibility  
+  https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility
+
+### 11.2 Tailwind 공식 문서
+
+- Tailwind Responsive Design  
+  https://tailwindcss.com/docs/breakpoints
+- Tailwind Container / Max Width  
+  https://tailwindcss.com/docs/container
+- Tailwind Box Sizing  
+  https://tailwindcss.com/docs/box-sizing
+- Tailwind Preflight  
+  https://tailwindcss.com/docs/preflight
+
+### 11.3 학습 포인트
+
+- 레이아웃은 정렬보다 width와 normal flow를 먼저 본다
+- 반응형은 desktop 축소보다 mobile-first 확장으로 이해한다
+- Tailwind는 CSS 원리를 빠르게 표현하는 도구로 사용한다
+- 3D transform은 시각 효과뿐 아니라 렌더링 품질 이슈도 함께 확인한다
+- components.meta.json = 지식 베이스

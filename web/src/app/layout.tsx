@@ -16,7 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}, bg-white pt-10`}>
+      <body
+        className={`${inter.className} bg-white pt-10 px-2 flex flex-col items-center`}
+      >
         <Profile
           name={"윤영헌"}
           job={"🖥️ developer"}
