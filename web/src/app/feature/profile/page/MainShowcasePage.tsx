@@ -5,16 +5,19 @@ import { ArticleList } from "../ui/ArticleList";
 import Link from "next/link";
 import Button from "@/app/shared/ui/atom/button";
 import { MainPageType } from "@/app/utils/contants";
-import ChatUI from "../../play-ground/chat/ui/ChatUI";
 import PlayGround from "../../play-ground/ui/PlayGround";
 
-export interface ProfilePageProps {
+export interface MainShowcasePageProps {
   projects: Project[];
   articles: Article[];
   type: string;
 }
 
-export function ProfilePage({ projects, articles, type }: ProfilePageProps) {
+export function MainShowcasePage({
+  projects,
+  articles,
+  type,
+}: MainShowcasePageProps) {
   const categories = [
     MainPageType.PROJECT,
     MainPageType.ARTICLE,
@@ -22,7 +25,7 @@ export function ProfilePage({ projects, articles, type }: ProfilePageProps) {
   ] as const;
 
   const playGrounTypes = [
-    { type: "SSE", path: "?type=PLAY_GROUND&" },
+    { type: "SSE", path: "?type=PLAY_GROUND" },
     { type: "WEB RTC", path: "?type=PLAY_GROUND" },
     { type: "CSS ONLY", path: "?type=PLAY_GROUND" },
   ];

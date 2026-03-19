@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import type { Article } from "@/app/feature/article/business/article.domain";
 import type { Project } from "@/app/feature/project/business/project.domain";
-import { ProfilePage, type ProfilePageProps } from "./ProfilePage";
+import {
+  MainShowcasePage,
+  type MainShowcasePageProps,
+} from "./MainShowcasePage";
 import { MainPageType } from "@/app/utils/contants";
 
 const sampleProjects: Project[] = [
@@ -70,9 +73,9 @@ const sampleArticles: Article[] = [
   },
 ];
 
-const meta: Meta<typeof ProfilePage> = {
-  title: "Feature/profile/ProfilePage",
-  component: ProfilePage,
+const meta: Meta<typeof MainShowcasePage> = {
+  title: "Feature/profile/MainShowcasePage",
+  component: MainShowcasePage,
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
@@ -106,16 +109,16 @@ const meta: Meta<typeof ProfilePage> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ProfilePage>;
+type Story = StoryObj<typeof MainShowcasePage>;
 
-const renderProfilePage = (args: ProfilePageProps) => (
+const renderMainShowcasePage = (args: MainShowcasePageProps) => (
   <div className="w-[360px] max-w-full lg:w-[1200px]">
-    <ProfilePage {...args} />
+    <MainShowcasePage {...args} />
   </div>
 );
 
 export const Default: Story = {
-  render: renderProfilePage,
+  render: renderMainShowcasePage,
 };
 
 export const EmptyFeed: Story = {
