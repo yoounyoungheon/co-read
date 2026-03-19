@@ -24,6 +24,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           transition
           hover:-translate-y-[1px]
           hover:shadow-md
+          h-full
         "
       >
         <div className="flex min-h-[72px] flex-col gap-2">
