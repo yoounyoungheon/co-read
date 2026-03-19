@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { Project } from "@/app/business/project/project.domain";
+import { Project } from "@/app/feature/project/business/project.domain";
 import { FeedGrid } from "./FeedGrid";
 
 const createPlaceholderImage = (label: string, fill: string) =>

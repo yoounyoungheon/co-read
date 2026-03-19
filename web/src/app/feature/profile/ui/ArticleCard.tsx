@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Article } from "@/app/business/article/article.domain";
+import type { Article } from "@/app/feature/article/business/article.domain";
 import { Card } from "@/app/shared/ui/molecule/card";
 
 export interface ArticleCardProps {
@@ -24,6 +24,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           transition
           hover:-translate-y-[1px]
           hover:shadow-md
+          h-full
         "
       >
         <div className="flex min-h-[72px] flex-col gap-2">

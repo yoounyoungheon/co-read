@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
+const bubbleDecorations = [
+  { left: "8%", size: "56px", delay: "0s", duration: "13s" },
+  { left: "24%", size: "22px", delay: "-3s", duration: "11s" },
+  { left: "38%", size: "72px", delay: "-6s", duration: "16s" },
+  { left: "54%", size: "34px", delay: "-2s", duration: "12s" },
+  { left: "69%", size: "64px", delay: "-8s", duration: "15s" },
+  { left: "82%", size: "28px", delay: "-5s", duration: "10s" },
+];
+
 interface FeedBackCardProps {
   projectName: string;
   id: string;
@@ -16,6 +25,25 @@ export function FeedBackCard({
 }: FeedBackCardProps) {
   return (
     <div className="relative flex h-full flex-col justify-between overflow-hidden p-5">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_32%),linear-gradient(180deg,_rgba(255,255,255,0.02),_rgba(255,255,255,0))]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/35 to-transparent" />
+      <div className="pointer-events-none absolute inset-0">
+        {bubbleDecorations.map((bubble, index) => (
+          <span
+            key={`${bubble.left}-${index}`}
+            className="absolute bottom-[-18%] rounded-full border border-white/25 bg-white/8 shadow-[inset_0_1px_10px_rgba(255,255,255,0.18)] backdrop-blur-[1px] animate-profile-bubble-float"
+            style={{
+              left: bubble.left,
+              width: bubble.size,
+              height: bubble.size,
+              animationDelay: bubble.delay,
+              animationDuration: bubble.duration,
+            }}
+          >
+            <span className="absolute left-[18%] top-[16%] h-[18%] w-[18%] rounded-full bg-white/35 blur-[1px]" />
+          </span>
+        ))}
+      </div>
       <div className="pointer-events-none absolute -left-8 top-1/2 h-24 w-[140%] -translate-y-1/2 rotate-[-18deg] bg-gradient-to-r from-cyan-400/0 via-cyan-300/24 to-indigo-300/0" />
       <div className="pointer-events-none absolute -right-10 top-10 h-28 w-28 rounded-full bg-fuchsia-400/12 blur-0" />
 

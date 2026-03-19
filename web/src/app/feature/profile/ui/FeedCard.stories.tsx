@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type { Project } from "@/app/business/project/project.domain";
+import type { Project } from "@/app/feature/project/business/project.domain";
 import { FeedCard } from "./FeedCard";
 
 const sampleProject: Project = {

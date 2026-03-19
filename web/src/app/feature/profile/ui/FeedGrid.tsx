@@ -1,4 +1,4 @@
-import { Project } from "@/app/business/project/project.domain";
+import { Project } from "@/app/feature/project/business/project.domain";
 import { FeedCard } from "./FeedCard";
 
 interface FeedGridProps {

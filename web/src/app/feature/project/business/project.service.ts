@@ -28,7 +28,7 @@ export const loadProjectsForGuestRequest = async (): Promise<
 };
 
 export const loadProjectForGuestRequest = async (
-  id: string
+  id: string,
 ): Promise<APIResponseType<Project>> => {
   try {
     const response = await fetch(`${API_PATH}/projects/${id}.json`, {
@@ -50,7 +50,8 @@ export const loadProjectForGuestRequest = async (
       responseData.images,
       responseData.createdAt,
       responseData.updatedAt,
-      responseData.markdown
+      responseData.keyword,
+      responseData.markdown,
     );
 
     return {
