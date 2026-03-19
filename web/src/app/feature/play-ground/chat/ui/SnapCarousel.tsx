@@ -54,12 +54,6 @@ export default function SnapCarousel({ items }: { items: Item[] }) {
           </Card>
         ))}
       </div>
-
-      <Card>
-        <div className="p-3 flex justify-center items-center h-24">
-          {`${selectedItem.title}`}
-        </div>
-      </Card>
     </div>
   );
 }

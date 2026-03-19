@@ -15,8 +15,16 @@ const meta: Meta<typeof PlayGround> = {
   },
   args: {
     types: [
-      { type: "REAL TIME", path: "/play-ground/real-time" },
-      { type: "CSS ONLY", path: "/play-ground/css-only" },
+      {
+        type: "REAL TIME",
+        description: "실시간 인터랙션을 확인할 수 있는 플레이그라운드입니다.",
+        path: "/play-ground/real-time",
+      },
+      {
+        type: "CSS ONLY",
+        description: "CSS 중심의 인터랙션을 확인할 수 있는 플레이그라운드입니다.",
+        path: "/play-ground/css-only",
+      },
     ],
   },
 };
