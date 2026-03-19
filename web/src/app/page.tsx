@@ -2,15 +2,19 @@ import { loadProjectsForGuestRequest } from "./business/project/project.service"
 import { PageQueryProps } from "./utils/type";
 import { loadAllArticles } from "./business/article/article.service";
 import { ProfilePage } from "./feature/profile/page/ProfilePage";
+import { MainPageType } from "./utils/contants";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
   const type =
-    typeof searchParams.type === "string" ? searchParams.type : "project";
+    typeof searchParams.type === "string"
+      ? searchParams.type
+      : MainPageType.PROJECT;
 
   const projectResponse =
-    type === "project" ? await loadProjectsForGuestRequest() : null;
+    type === MainPageType.PROJECT ? await loadProjectsForGuestRequest() : null;
 
-  const articleResponse = type === "article" ? await loadAllArticles() : null;
+  const articleResponse =
+    type === MainPageType.ARTICLE ? await loadAllArticles() : null;
 
   return (
     <main className="flex justify-center w-full">

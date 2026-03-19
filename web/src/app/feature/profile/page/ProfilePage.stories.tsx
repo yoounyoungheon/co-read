@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import type { Article } from "@/app/business/article/article.domain";
 import type { Project } from "@/app/business/project/project.domain";
 import { ProfilePage, type ProfilePageProps } from "./ProfilePage";
+import { MainPageType } from "@/app/utils/contants";
 
 const sampleProjects: Project[] = [
   {
@@ -79,7 +80,7 @@ const meta: Meta<typeof ProfilePage> = {
   args: {
     projects: sampleProjects,
     articles: sampleArticles,
-    type: "project",
+    type: MainPageType.PROJECT,
   },
   argTypes: {
     projects: {
@@ -88,11 +89,16 @@ const meta: Meta<typeof ProfilePage> = {
     },
     articles: {
       control: "object",
-      description: "type이 article일 때 표시할 아티클 목록입니다.",
+      description:
+        "type이 article 또는 playground가 아닐 때 하단 영역에 표시할 아티클 목록입니다.",
     },
     type: {
       control: "radio",
-      options: ["project", "article"],
+      options: [
+        MainPageType.PROJECT,
+        MainPageType.ARTICLE,
+        MainPageType.PLAY_GROUND,
+      ],
       description: "현재 활성화된 프로필 하단 카테고리 타입입니다.",
     },
   },
@@ -103,7 +109,7 @@ export default meta;
 type Story = StoryObj<typeof ProfilePage>;
 
 const renderProfilePage = (args: ProfilePageProps) => (
-  <div className="w-full">
+  <div className="w-[360px] max-w-full lg:w-[1200px]">
     <ProfilePage {...args} />
   </div>
 );
@@ -122,7 +128,14 @@ export const EmptyFeed: Story = {
 
 export const ArticleTab: Story = {
   args: {
-    type: "article",
+    type: MainPageType.ARTICLE,
+  },
+  render: Default.render,
+};
+
+export const PlayGroundTab: Story = {
+  args: {
+    type: MainPageType.PLAY_GROUND,
   },
   render: Default.render,
 };
@@ -164,7 +177,15 @@ export const ManyProjects: Story = {
 
 export const EmptyArticles: Story = {
   args: {
-    type: "article",
+    type: MainPageType.ARTICLE,
+    articles: [],
+  },
+  render: Default.render,
+};
+
+export const EmptyPlayGround: Story = {
+  args: {
+    type: MainPageType.PLAY_GROUND,
     articles: [],
   },
   render: Default.render,
