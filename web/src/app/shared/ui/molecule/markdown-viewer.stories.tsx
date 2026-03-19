@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import MarkdownViewer from "./markdown-viewer";
-import markdownExample from "../../../../../docs/markdown-viewer.md?raw";
+import markdownExample from "../../../../../../docs/markdown-viewer.md?raw";
 
 const architectureExcerpt = markdownExample
   .split("## 권장 아키텍처")[1]
