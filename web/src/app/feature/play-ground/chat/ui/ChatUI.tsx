@@ -1,6 +1,5 @@
 "use client";
 
-import uuid from "react-uuid";
 import { WineRecommendView } from "./WineRecommendView";
 import { ChatProvider } from "../business/context/chat.context";
 import { useChat } from "../business/hook/useChat";
@@ -57,3 +56,6 @@ const ChatUI = () => {
 };
 
 export default ChatUI;
+function uuid(): string {
+  throw new Error("Function not implemented.");
+}
