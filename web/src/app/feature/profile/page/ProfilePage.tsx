@@ -5,6 +5,7 @@ import { ArticleList } from "../ui/ArticleList";
 import Link from "next/link";
 import Button from "@/app/shared/ui/atom/button";
 import { MainPageType } from "@/app/utils/contants";
+import ChatUI from "../../play-ground/chat/ui/ChatUI";
 
 export interface ProfilePageProps {
   projects: Project[];
@@ -58,8 +59,10 @@ export function ProfilePage({ projects, articles, type }: ProfilePageProps) {
       <div className="flex w-full justify-center">
         {type === MainPageType.PROJECT ? (
           <FeedGrid projects={projects} />
-        ) : (
+        ) : type === MainPageType.ARTICLE ? (
           <ArticleList articles={articles} />
+        ) : (
+          <></>
         )}
       </div>
     </section>
