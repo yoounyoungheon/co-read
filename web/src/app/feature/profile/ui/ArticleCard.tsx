@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Article } from "@/app/business/article/article.domain";
+import type { Article } from "@/app/feature/article/business/article.domain";
 import { Card } from "@/app/shared/ui/molecule/card";
 
 export interface ArticleCardProps {

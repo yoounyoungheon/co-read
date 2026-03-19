@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type { Article } from "@/app/business/article/article.domain";
+import type { Article } from "@/app/feature/article/business/article.domain";
 import { ArticleList } from "./ArticleList";
 
 const sampleArticles: Article[] = [

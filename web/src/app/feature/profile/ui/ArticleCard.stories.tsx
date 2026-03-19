@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type { Article } from "@/app/business/article/article.domain";
+import type { Article } from "@/app/feature/article/business/article.domain";
 import { ArticleCard } from "./ArticleCard";
 
 const sampleArticle: Article = {
@@ -50,4 +50,3 @@ export const LongTitle: Story = {
   },
   render: Default.render,
 };
-

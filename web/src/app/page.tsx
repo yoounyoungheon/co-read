@@ -1,6 +1,6 @@
-import { loadProjectsForGuestRequest } from "./business/project/project.service";
+import { loadProjectsForGuestRequest } from "./feature/project/business/project.service";
 import { PageQueryProps } from "./utils/type";
-import { loadAllArticles } from "./business/article/article.service";
+import { loadAllArticles } from "./feature/article/business/article.service";
 import { ProfilePage } from "./feature/profile/page/ProfilePage";
 import { MainPageType } from "./utils/contants";
 

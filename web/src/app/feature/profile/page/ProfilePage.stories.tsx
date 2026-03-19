@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type { Article } from "@/app/business/article/article.domain";
-import type { Project } from "@/app/business/project/project.domain";
+import type { Article } from "@/app/feature/article/business/article.domain";
+import type { Project } from "@/app/feature/project/business/project.domain";
 import { ProfilePage, type ProfilePageProps } from "./ProfilePage";
 import { MainPageType } from "@/app/utils/contants";
 

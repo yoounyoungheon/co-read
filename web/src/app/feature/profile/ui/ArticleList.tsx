@@ -1,4 +1,4 @@
-import type { Article } from "@/app/business/article/article.domain";
+import type { Article } from "@/app/feature/article/business/article.domain";
 import { ArticleCard } from "./ArticleCard";
 
 export interface ArticleListProps {

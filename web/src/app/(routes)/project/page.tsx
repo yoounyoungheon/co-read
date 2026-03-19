@@ -1,4 +1,4 @@
-import { loadProjectForGuestRequest } from "@/app/business/project/project.service";
+import { loadProjectForGuestRequest } from "@/app/feature/project/business/project.service";
 import { ProjectImageList } from "@/app/feature/project/ui/ProjectImageList";
 import { ProjectReview } from "@/app/feature/project/ui/ProjectReview";
 import { PageQueryProps } from "@/app/utils/type";

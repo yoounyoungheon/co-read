@@ -1,4 +1,4 @@
-import type { Project } from "@/app/business/project/project.domain";
+import type { Project } from "@/app/feature/project/business/project.domain";
 import { FlipCard } from "@/app/shared/ui/molecule/flip-card";
 import { FeedBackCard } from "./FeedBackCard";
 import { FeedFrontCard } from "./FeedFrontCard";
