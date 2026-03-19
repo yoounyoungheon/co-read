@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/app/shared/ui/atom/button";
 import { MainPageType } from "@/app/utils/contants";
 import ChatUI from "../../play-ground/chat/ui/ChatUI";
+import PlayGround from "../../play-ground/ui/PlayGround";
 
 export interface ProfilePageProps {
   projects: Project[];
@@ -19,6 +20,12 @@ export function ProfilePage({ projects, articles, type }: ProfilePageProps) {
     MainPageType.ARTICLE,
     MainPageType.PLAY_GROUND,
   ] as const;
+
+  const playGrounTypes = [
+    { type: "SSE", path: "?type=PLAY_GROUND&" },
+    { type: "WEB RTC", path: "?type=PLAY_GROUND" },
+    { type: "CSS ONLY", path: "?type=PLAY_GROUND" },
+  ];
 
   const renderCategoryButtonText = (category: string) => {
     switch (category) {
@@ -62,7 +69,7 @@ export function ProfilePage({ projects, articles, type }: ProfilePageProps) {
         ) : type === MainPageType.ARTICLE ? (
           <ArticleList articles={articles} />
         ) : (
-          <></>
+          <PlayGround types={playGrounTypes} />
         )}
       </div>
     </section>
