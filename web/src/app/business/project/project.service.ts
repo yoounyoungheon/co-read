@@ -50,6 +50,7 @@ export const loadProjectForGuestRequest = async (
       responseData.images,
       responseData.createdAt,
       responseData.updatedAt,
+      responseData.keyword,
       responseData.markdown,
     );
 
