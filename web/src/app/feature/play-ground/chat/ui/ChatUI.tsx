@@ -57,5 +57,9 @@ const ChatUI = () => {
 
 export default ChatUI;
 function uuid(): string {
-  throw new Error("Function not implemented.");
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+
+  return `chat-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 }

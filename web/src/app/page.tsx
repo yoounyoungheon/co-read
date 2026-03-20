@@ -1,7 +1,7 @@
 import { loadProjectsForGuestRequest } from "./feature/project/business/project.service";
 import { PageQueryProps } from "./utils/type";
 import { loadAllArticles } from "./feature/article/business/article.service";
-import { ProfilePage } from "./feature/profile/page/ProfilePage";
+import { MainShowcasePage } from "./feature/profile/page/MainShowcasePage";
 import { MainPageType } from "./utils/contants";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
@@ -18,7 +18,7 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
 
   return (
     <main className="flex justify-center w-full">
-      <ProfilePage
+      <MainShowcasePage
         projects={projectResponse?.data || []}
         articles={articleResponse?.data || []}
         type={type}

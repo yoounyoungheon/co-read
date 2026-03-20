@@ -19,7 +19,11 @@ export function ProjectReview({ markdown }: ProjectReviewProps) {
           [&::-webkit-scrollbar]:hidden
         "
       >
-        <MarkdownViewer markdown={markdown} className="max-w-none" />
+        <MarkdownViewer
+          markdown={markdown}
+          variant="notion"
+          className="max-w-none"
+        />
       </div>
     </Card>
   );

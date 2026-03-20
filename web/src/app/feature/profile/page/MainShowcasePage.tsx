@@ -5,19 +5,57 @@ import { ArticleList } from "../ui/ArticleList";
 import Link from "next/link";
 import Button from "@/app/shared/ui/atom/button";
 import { MainPageType } from "@/app/utils/contants";
+import PlayGround from "../../play-ground/ui/PlayGround";
 
-export interface ProfilePageProps {
+export interface MainShowcasePageProps {
   projects: Project[];
   articles: Article[];
   type: string;
 }
 
-export function ProfilePage({ projects, articles, type }: ProfilePageProps) {
+export function MainShowcasePage({
+  projects,
+  articles,
+  type,
+}: MainShowcasePageProps) {
   const categories = [
     MainPageType.PROJECT,
     MainPageType.ARTICLE,
     MainPageType.PLAY_GROUND,
   ] as const;
+
+  const playGrounTypes = [
+    {
+      type: "AI Chat Streaming",
+      description:
+        "AI가 응답하는 스트리밍 데이터를 채팅 UI로 구현한 플레이그라운드입니다.",
+      path: "/play-ground?type=AI_CHAT_STREAMING",
+    },
+    {
+      type: "Log Streaming",
+      description:
+        "로그성 데이터의 실시간 스트리밍을 제공하는 플레이그라운드입니다.",
+      path: "/play-ground?type=LOG_STREAMING",
+    },
+    {
+      type: "Toast Streaming",
+      description:
+        "토스트 메시지의 실시간 스트리밍을 제공하는 플레이그라운드입니다.",
+      path: "/play-ground?type=TOAST_STREAMING",
+    },
+    {
+      type: "WEB RTC",
+      description:
+        "WEB RTC를 활용한 실시간 통신을 제공하는 플레이그라운드입니다.",
+      path: "/play-ground?type=WEB_RTC",
+    },
+    {
+      type: "CSS ONLY",
+      description:
+        "JS없이 상태가 존재하는 컴포넌트 예시를 제공하는 플레이그라운드입니다.",
+      path: "/play-ground?type=CSS_ONLY",
+    },
+  ];
 
   const renderCategoryButtonText = (category: string) => {
     switch (category) {
@@ -58,8 +96,10 @@ export function ProfilePage({ projects, articles, type }: ProfilePageProps) {
       <div className="flex w-full justify-center">
         {type === MainPageType.PROJECT ? (
           <FeedGrid projects={projects} />
-        ) : (
+        ) : type === MainPageType.ARTICLE ? (
           <ArticleList articles={articles} />
+        ) : (
+          <PlayGround types={playGrounTypes} />
         )}
       </div>
     </section>
