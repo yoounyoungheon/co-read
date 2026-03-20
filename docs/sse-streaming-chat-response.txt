@@ -1,0 +1,162 @@
+HTTP/1.1 200 OK
+vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch
+cache-control: no-cache, no-transform
+connection: keep-alive
+content-type: text/event-stream; charset=utf-8
+x-accel-buffering: no
+Date: Fri, 20 Mar 2026 12:21:52 GMT
+Transfer-Encoding: chunked
+
+event: prepare
+data: stream 연결을 시작합니다.
+
+event: prepare
+data: 추천 데이터를 준비하고 있습니다.
+
+event: prepare
+data: 첫 번째 추천 카드를 불러오는 중입니다.
+
+event: prepare
+data: 추천 설명을 순차적으로 전송합니다.
+
+event: prepare
+data: 곧 상세 이벤트가 시작됩니다.
+
+event: title
+data: 이 음식
+
+event: title
+data: 에는 이
+
+event: title
+data: 런 와인
+
+event: title
+data: 이 잘
+
+event: title
+data:  어울
+
+event: title
+data: 려요!
+
+event: sub-title
+data: 와인 종류
+
+event: sub-title
+data: 를 눌러보
+
+event: sub-title
+data: 면 추천 
+
+event: sub-title
+data: 메뉴를 
+
+event: sub-title
+data: 볼 수 
+
+event: sub-title
+data: 있어요.
+
+event: image
+data: /sample/carrot1.png
+
+event: description
+data: 소비뇨 블랑은 보통 산도 높
+
+event: description
+data: 고 허브, 시트러스, 풀향이
+
+event: description
+data:  있어서 가볍고 신선한 음식
+
+event: description
+data:  이랑 잘 맞습니다.  잘 
+
+event: description
+data: 어울리는 대표 조합:  - 
+
+event: description
+data: 해산물: 굴, 조개, 새우,
+
+event: description
+data:  흰살생선 - 샐러드: 허브
+
+event: description
+data:  들어간 그린샐러드, 시트러
+
+event: description
+data: 스 드레싱 샐러드 - 염소치
+
+event: description
+data: 즈: 특히 아주 잘 맞는 편
+
+event: description
+data:  - 닭고기 요리: 레몬이나
+
+event: description
+data:  허브를 곁들인 구운 닭 -
+
+event: description
+data:  아스파라거스, 완두, 허브
+
+event: description
+data:  채소 요리 - 스시,세비
+
+event: description
+data: 체 같은 깔끔한 생선 요리
+
+event: next
+data: 
+
+event: image
+data: /sample/carrot4.jpeg
+
+event: description
+data: 소비뇨 블랑은 보통 산도 높
+
+event: description
+data: 고 허브, 시트러스, 풀향이
+
+event: description
+data:  있어서 가볍고 신선한 음식
+
+event: description
+data:  이랑 잘 맞습니다.  잘 
+
+event: description
+data: 어울리는 대표 조합:  - 
+
+event: description
+data: 해산물: 굴, 조개, 새우,
+
+event: description
+data:  흰살생선 - 샐러드: 허브
+
+event: description
+data:  들어간 그린샐러드, 시트러
+
+event: description
+data: 스 드레싱 샐러드 - 염소치
+
+event: description
+data: 즈: 특히 아주 잘 맞는 편
+
+event: description
+data:  - 닭고기 요리: 레몬이나
+
+event: description
+data:  허브를 곁들인 구운 닭 -
+
+event: description
+data:  아스파라거스, 완두, 허브
+
+event: description
+data:  채소 요리 - 스시,세비
+
+event: description
+data: 체 같은 깔끔한 생선 요리
+
+event: false
+data: 
+
