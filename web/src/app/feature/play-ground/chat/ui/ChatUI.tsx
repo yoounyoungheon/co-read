@@ -55,17 +55,15 @@ const createEmptyRecommendation = (rank: number): PairingRecommendation => ({
 const isRecommendationComplete = (recommendation?: PairingRecommendation) =>
   Boolean(
     recommendation &&
-    recommendation.title.trim() &&
-    recommendation.comment.trim() &&
-    recommendation.reason.trim(),
+      recommendation.title.trim() &&
+      recommendation.comment.trim() &&
+      recommendation.reason.trim(),
   );
 
 const PairingCardsPanel = ({
   pairingList,
-  chatAnswer,
 }: {
   pairingList: PairingRecommendation[];
-  chatAnswer: string;
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -117,30 +115,22 @@ const PairingCardsPanel = ({
   }, [visiblePairingList.length]);
 
   return (
-    <section className="mt-3 flex flex-col gap-3">
-      {chatAnswer && (
-        <div className="rounded-2xl border border-mysom-secondary px-4 py-3 text-sm leading-6 text-slate-700 shadow">
-          {chatAnswer}
-        </div>
-      )}
-
-      <div className="overflow-visible">
-        <div
-          ref={scrollContainerRef}
-          className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          <div className="flex min-w-max gap-4 px-8 py-8">
-            {visiblePairingList.map((pairing) => (
-              <WineRecommendCard
-                key={pairing.rank}
-                image="/carrot4.jpeg"
-                rank={pairing.rank}
-                title={pairing.title}
-                reason={pairing.reason}
-                comment={pairing.comment}
-              />
-            ))}
-          </div>
+    <section className="mt-3 overflow-visible">
+      <div
+        ref={scrollContainerRef}
+        className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <div className="flex min-w-max gap-4 px-8 py-8">
+          {visiblePairingList.map((pairing) => (
+            <WineRecommendCard
+              key={pairing.rank}
+              image="/carrot4.jpeg"
+              rank={pairing.rank}
+              title={pairing.title}
+              reason={pairing.reason}
+              comment={pairing.comment}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -151,19 +141,13 @@ const RenderChatUI = () => {
   const { chattingRoom, sendMessage, receiveMessage, updateChat } = useChat();
   const { open, close } = useSSE();
   const activeChatIdRef = useRef<string | null>(null);
-  const pairingListRef = useRef<PairingRecommendation[]>([]);
   const chatAnswerRef = useRef("");
+  const pairingListRef = useRef<PairingRecommendation[]>([]);
   const [streamVersion, setStreamVersion] = useState(0);
-  const [pairingList, setPairingList] = useState<PairingRecommendation[]>([]);
-  const [chatAnswer, setChatAnswer] = useState("");
 
-  useEffect(() => {
-    pairingListRef.current = pairingList;
-  }, [pairingList]);
-
-  useEffect(() => {
-    chatAnswerRef.current = chatAnswer;
-  }, [chatAnswer]);
+  const buildInfoPanel = () => (
+    <PairingCardsPanel pairingList={pairingListRef.current} />
+  );
 
   useEffect(() => {
     if (!activeChatIdRef.current || streamVersion === 0) {
@@ -185,16 +169,37 @@ const RenderChatUI = () => {
           }
 
           if (payload.type === "CHAT") {
-            setChatAnswer((prev) => prev + payload.data.content);
+            chatAnswerRef.current += payload.data.content;
+            updateChat({
+              chatId,
+              message: payload.data.content,
+              isloading: false,
+              infoPanel: buildInfoPanel(),
+              stream: true,
+            });
             return;
           }
 
           if (payload.type === "START") {
-            setChatAnswer((prev) => prev + payload.data.message);
+            chatAnswerRef.current += payload.data.message;
+            updateChat({
+              chatId,
+              message: payload.data.message,
+              isloading: false,
+              infoPanel: buildInfoPanel(),
+              stream: true,
+            });
             return;
           }
 
           if (payload.type === "FINISH") {
+            updateChat({
+              chatId,
+              message: "",
+              isloading: false,
+              infoPanel: buildInfoPanel(),
+              stream: true,
+            });
             close();
             return;
           }
@@ -203,38 +208,40 @@ const RenderChatUI = () => {
             return;
           }
 
-          const nextChunk = payload.data;
+          const pairingByRank = new Map(
+            pairingListRef.current.map((item) => [item.rank, item]),
+          );
+          const currentRecommendation =
+            pairingByRank.get(payload.data.rank) ??
+            createEmptyRecommendation(payload.data.rank);
 
-          setPairingList((prev) => {
-            const pairingByRank = new Map(
-              prev.map((item) => [item.rank, item]),
-            );
-            const currentRecommendation =
-              pairingByRank.get(nextChunk.rank) ??
-              createEmptyRecommendation(nextChunk.rank);
-
-            const nextRecommendation =
-              nextChunk.type === "TITLE"
+          const nextRecommendation =
+            payload.data.type === "TITLE"
+              ? {
+                  ...currentRecommendation,
+                  title: currentRecommendation.title + payload.data.content,
+                }
+              : payload.data.type === "COMMENT"
                 ? {
                     ...currentRecommendation,
-                    title: currentRecommendation.title + nextChunk.content,
+                    comment: currentRecommendation.comment + payload.data.content,
                   }
-                : nextChunk.type === "COMMENT"
-                  ? {
-                      ...currentRecommendation,
-                      comment:
-                        currentRecommendation.comment + nextChunk.content,
-                    }
-                  : {
-                      ...currentRecommendation,
-                      reason: currentRecommendation.reason + nextChunk.content,
-                    };
+                : {
+                    ...currentRecommendation,
+                    reason: currentRecommendation.reason + payload.data.content,
+                  };
 
-            pairingByRank.set(nextChunk.rank, nextRecommendation);
+          pairingByRank.set(payload.data.rank, nextRecommendation);
+          pairingListRef.current = Array.from(pairingByRank.values()).sort(
+            (left, right) => left.rank - right.rank,
+          );
 
-            return Array.from(pairingByRank.values()).sort(
-              (left, right) => left.rank - right.rank,
-            );
+          updateChat({
+            chatId,
+            message: "",
+            isloading: false,
+            infoPanel: buildInfoPanel(),
+            stream: true,
           });
         },
       },
@@ -242,34 +249,8 @@ const RenderChatUI = () => {
 
     return () => {
       close();
-      updateChat({
-        chatId,
-        message: "",
-        isloading: false,
-        infoPanel: (
-          <PairingCardsPanel
-            pairingList={pairingListRef.current}
-            chatAnswer={chatAnswerRef.current}
-          />
-        ),
-      });
     };
   }, [close, open, streamVersion, updateChat]);
-
-  useEffect(() => {
-    if (!activeChatIdRef.current) {
-      return;
-    }
-
-    updateChat({
-      chatId: activeChatIdRef.current,
-      message: "",
-      isloading: false,
-      infoPanel: (
-        <PairingCardsPanel pairingList={pairingList} chatAnswer={chatAnswer} />
-      ),
-    });
-  }, [chatAnswer, pairingList, updateChat]);
 
   const handleSendMessage = ({ message }: { message: string }) => {
     const userChatId = uuid();
@@ -277,15 +258,14 @@ const RenderChatUI = () => {
 
     close();
     activeChatIdRef.current = botChatId;
-    setPairingList([]);
-    setChatAnswer("");
+    chatAnswerRef.current = "";
+    pairingListRef.current = [];
 
     sendMessage({ message, chatId: userChatId });
     receiveMessage({
       chatId: botChatId,
       message: "",
       isloading: true,
-      infoPanel: <PairingCardsPanel pairingList={[]} chatAnswer="" />,
     });
 
     setStreamVersion((prev) => prev + 1);
@@ -295,7 +275,10 @@ const RenderChatUI = () => {
     <div className="flex h-full flex-col">
       <ChatLog chats={chattingRoom.chats} />
       <div className="w-full shrink-0 p-1.5">
-        <SendMessageForm onSend={handleSendMessage} />
+        <SendMessageForm
+          onSend={handleSendMessage}
+          initialMessage="오늘 기분 꿀꿀한데 와인 추천 좀 해줘.."
+        />
       </div>
     </div>
   );

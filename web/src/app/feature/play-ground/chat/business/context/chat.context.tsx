@@ -52,7 +52,7 @@ const ChatProvider = ({ children }: Props) => {
         };
       });
     },
-    []
+    [],
   );
 
   /**
@@ -62,7 +62,7 @@ const ChatProvider = ({ children }: Props) => {
     ({ chatId, message, infoPanel, copy }: SendMessage) => {
       addChat({ chatId, message, isMine: true, copy, infoPanel });
     },
-    [addChat]
+    [addChat],
   );
 
   /**
@@ -79,7 +79,7 @@ const ChatProvider = ({ children }: Props) => {
         isloading,
       });
     },
-    [addChat]
+    [addChat],
   );
 
   /**
@@ -110,7 +110,7 @@ const ChatProvider = ({ children }: Props) => {
         };
       });
     },
-    []
+    [],
   );
 
   const value: ChatProviderType = {

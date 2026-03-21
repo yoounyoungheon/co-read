@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { ChatLog } from "./ChatLog";
-import { WineRecommendView } from "./WineRecommendView";
 
 const meta: Meta<typeof ChatLog> = {
   title: "Feature/chat/ChatLog",
@@ -25,7 +24,7 @@ const meta: Meta<typeof ChatLog> = {
         message: "안녕하세요! 저는 윤영헌입니다. 개발자에요 ^_^ ~",
         time: new Date().toISOString(),
         isMine: false,
-        infoPanel: <WineRecommendView />,
+        infoPanel: <></>,
       },
     ],
   },
