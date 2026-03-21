@@ -1,76 +1,309 @@
-const encoder = new TextEncoder();
-
-const DESCRIPTION_MESSAGE = `소비뇨 블랑은 보통 산도 높고 허브, 시트러스, 풀향이 있어서 가볍고 신선한 음식
-이랑 잘 맞습니다.
-
-잘 어울리는 대표 조합:
-
-- 해산물: 굴, 조개, 새우, 흰살생선
-- 샐러드: 허브 들어간 그린샐러드, 시트러스 드레싱 샐러드
-- 염소치즈: 특히 아주 잘 맞는 편
-- 닭고기 요리: 레몬이나 허브를 곁들인 구운 닭
-- 아스파라거스, 완두, 허브 채소 요리
-- 스시,세비체 같은 깔끔한 생선 요리`;
-
-const INITIAL_MESSAGES = [
-  "stream 연결을 시작합니다.",
-  "추천 데이터를 준비하고 있습니다.",
-  "첫 번째 추천 카드를 불러오는 중입니다.",
-  "추천 설명을 순차적으로 전송합니다.",
-  "곧 상세 이벤트가 시작됩니다.",
-];
-
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const encoder = new TextEncoder();
+
+const SSE_BODY = `:heartbeat
+
+{"ok":true}:chat
+data:{"type":"PAIRING","data":{"type":"TITLE","rank":1,"content":"샤또"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"TITLE","rank":1,"content":"마고"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"샤또"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"마고는"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"풍부한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"탄닌과"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"복합적인"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"풍미를"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"가지고"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"있어"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"육즙이"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"풍부한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"스테이크와"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"잘"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"어울립니다."}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"스테이크의"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"풍미를"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"더욱"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"끌어올리고"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"입안을"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"개운하게"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"만들어주는"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"역할을"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":1,"content":"합니다."}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":1,"content":"스테이크와"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":1,"content":"훌륭한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":1,"content":"조화를"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":1,"content":"이룹니다."}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"TITLE","rank":2,"content":"샤또"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"TITLE","rank":2,"content":"마고"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"샤또"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"마고는"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"까베르네"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"소비뇽"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"베이스의"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"와인으로,"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"토마토"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"소스나"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"크림"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"소스를"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"베이스로"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"파스타와도"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"예상외의"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"좋은"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"궁합을"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"보여줄"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"수"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"있습니다."}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"특히"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"풍미가"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"강한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"파스타"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"요리와"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"함께"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"즐기면"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":2,"content":"좋습니다."}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":2,"content":"파스타와도"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":2,"content":"시도해볼"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":2,"content":"만한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":2,"content":"선택입니다."}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"TITLE","rank":3,"content":"르"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"TITLE","rank":3,"content":"아모"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"TITLE","rank":3,"content":"쇼비뇽"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"TITLE","rank":3,"content":"블랑"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"이"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"와인은"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"해산물"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"요리의"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"섬세한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"맛을"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"해치지"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"않으면서도"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"풍미를"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"더해줍니다."}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"특히"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"구운"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"생선이나"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"조개류와"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"함께하면"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"해산물의"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"단맛과"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"와인의"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"과실미가"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"어우러져"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"특별한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"경험을"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"선사할"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"REASON","rank":3,"content":"것입니다."}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":3,"content":"해산물과는"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":3,"content":"섬세한"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":3,"content":"조화를"}}
+
+:chat
+data:{"type":"PAIRING","data":{"type":"COMMENT","rank":3,"content":"이룹니다."}}
+
+:heartbeat
+
+:heartbeat
+
+:heartbeat
+`;
+
+const SSE_EVENTS = SSE_BODY.trimEnd().split("\n\n");
+
 const sleep = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms));
-
-const normalizeChunk = (value: string) => value.replace(/\n/g, " ");
-
-const toChunks = (value: string, chunkCount: number) => {
-  const chunks: string[] = [];
-  const chars = Array.from(value);
-  const baseSize = Math.floor(chars.length / chunkCount);
-  let remainder = chars.length % chunkCount;
-  let start = 0;
-
-  for (let index = 0; index < chunkCount; index += 1) {
-    const extra = remainder > 0 ? 1 : 0;
-    const size = baseSize + extra;
-    const end = start + size;
-
-    chunks.push(normalizeChunk(chars.slice(start, end).join("")));
-    start = end;
-    remainder -= extra;
-  }
-
-  return chunks.filter(Boolean);
-};
-
-const formatSSE = (data: string, event?: string) => {
-  const lines: string[] = [];
-
-  if (event) {
-    lines.push(`event: ${event}`);
-  }
-
-  const normalized = data.length > 0 ? data.split("\n") : [""];
-  for (const line of normalized) {
-    lines.push(`data: ${line}`);
-  }
-
-  return `${lines.join("\n")}\n\n`;
-};
 
 export async function GET(request: Request) {
   let closed = false;
 
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
-      const send = (data: string, event?: string) => {
+      const send = (event: string) => {
         if (closed) return;
-        controller.enqueue(encoder.encode(formatSSE(data, event)));
+        controller.enqueue(encoder.encode(`${event}\n\n`));
       };
 
       const close = () => {
@@ -92,42 +325,10 @@ export async function GET(request: Request) {
 
       void (async () => {
         try {
-          for (const message of INITIAL_MESSAGES) {
-            send(message, "prepare");
-            await sleep(200);
+          for (const event of SSE_EVENTS) {
+            send(event);
+            await sleep(20);
           }
-
-          for (const chunk of toChunks("이 음식에는 이런 와인이 잘 어울려요!", 6)) {
-            send(chunk, "title");
-            await sleep(150);
-          }
-
-          for (const chunk of toChunks(
-            "와인 종류를 눌러보면 추천 메뉴를 볼 수 있어요.",
-            6
-          )) {
-            send(chunk, "sub-title");
-            await sleep(150);
-          }
-
-          send("/sample/carrot1.png", "image");
-
-          for (const chunk of toChunks(DESCRIPTION_MESSAGE, 15)) {
-            send(chunk, "description");
-            await sleep(500);
-          }
-
-          send("", "next");
-          await sleep(150);
-
-          send("/sample/carrot4.jpeg", "image");
-
-          for (const chunk of toChunks(DESCRIPTION_MESSAGE, 15)) {
-            send(chunk, "description");
-            await sleep(500);
-          }
-
-          send("", "false");
         } finally {
           request.signal.removeEventListener("abort", abort);
           close();
