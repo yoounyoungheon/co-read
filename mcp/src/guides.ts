@@ -58,7 +58,8 @@ export type GuideReadResult = {
 const currentFilePath = fileURLToPath(import.meta.url);
 const repoRoot = path.resolve(path.dirname(currentFilePath), "..", "..");
 
-const normalizePath = (value: string) => value.replaceAll("\\", "/").toLowerCase();
+const normalizePath = (value: string) =>
+  value.replaceAll("\\", "/").toLowerCase();
 const normalizedRepoRoot = normalizePath(repoRoot);
 
 function toRepoRelativePath(value: string) {
@@ -95,10 +96,13 @@ const pathMatches = (candidatePath: string, patterns: string[]) => {
 
 const textIncludesKeyword = (text: string, keywords: string[]) => {
   const normalizedText = text.toLowerCase();
-  return keywords.some((keyword) => normalizedText.includes(keyword.toLowerCase()));
+  return keywords.some((keyword) =>
+    normalizedText.includes(keyword.toLowerCase()),
+  );
 };
 
-const toAbsoluteSourcePath = (sourcePath: string) => path.resolve(repoRoot, sourcePath);
+const toAbsoluteSourcePath = (sourcePath: string) =>
+  path.resolve(repoRoot, sourcePath);
 
 async function readGuideMarkdown(filePath: string) {
   const absolutePath = toAbsoluteSourcePath(filePath);
@@ -226,10 +230,7 @@ const guides: GuideDefinition[] = [
     summary:
       "기본값은 Server Component이며, page/layout은 서버에 유지하고 데이터 조회와 초기 렌더링 책임도 서버에 둬야 합니다.",
     triggers: {
-      paths: [
-        "web/src/app/**/page.tsx",
-        "web/src/app/**/layout.tsx",
-      ],
+      paths: ["web/src/app/**/page.tsx", "web/src/app/**/layout.tsx"],
       keywords: [
         "server component",
         "rsc",
@@ -239,10 +240,7 @@ const guides: GuideDefinition[] = [
         "initial data",
       ],
     },
-    sources: [
-      "mcp/guidance/RSC-guide.md",
-      "web/AGENTS.md",
-    ],
+    sources: ["mcp/guidance/RSC-guide.md", "web/AGENTS.md"],
     canonicalSources: ["mcp/guidance/RSC-guide.md", "web/AGENTS.md"],
     guideFiles: ["mcp/guidance/RSC-guide.md"],
     body: `# rsc-rendering
@@ -269,10 +267,7 @@ const guides: GuideDefinition[] = [
         "document",
       ],
     },
-    sources: [
-      "mcp/guidance/RCC-guide.md",
-      "web/AGENTS.md",
-    ],
+    sources: ["mcp/guidance/RCC-guide.md", "web/AGENTS.md"],
     canonicalSources: ["mcp/guidance/RCC-guide.md", "web/AGENTS.md"],
     guideFiles: ["mcp/guidance/RCC-guide.md"],
     body: `# rcc-rendering
@@ -286,10 +281,7 @@ const guides: GuideDefinition[] = [
     summary:
       "단순한 선택/열림/닫힘 상태는 React state 대신 radio, checkbox, label, peer-checked 조합으로 구현해 Server Component를 유지할 수 있습니다.",
     triggers: {
-      paths: [
-        "web/src/app/**/*.tsx",
-        "web/src/app/**/*.css",
-      ],
+      paths: ["web/src/app/**/*.tsx", "web/src/app/**/*.css"],
       keywords: [
         "css-only",
         "peer-checked",
@@ -466,10 +458,7 @@ const guides: GuideDefinition[] = [
     summary:
       "스타일은 mobile-first와 가독성 우선 원칙으로 설계하고, width/flow 관점에서 원인을 먼저 파악한 뒤 Tailwind를 적용해야 합니다.",
     triggers: {
-      paths: [
-        "web/src/app/**/*.css",
-        "web/src/app/**/*.tsx",
-      ],
+      paths: ["web/src/app/**/*.css", "web/src/app/**/*.tsx"],
       keywords: [
         "style",
         "tailwind",
@@ -483,10 +472,7 @@ const guides: GuideDefinition[] = [
         "width",
       ],
     },
-    sources: [
-      "mcp/guidance/style-guide.md",
-      "web/AGENTS.md",
-    ],
+    sources: ["mcp/guidance/style-guide.md", "web/AGENTS.md"],
     canonicalSources: ["mcp/guidance/style-guide.md", "web/AGENTS.md"],
     guideFiles: ["mcp/guidance/style-guide.md"],
     body: `# style-implementation
@@ -510,21 +496,34 @@ const scoreToPriority = (score: number): GuidePriority => {
   return "low";
 };
 
-export const resolveGuides = (task: string, targetPaths: string[]): ResolvedGuide[] => {
+export const resolveGuides = (
+  task: string,
+  targetPaths: string[],
+): ResolvedGuide[] => {
   const normalizedTask = task.trim();
-  const repoRelativeTargetPaths = targetPaths.map((targetPath) => toRepoRelativePath(targetPath));
+  const repoRelativeTargetPaths = targetPaths.map((targetPath) =>
+    toRepoRelativePath(targetPath),
+  );
 
   const matches = guides
     .map((guide) => {
       const matchedPaths = repoRelativeTargetPaths.filter((targetPath) =>
         pathMatches(targetPath, guide.triggers.paths),
       );
-      const keywordMatched = textIncludesKeyword(normalizedTask, guide.triggers.keywords);
+      const keywordMatched = textIncludesKeyword(
+        normalizedTask,
+        guide.triggers.keywords,
+      );
       const storySignal =
         guide.id === "storybook-authoring" &&
-        repoRelativeTargetPaths.some((targetPath) => targetPath.endsWith(".stories.tsx"));
+        repoRelativeTargetPaths.some((targetPath) =>
+          targetPath.endsWith(".stories.tsx"),
+        );
 
-      const score = matchedPaths.length * 4 + (keywordMatched ? 2 : 0) + (storySignal ? 2 : 0);
+      const score =
+        matchedPaths.length * 4 +
+        (keywordMatched ? 2 : 0) +
+        (storySignal ? 2 : 0);
 
       if (score === 0) {
         return null;
@@ -551,8 +550,13 @@ export const resolveGuides = (task: string, targetPaths: string[]): ResolvedGuid
         score,
       };
     })
-    .filter((value): value is ResolvedGuide & { score: number } => value !== null)
-    .sort((left, right) => right.score - left.score || left.id.localeCompare(right.id));
+    .filter(
+      (value): value is ResolvedGuide & { score: number } => value !== null,
+    )
+    .sort(
+      (left, right) =>
+        right.score - left.score || left.id.localeCompare(right.id),
+    );
 
   return matches.map(({ score: _score, ...guide }) => guide);
 };
@@ -587,7 +591,9 @@ export const readGuide = async (id: GuideId): Promise<GuideReadResult> => {
   );
 
   const canonicalSourceSet = new Set(guide.canonicalSources);
-  const canonicalSources = sources.filter((source) => canonicalSourceSet.has(source.path));
+  const canonicalSources = sources.filter((source) =>
+    canonicalSourceSet.has(source.path),
+  );
   const guideMarkdownSections = await Promise.all(
     (guide.guideFiles ?? []).map(async (filePath) => ({
       filePath,
@@ -596,21 +602,29 @@ export const readGuide = async (id: GuideId): Promise<GuideReadResult> => {
   );
   const appendedGuideMarkdown = guideMarkdownSections
     .filter((section) => section.content.trim().length > 0)
-    .map((section) => `## 원문 가이드: \`${section.filePath}\`\n\n${section.content.trim()}`)
+    .map(
+      (section) =>
+        `## 원문 가이드: \`${section.filePath}\`\n\n${section.content.trim()}`,
+    )
     .join("\n\n---\n\n");
 
   const existingCanonicalSources = canonicalSources.filter(
     (source) => source.lastModified !== null,
   );
   const mostRecentSource = existingCanonicalSources.sort((left, right) => {
-    return new Date(right.lastModified as string).getTime() - new Date(left.lastModified as string).getTime();
+    return (
+      new Date(right.lastModified as string).getTime() -
+      new Date(left.lastModified as string).getTime()
+    );
   })[0];
 
   return {
     id: guide.id,
     title: guide.title,
     summary: guide.summary,
-    body: [guide.body.trim(), appendedGuideMarkdown].filter((part) => part.length > 0).join("\n\n---\n\n"),
+    body: [guide.body.trim(), appendedGuideMarkdown]
+      .filter((part) => part.length > 0)
+      .join("\n\n---\n\n"),
     sourcePaths: guide.sources,
     canonicalSourcePaths: guide.canonicalSources,
     sources,
