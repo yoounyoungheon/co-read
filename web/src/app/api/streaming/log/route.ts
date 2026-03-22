@@ -17,7 +17,7 @@ type EndPayload = {
   message: string;
 };
 
-const STREAM_DELAY_MS = 180;
+const STREAM_DELAY_MS = 100;
 const END_EVENT_GRACE_MS = 1500;
 const END_FLUSH_INTERVAL_MS = 250;
 const RETRY_DELAY_MS = 1000 * 60 * 60;
@@ -25,19 +25,15 @@ const BUILD_STAGES: BuildStage[] = ["SCM", "BUILD", "DEPLOY"];
 
 const BUILD_LOGS: Record<BuildStage, string[]> = {
   SCM: [
-    "Started by user admin\n",
-    "Running as SYSTEM\n",
+    "Started by user admin\nRunning as SYSTEM\n",
     "Building in workspace /var/jenkins_home/workspace/my-project-pipeline\n",
-    "\n[Pipeline] Start of Pipeline\n",
-    "[Pipeline] node\n",
+    "\n[Pipeline] Start of Pipeline\n[Pipeline] node\n",
     "Running on Jenkins-Agent-1 in /var/jenkins_home/workspace/my-project-pipeline\n",
-    "\n[Pipeline] stage\n",
-    "[Pipeline] { (SCM Checkout)\n",
+    "\n[Pipeline] stage\n[Pipeline] { (SCM Checkout)\n",
     "\n[SCM] Initializing Git repository...\n",
     " > git init /var/jenkins_home/workspace/my-project-pipeline # timeout=10\n",
     "Fetching upstream changes from https://github.com/org/repo.git\n",
-    " > git --version # 'git version 2.34.1'\n",
-    " > git fetch --tags --progress origin +refs/heads/*:refs/remotes/origin/*\n",
+    " > git --version # 'git version 2.34.1'\n > git fetch --tags --progress origin +refs/heads/*:refs/remotes/origin/*\n",
     "\nChecking out Revision 8f3a9d1c6b72e0c9d2d9b2c4e6d9e5b2f4c1a8e1 (origin/main)\n",
     "\n[SCM] Cleaning workspace before checkout...\n > git reset --hard\n > git clean -fdx\n",
     "\n[SCM] Resolving submodules...\n > git submodule sync\n > git submodule update --init --recursive\n",
@@ -45,12 +41,10 @@ const BUILD_LOGS: Record<BuildStage, string[]> = {
     '\n[SCM] Applying sparse checkout rules...\n > git config core.sparseCheckout true\n > echo "apps/frontend/*" >> .git/info/sparse-checkout\n > echo "apps/backend/*" >> .git/info/sparse-checkout\n',
     "\n[SCM] Verifying commit signature...\nCommit 8f3a9d1 verified with GPG key ID 4AEE18F83AFDEB23\n",
     "\n[SCM] Running pre-checkout hook...\nExecuting scripts/pre-checkout.sh\n✔ Environment validation passed\n✔ Required secrets found\n",
-    "\n[SCM] Checkout complete\n",
-    "\n[Pipeline] }\n",
+    "\n[SCM] Checkout complete\n\n[Pipeline] }\n",
   ],
   BUILD: [
-    "[Pipeline] stage\n",
-    "[Pipeline] { (Build)\n",
+    "[Pipeline] stage\n[Pipeline] { (Build)\n",
     "\n[Build] Installing dependencies...\n",
     "\n[Build] Using Node.js v20.10.0\n",
     " > npm ci --prefer-offline --no-audit\n",
@@ -69,12 +63,10 @@ const BUILD_LOGS: Record<BuildStage, string[]> = {
     "\ninfo  - Using Next.js 14.1.0\ninfo  - Creating an optimized production build...\n\nCompiled successfully.\n",
     "\n[Build] Generating artifacts...\n > tar -czf build-artifact.tar.gz .next node_modules package.json\n\n✔ Artifact created: build-artifact.tar.gz (42MB)\n",
     "\n[Build] Uploading artifact to internal storage...\n > curl -X POST https://artifact.internal/upload \\\n   -F file=@build-artifact.tar.gz\n",
-    "\n✔ Artifact upload success (HTTP 200)\n",
-    "\n[Pipeline] }\n",
+    "\n✔ Artifact upload success (HTTP 200)\n\n[Pipeline] }\n",
   ],
   DEPLOY: [
-    "[Pipeline] stage\n",
-    "[Pipeline] { (Deploy via SSH)\n",
+    "[Pipeline] stage\n[Pipeline] { (Deploy via SSH)\n",
     "\n[Deploy] Starting SSH deployment...\n",
     "\n[Deploy] Connecting to remote server...\n",
     " > ssh -i /var/jenkins_home/.ssh/id_rsa deploy@192.168.0.12\n",
@@ -93,8 +85,7 @@ const BUILD_LOGS: Record<BuildStage, string[]> = {
     "\n✔ Containers restarted\n",
     "\n[Deploy] Running health check...\n > curl -f http://localhost:3000/health\n\n✔ Health check passed\n",
     "\n[Deploy] Cleaning old releases...\n > ls -dt /var/www/app/releases/* | tail -n +6 | xargs rm -rf\n\n✔ Old releases cleaned\n",
-    "\n[Deploy] Deployment completed successfully\n",
-    "\n[Pipeline] }\n[Pipeline] End of Pipeline\n\nFinished: SUCCESS\n",
+    "\n[Deploy] Deployment completed successfully\n\n[Pipeline] }\n[Pipeline] End of Pipeline\n\nFinished: SUCCESS\n",
   ],
 };
 
