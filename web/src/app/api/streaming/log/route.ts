@@ -18,6 +18,7 @@ type EndPayload = {
 };
 
 const STREAM_DELAY_MS = 180;
+const END_EVENT_GRACE_MS = 1500;
 const BUILD_STAGES: BuildStage[] = ["SCM", "BUILD", "DEPLOY"];
 
 const BUILD_LOGS: Record<BuildStage, string[]> = {
@@ -189,6 +190,7 @@ export async function GET(request: Request) {
           }
 
           send(toSSEEvent("end", endPayload));
+          await sleep(END_EVENT_GRACE_MS);
         } finally {
           request.signal.removeEventListener("abort", abort);
           close();
