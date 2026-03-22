@@ -19,6 +19,7 @@ type EndPayload = {
 
 const STREAM_DELAY_MS = 180;
 const END_EVENT_GRACE_MS = 1500;
+const RETRY_DELAY_MS = 1000 * 60 * 60;
 const BUILD_STAGES: BuildStage[] = ["SCM", "BUILD", "DEPLOY"];
 
 const BUILD_LOGS: Record<BuildStage, string[]> = {
@@ -120,6 +121,7 @@ const buildProgressEvents = (startStage: BuildStage) => {
 
 const toSSEEvent = (eventName: string, data: object | null) =>
   `event: ${eventName}\ndata: ${JSON.stringify(data)}\n\n`;
+const toSSERetry = (retryMs: number) => `retry: ${retryMs}\n\n`;
 
 const createEndPayload = (state: StreamState): EndPayload => {
   if (state === "error") {
@@ -179,6 +181,8 @@ export async function GET(request: Request) {
 
       void (async () => {
         try {
+          send(toSSERetry(RETRY_DELAY_MS));
+
           if (!shouldSkipStart) {
             send(toSSEEvent("start", null));
             await sleep(STREAM_DELAY_MS);
