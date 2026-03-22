@@ -1,4 +1,5 @@
 import ChatUI from "@/app/feature/play-ground/chat/ui/ChatUI";
+import BuildUI from "@/app/feature/play-ground/ui/log/BuildUI";
 import { PageQueryProps } from "@/app/utils/type";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
@@ -18,7 +19,7 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
       case "AI_CHAT_STREAMING":
         return <ChatUI />;
       case "LOG_STREAMING":
-        return <div>아티클 콘텐츠</div>;
+        return <BuildUI />;
       case "TOAST_STREAMING":
         return <div>플레이그라운드 콘텐츠</div>;
       case "WEB_RTC":
