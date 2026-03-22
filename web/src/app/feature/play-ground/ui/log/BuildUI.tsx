@@ -1,7 +1,13 @@
 "use client";
 
 import * as ReactToast from "@radix-ui/react-toast";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { SSEProvider } from "@/app/shared/sse/business/context/sseContext";
 import { useSSE } from "@/app/shared/sse/business/hook/useSSE";
 import BuildStartButton, { BuildStartType } from "./BuildStartButton";
@@ -169,7 +175,9 @@ const BuildUIContent = () => {
                 Build Pipeline Monitor
               </h2>
               <p className="whitespace-pre-line text-sm leading-6 text-slate-600">
-                {"버튼을 누르면 빌드 로그가 SSE로 스트리밍됩니다.\n현재 연결 상태:"}
+                {
+                  "버튼을 누르면 빌드 로그가 SSE로 스트리밍됩니다.\n현재 연결 상태:"
+                }
                 <span className="ml-1 font-semibold text-slate-900">
                   {sseState}
                 </span>
