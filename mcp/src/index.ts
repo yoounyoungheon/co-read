@@ -1,66 +1,71 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { listGuideIds, readGuide, resolveGuides } from "./guides.js";
 
 const server = new McpServer({
-  name: "co-read-local-mcp",
+  name: "frontend-guidance-mcp",
   version: "0.1.0",
 });
 
 server.registerTool(
-  "ping",
+  "resolve_guides",
   {
-    title: "Ping",
-    description: "MCP 서버가 정상 동작 중인지 확인합니다.",
-    inputSchema: {},
-  },
-  async () => ({
-    content: [{ type: "text", text: "pong" }],
-  }),
-);
-
-server.registerTool(
-  "echo",
-  {
-    title: "Echo",
-    description: "입력한 문자열을 그대로 반환합니다.",
+    title: "Resolve Guides",
+    description:
+      "작업 설명과 수정 경로를 바탕으로 지금 읽어야 할 프론트엔드 가이드를 우선순위와 함께 반환합니다.",
     inputSchema: {
-      message: z.string().min(1).describe("반환할 메시지"),
-    },
-  },
-  async ({ message }) => ({
-    content: [{ type: "text", text: message }],
-  }),
-);
-
-server.registerTool(
-  "get_current_time",
-  {
-    title: "Current Time",
-    description: "현재 로컬 시간을 ISO 문자열로 반환합니다.",
-    inputSchema: {
-      timezone: z
+      task: z
         .string()
-        .optional()
-        .describe("예: Asia/Seoul. 비어 있으면 시스템 기본 시간대를 사용합니다."),
+        .min(1)
+        .describe("사용자 작업 설명 또는 현재 하려는 작업 요약"),
+      targetPaths: z
+        .array(z.string().min(1))
+        .default([])
+        .describe("현재 수정하려는 경로 목록"),
     },
   },
-  async ({ timezone }) => {
-    const date = new Date();
-
-    const formatted = timezone
-      ? new Intl.DateTimeFormat("ko-KR", {
-          dateStyle: "full",
-          timeStyle: "long",
-          timeZone: timezone,
-        }).format(date)
-      : date.toString();
+  async ({ task, targetPaths }) => {
+    const guides = resolveGuides(task, targetPaths);
 
     return {
       content: [
         {
           type: "text",
-          text: formatted,
+          text: JSON.stringify(
+            {
+              guides,
+              availableGuideIds: listGuideIds(),
+            },
+            null,
+            2,
+          ),
+        },
+      ],
+    };
+  },
+);
+
+server.registerTool(
+  "read_guide",
+  {
+    title: "Read Guide",
+    description:
+      "선택한 guide id의 본문, source path 목록, source 존재 여부, 마지막 갱신 기준을 반환합니다.",
+    inputSchema: {
+      id: z
+        .enum(listGuideIds() as [string, ...string[]])
+        .describe("읽을 guide id"),
+    },
+  },
+  async ({ id }) => {
+    const guide = await readGuide(id as Parameters<typeof readGuide>[0]);
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(guide, null, 2),
         },
       ],
     };

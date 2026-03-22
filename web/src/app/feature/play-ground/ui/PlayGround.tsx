@@ -21,7 +21,7 @@ export function PlayGround({ types }: PlayGroundProps) {
         defaultChecked
       />
 
-      <div className="w-full h-full max-w-[1000px] flex flex-cols gap-5 items-center justify-center px-1">
+      <div className="w-full h-full max-w-[1000px] flex flex-col gap-5 items-start justify-center px-1 md:flex-row md:items-center">
         {types.map(({ type, path, description }, index) => {
           const itemId = `play-ground-${index}`;
           const itemKey = `${type}-${path}-${index}`;
