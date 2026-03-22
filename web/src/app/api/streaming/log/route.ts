@@ -19,6 +19,7 @@ type EndPayload = {
 
 const STREAM_DELAY_MS = 180;
 const END_EVENT_GRACE_MS = 1500;
+const END_FLUSH_INTERVAL_MS = 250;
 const RETRY_DELAY_MS = 1000 * 60 * 60;
 const BUILD_STAGES: BuildStage[] = ["SCM", "BUILD", "DEPLOY"];
 
@@ -122,6 +123,7 @@ const buildProgressEvents = (startStage: BuildStage) => {
 const toSSEEvent = (eventName: string, data: object | null) =>
   `event: ${eventName}\ndata: ${JSON.stringify(data)}\n\n`;
 const toSSERetry = (retryMs: number) => `retry: ${retryMs}\n\n`;
+const toSSEComment = (comment: string) => `:${comment}\n\n`;
 
 const createEndPayload = (state: StreamState): EndPayload => {
   if (state === "error") {
@@ -194,7 +196,16 @@ export async function GET(request: Request) {
           }
 
           send(toSSEEvent("end", endPayload));
-          await sleep(END_EVENT_GRACE_MS);
+
+          const flushCount = Math.max(
+            1,
+            Math.floor(END_EVENT_GRACE_MS / END_FLUSH_INTERVAL_MS),
+          );
+
+          for (let index = 0; index < flushCount; index += 1) {
+            await sleep(END_FLUSH_INTERVAL_MS);
+            send(toSSEComment("end-flush"));
+          }
         } finally {
           request.signal.removeEventListener("abort", abort);
           close();
