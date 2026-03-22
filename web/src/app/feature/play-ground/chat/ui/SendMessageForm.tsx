@@ -7,13 +7,15 @@ import { ActionButton, SendButton } from "./SendMessageForm.part";
 type SendMessageFormProps = {
   onSend: (payload: { message: string }) => void;
   placeholder?: string;
+  initialMessage?: string;
 };
 
 export const SendMessageForm = ({
   onSend,
   placeholder = "메시지를 입력하세요...",
+  initialMessage = "",
 }: SendMessageFormProps) => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(initialMessage);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const MAX_ROWS = 6;
 
