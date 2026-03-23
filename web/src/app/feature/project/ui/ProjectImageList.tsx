@@ -19,9 +19,15 @@ export function ProjectImageList({ images }: ProjectImageListProps) {
             flex
             gap-3
             overflow-x-auto
-            [scrollbar-width:none]
-            [-ms-overflow-style:none]
-            [&::-webkit-scrollbar]:hidden
+            pb-3
+            [scrollbar-color:rgb(203_213_225)_white]
+            [scrollbar-width:thin]
+            [&::-webkit-scrollbar-thumb]:rounded-full
+            [&::-webkit-scrollbar-thumb]:border-none
+            [&::-webkit-scrollbar-thumb]:bg-slate-300
+            [&::-webkit-scrollbar-track]:border-none
+            [&::-webkit-scrollbar-track]:bg-white
+            [&::-webkit-scrollbar]:h-2
           "
         >
           {images.map((image, index) => {
