@@ -55,9 +55,9 @@ const createEmptyRecommendation = (rank: number): PairingRecommendation => ({
 const isRecommendationComplete = (recommendation?: PairingRecommendation) =>
   Boolean(
     recommendation &&
-      recommendation.title.trim() &&
-      recommendation.comment.trim() &&
-      recommendation.reason.trim(),
+    recommendation.title.trim() &&
+    recommendation.comment.trim() &&
+    recommendation.reason.trim(),
   );
 
 const PairingCardsPanel = ({
@@ -129,6 +129,7 @@ const PairingCardsPanel = ({
               title={pairing.title}
               reason={pairing.reason}
               comment={pairing.comment}
+              className="w-[250px] md:w-[280px]"
             />
           ))}
         </div>
@@ -224,7 +225,8 @@ const RenderChatUI = () => {
               : payload.data.type === "COMMENT"
                 ? {
                     ...currentRecommendation,
-                    comment: currentRecommendation.comment + payload.data.content,
+                    comment:
+                      currentRecommendation.comment + payload.data.content,
                   }
                 : {
                     ...currentRecommendation,
@@ -272,9 +274,9 @@ const RenderChatUI = () => {
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full w-full max-w-[800px] flex-col">
       <ChatLog chats={chattingRoom.chats} />
-      <div className="w-full shrink-0 p-1.5">
+      <div className="w-full shrink-0">
         <SendMessageForm
           onSend={handleSendMessage}
           initialMessage="오늘 기분 꿀꿀한데 와인 추천 좀 해줘.."

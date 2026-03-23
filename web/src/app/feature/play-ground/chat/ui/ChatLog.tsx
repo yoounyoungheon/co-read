@@ -21,7 +21,7 @@ export const ChatLog = ({ chats }: ChatLogProps) => {
 
   return (
     <div
-      className="flex-1 overflow-y-auto p-1.5 px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       ref={endRef}
     >
       <div className="flex h-full flex-col gap-3">

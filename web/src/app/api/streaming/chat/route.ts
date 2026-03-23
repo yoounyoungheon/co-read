@@ -2,6 +2,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const encoder = new TextEncoder();
+const STREAM_DELAY_MS = 50;
 
 type PairingChunkType = "TITLE" | "REASON" | "COMMENT";
 
@@ -56,7 +57,10 @@ const PAIRING_EVENTS: PairingPayload[] = [
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "풍부한" } },
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "스테이크와" } },
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "잘" } },
-  { type: "PAIRING", data: { type: "REASON", rank: 1, content: "어울립니다." } },
+  {
+    type: "PAIRING",
+    data: { type: "REASON", rank: 1, content: "어울립니다." },
+  },
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "스테이크의" } },
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "풍미를" } },
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "더욱" } },
@@ -66,7 +70,10 @@ const PAIRING_EVENTS: PairingPayload[] = [
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "만들어주는" } },
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "역할을" } },
   { type: "PAIRING", data: { type: "REASON", rank: 1, content: "합니다." } },
-  { type: "PAIRING", data: { type: "COMMENT", rank: 1, content: "스테이크와" } },
+  {
+    type: "PAIRING",
+    data: { type: "COMMENT", rank: 1, content: "스테이크와" },
+  },
   { type: "PAIRING", data: { type: "COMMENT", rank: 1, content: "훌륭한" } },
   { type: "PAIRING", data: { type: "COMMENT", rank: 1, content: "조화를" } },
   { type: "PAIRING", data: { type: "COMMENT", rank: 1, content: "이룹니다." } },
@@ -99,10 +106,16 @@ const PAIRING_EVENTS: PairingPayload[] = [
   { type: "PAIRING", data: { type: "REASON", rank: 2, content: "함께" } },
   { type: "PAIRING", data: { type: "REASON", rank: 2, content: "즐기면" } },
   { type: "PAIRING", data: { type: "REASON", rank: 2, content: "좋습니다." } },
-  { type: "PAIRING", data: { type: "COMMENT", rank: 2, content: "파스타와도" } },
+  {
+    type: "PAIRING",
+    data: { type: "COMMENT", rank: 2, content: "파스타와도" },
+  },
   { type: "PAIRING", data: { type: "COMMENT", rank: 2, content: "시도해볼" } },
   { type: "PAIRING", data: { type: "COMMENT", rank: 2, content: "만한" } },
-  { type: "PAIRING", data: { type: "COMMENT", rank: 2, content: "선택입니다." } },
+  {
+    type: "PAIRING",
+    data: { type: "COMMENT", rank: 2, content: "선택입니다." },
+  },
   { type: "PAIRING", data: { type: "TITLE", rank: 3, content: "르" } },
   { type: "PAIRING", data: { type: "TITLE", rank: 3, content: "아모" } },
   { type: "PAIRING", data: { type: "TITLE", rank: 3, content: "쇼비뇽" } },
@@ -116,7 +129,10 @@ const PAIRING_EVENTS: PairingPayload[] = [
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "해치지" } },
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "않으면서도" } },
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "풍미를" } },
-  { type: "PAIRING", data: { type: "REASON", rank: 3, content: "더해줍니다." } },
+  {
+    type: "PAIRING",
+    data: { type: "REASON", rank: 3, content: "더해줍니다." },
+  },
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "특히" } },
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "구운" } },
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "생선이나" } },
@@ -131,7 +147,10 @@ const PAIRING_EVENTS: PairingPayload[] = [
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "경험을" } },
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "선사할" } },
   { type: "PAIRING", data: { type: "REASON", rank: 3, content: "것입니다." } },
-  { type: "PAIRING", data: { type: "COMMENT", rank: 3, content: "해산물과는" } },
+  {
+    type: "PAIRING",
+    data: { type: "COMMENT", rank: 3, content: "해산물과는" },
+  },
   { type: "PAIRING", data: { type: "COMMENT", rank: 3, content: "섬세한" } },
   { type: "PAIRING", data: { type: "COMMENT", rank: 3, content: "조화를" } },
   { type: "PAIRING", data: { type: "COMMENT", rank: 3, content: "이룹니다." } },
@@ -182,7 +201,7 @@ export async function GET(request: Request) {
         try {
           for (const event of SSE_EVENTS) {
             send(event);
-            await sleep(20);
+            await sleep(STREAM_DELAY_MS);
           }
         } finally {
           request.signal.removeEventListener("abort", abort);
