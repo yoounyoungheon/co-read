@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import markdownExample from "../../../../../docs/markdown-viewer.md?raw";
+import markdownExample from "../../../../../../docs/markdown-viewer.md?raw";
 import { ProjectReview } from "./ProjectReview";
 
 const shortReview = `# 프로젝트 회고

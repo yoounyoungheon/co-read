@@ -20,8 +20,6 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
         return <ChatUI />;
       case "LOG_STREAMING":
         return <BuildUI />;
-      case "TOAST_STREAMING":
-        return <div>플레이그라운드 콘텐츠</div>;
       case "WEB_RTC":
         return <div>프로젝트 콘텐츠</div>;
       case "CSS_ONLY":

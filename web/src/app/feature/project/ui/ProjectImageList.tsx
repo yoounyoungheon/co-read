@@ -48,13 +48,13 @@ export function ProjectImageList({ images }: ProjectImageListProps) {
                   shrink-0
                   flex-col
                   gap-2
-                  md:w-[800px]
+                  md:w-[700px]
                 "
               >
                 <div
                   className="
                     relative
-                    aspect-[6/4]
+                    aspect-[7/4]
                     w-full
                     overflow-hidden
                     rounded-xl

@@ -38,12 +38,6 @@ export function MainShowcasePage({
       path: "/play-ground?type=LOG_STREAMING",
     },
     {
-      type: "Toast Streaming",
-      description:
-        "토스트 메시지의 실시간 스트리밍을 제공하는 플레이그라운드입니다.",
-      path: "/play-ground?type=TOAST_STREAMING",
-    },
-    {
       type: "WEB RTC",
       description:
         "WEB RTC를 활용한 실시간 통신을 제공하는 플레이그라운드입니다.",
