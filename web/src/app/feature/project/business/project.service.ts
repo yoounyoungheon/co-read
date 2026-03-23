@@ -36,6 +36,9 @@ export const loadProjectForGuestRequest = async (
     });
     checkResponseStatus(response.status);
     const responseData = await response.json();
+    const projectMd = responseData.projectMd ?? responseData.markdown;
+    const retrospectMd =
+      responseData.retrospectMd ?? responseData.markdown2;
 
     const project = createProjectDomain(
       responseData.id,
@@ -51,7 +54,8 @@ export const loadProjectForGuestRequest = async (
       responseData.createdAt,
       responseData.updatedAt,
       responseData.keyword,
-      responseData.markdown,
+      projectMd,
+      retrospectMd,
     );
 
     return {

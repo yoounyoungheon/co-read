@@ -9,7 +9,8 @@ interface FeedCardProps {
 }
 
 export const FeedCard = ({ project, href }: FeedCardProps) => {
-  const image = project.images.at(0) || "";
+  const firstImage = project.images.at(0);
+  const image = typeof firstImage === "string" ? firstImage : firstImage?.path || "";
   const projectName = project.title;
   const id = project.id;
   const keyword = project.keyword;

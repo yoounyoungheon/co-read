@@ -1,3 +1,8 @@
+export interface ProjectImage {
+  path: string;
+  description: string | null;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -7,10 +12,11 @@ export interface Project {
   beTechs: string[];
   feTechs: string[];
   infraTechs: string[];
-  images: string[];
+  images: ProjectImage[];
   startDate: Date;
   endDate: Date;
-  markdown?: string;
+  projectMd?: string;
+  retrospectMd?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -25,11 +31,12 @@ export const createProjectDomain = (
   infraTechs: string[],
   startDate: Date,
   endDate: Date,
-  images: string[],
+  images: ProjectImage[],
   createdAt: string,
   updatedAt: string,
   keyword?: string[],
-  markdown?: string,
+  projectMd?: string,
+  retrospectMd?: string,
 ): Project => {
   const project: Project = {
     id,
@@ -44,7 +51,8 @@ export const createProjectDomain = (
     images,
     createdAt,
     updatedAt,
-    markdown,
+    projectMd,
+    retrospectMd,
     keyword,
   };
   return project;

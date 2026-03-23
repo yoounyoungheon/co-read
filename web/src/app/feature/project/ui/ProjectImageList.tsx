@@ -1,8 +1,9 @@
 import Image from "next/image";
+import { ProjectImage } from "../business/project.domain";
 import { Card } from "@/app/shared/ui/molecule/card";
 
 export interface ProjectImageListProps {
-  images: string[];
+  images: Array<string | ProjectImage>;
 }
 
 export function ProjectImageList({ images }: ProjectImageListProps) {
@@ -23,31 +24,56 @@ export function ProjectImageList({ images }: ProjectImageListProps) {
             [&::-webkit-scrollbar]:hidden
           "
         >
-          {images.map((src, index) => (
-            <div
-              key={`${src}-${index}`}
-              className="
-                relative
-                aspect-square
-                w-36
-                shrink-0
-                overflow-hidden
-                rounded-xl
-                border
-                border-slate-200
-                bg-slate-100
-              "
-            >
-              <Image
-                src={src}
-                alt={`프로젝트 이미지 ${index + 1}`}
-                fill
-                sizes="144px"
-                className="object-cover"
-                priority={index === 0}
-              />
-            </div>
-          ))}
+          {images.map((image, index) => {
+            const src = typeof image === "string" ? image : image.path;
+            const description =
+              typeof image === "string"
+                ? `프로젝트 이미지 ${index + 1}`
+                : image.description;
+            const alt = description ?? `프로젝트 이미지 ${index + 1}`;
+
+            return (
+              <div
+                key={`${src}-${index}`}
+                className="
+                  relative
+                  flex
+                  w-[250px]
+                  shrink-0
+                  flex-col
+                  gap-2
+                  md:w-[800px]
+                "
+              >
+                <div
+                  className="
+                    relative
+                    aspect-[6/4]
+                    w-full
+                    overflow-hidden
+                    rounded-xl
+                    border
+                    border-slate-200
+                    bg-slate-100
+                  "
+                >
+                  <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    sizes="2000px"
+                    className="object-cover"
+                    priority={index === 0}
+                  />
+                </div>
+                {description ? (
+                  <p className="line-clamp-2 text-sm leading-5 text-slate-600 font-bold">
+                    {description}
+                  </p>
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       )}
     </Card>

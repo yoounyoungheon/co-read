@@ -25,9 +25,9 @@ export function FeedFrontCard({
         <Link
           href={href}
           aria-label={`${projectName} 상세 보기`}
-          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white transition-colors hover:bg-slate-700"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white transition-colors hover:bg-slate-700"
         >
-          <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+          <ArrowUpRight className="h-5 w-5" strokeWidth={2.5} />
         </Link>
       </div>
       <div className="p-2">
@@ -36,6 +36,7 @@ export function FeedFrontCard({
             src={image}
             alt={projectName}
             fill
+            sizes="1000px"
             className="object-cover rounded-2xl"
           />
         </Card>
