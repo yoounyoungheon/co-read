@@ -1,7 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import GitImage from "@/app/assets/git.png";
-import BlogImage from "@/app/assets/t.png";
 import { Card } from "@/app/shared/ui/molecule/card";
 
 export interface ProfileProps {
@@ -24,8 +22,8 @@ export function Profile({
   blogLink,
 }: ProfileProps) {
   const socialLinks = [
-    { href: githubLink, alt: "github", icon: GitImage },
-    { href: blogLink, alt: "blog", icon: BlogImage },
+    { href: githubLink, alt: "github", icon: "/images/git.png" },
+    { href: blogLink, alt: "blog", icon: "/images/t.png" },
   ];
 
   return (

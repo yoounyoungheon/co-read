@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "./utils/style/fonts";
 import { Profile } from "./feature/profile/ui/Profile";
-import ProfileImage from "@/app/assets/profile.png";
 
 export const metadata: Metadata = {
   title: "IAMYOUNGHUN",
@@ -26,7 +25,7 @@ export default function RootLayout({
           intorudctiion={
             "안녕하세요! 개발자 윤영헌입니다.\n융합소프트웨어와 경영학을 전공했습니다.\n비즈니스, 기술적 관점에서 변화에 유연한 소프트웨어 설계를 고민합니다.\ne-mail: iddyoon@gmail.com"
           }
-          profileImage={ProfileImage}
+          profileImage="/images/profile.png"
           githubLink={""}
           blogLink={""}
         />
