@@ -88,6 +88,11 @@ export function Profile({
                   </div>
                 </Link>
               ))}
+              <Link href="/" className="group" aria-label="home">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-[11px] font-semibold text-white shadow-md transition-transform group-hover:scale-110">
+                  H
+                </div>
+              </Link>
             </div>
           </div>
         </div>

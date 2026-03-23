@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Card, CardContent } from "@/app/shared/ui/molecule/card";
 import { cn } from "@/app/utils/style/helper";
@@ -63,7 +65,7 @@ export default function WineRecommendCard({
 
         <div className="space-y-1.5">
           <p className="text-[11px] font-semibold tracking-[0.08em] text-violet-100/90">
-            와마대 한줄평
+            한줄평
           </p>
           <p className="line-clamp-2 text-sm leading-6 text-white/92">
             {comment}
