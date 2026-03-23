@@ -28,7 +28,7 @@ export function PlayGroundButton({
         asChild
         size="default"
         radius="full"
-        className="h-24 w-24 whitespace-pre-wrap bg-gradient-to-br from-pink-700 via-purple-300 to-indigo-500 text-center font-semibold text-white shadow-lg hover:from-pink-700 hover:via-purple-300 hover:to-indigo-500"
+        className="h-24 w-24 whitespace-pre-wrap bg-gradient-to-br from-pink-700 via-purple-300 to-indigo-500 text-center font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:from-pink-700 hover:via-purple-300 hover:to-indigo-500"
       >
         <label htmlFor={itemId}>{type}</label>
       </Button>

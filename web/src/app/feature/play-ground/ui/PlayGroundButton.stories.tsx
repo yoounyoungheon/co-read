@@ -22,7 +22,7 @@ type Story = StoryObj<typeof PlayGroundButton>;
 
 export const Default: Story = {
   render: (args) => (
-    <div className="h-[360px] w-[360px] rounded-2xl border border-slate-200 bg-white p-4">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4">
       <input
         id="play-ground-empty"
         type="radio"

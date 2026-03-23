@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
-import { ActionButton, SendButton } from "./SendMessageForm.part";
+import { SendButton } from "./SendMessageForm.part";
 
 type SendMessageFormProps = {
   onSend: (payload: { message: string }) => void;
@@ -47,7 +47,7 @@ export const SendMessageForm = ({
     <div
       className={clsx(
         "grid w-full items-center border rounded-lg p-1",
-        "grid-cols-1"
+        "grid-cols-1",
       )}
     >
       <textarea
@@ -58,8 +58,7 @@ export const SendMessageForm = ({
         placeholder={placeholder}
         className="flex-1 resize-none rounded-lg  bg-transparent  px-3 py-2 text-sm  outline-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       />
-      <div className="flex justify-between p-0.5">
-        <ActionButton />
+      <div className="flex justify-end p-0.5">
         <SendButton onClick={handleSubmit} />
       </div>
     </div>
