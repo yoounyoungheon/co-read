@@ -8,7 +8,7 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
   const type =
     typeof searchParams.type === "string"
       ? searchParams.type
-      : MainPageType.PROJECT;
+      : MainPageType.PROFILE;
 
   const projectResponse =
     type === MainPageType.PROJECT ? await loadProjectsForGuestRequest() : null;

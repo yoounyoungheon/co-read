@@ -10,7 +10,8 @@ interface FeedCardProps {
 
 export const FeedCard = ({ project, href }: FeedCardProps) => {
   const firstImage = project.images.at(0);
-  const image = typeof firstImage === "string" ? firstImage : firstImage?.path || "";
+  const image =
+    typeof firstImage === "string" ? firstImage : firstImage?.path || "";
   const projectName = project.title;
   const id = project.id;
   const keyword = project.keyword;
@@ -18,7 +19,7 @@ export const FeedCard = ({ project, href }: FeedCardProps) => {
 
   return (
     <FlipCard
-      className="h-full w-full min-w-[200px] transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]"
+      className="h-full w-full min-w-[200px] transition-transform duration-300 hover:-translate-y-1"
       innerClassName="relative aspect-[5/6] h-full w-full"
       frontClassName="rounded-2xl border-none bg-white text-left shadow-[0_10px_24px_rgba(15,23,42,0.12)]"
       backClassName="rounded-2xl border-none bg-slate-900 text-left text-white shadow-[0_10px_24px_rgba(15,23,42,0.12)]"

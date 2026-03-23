@@ -19,6 +19,7 @@ export function MainShowcasePage({
   type,
 }: MainShowcasePageProps) {
   const categories = [
+    MainPageType.PROFILE,
     MainPageType.PROJECT,
     MainPageType.ARTICLE,
     MainPageType.PLAY_GROUND,
@@ -53,6 +54,8 @@ export function MainShowcasePage({
 
   const renderCategoryButtonText = (category: string) => {
     switch (category) {
+      case MainPageType.PROFILE:
+        return "어떤 사람인지 궁금하다면?";
       case MainPageType.PROJECT:
         return "영헌님이 진행한 프로젝트에요!";
       case MainPageType.ARTICLE:
@@ -69,7 +72,7 @@ export function MainShowcasePage({
       {/* 카테고리 버튼 */}
       <div className="flex w-full flex-col items-center justify-center gap-5">
         <div className="text-center font-semibold">{`차근차근! 구경하고 싶은 내용을 둘러보세요 :)`}</div>
-        <div className="mb-4 flex w-full flex-col gap-3 sm:max-w-screen-sm sm:flex-row sm:gap-4">
+        <div className="mb-4 flex w-full flex-col gap-3 items-center justify-center max-w-6xl sm:grid sm:grid-cols-4 sm:gap-4">
           {categories.map((category) => (
             <Link key={category} href={`/?type=${category}`} className="w-full">
               <Button
@@ -92,6 +95,8 @@ export function MainShowcasePage({
           <FeedGrid projects={projects} />
         ) : type === MainPageType.ARTICLE ? (
           <ArticleList articles={articles} />
+        ) : type === MainPageType.PROFILE ? (
+          <></>
         ) : (
           <PlayGround types={playGrounTypes} />
         )}

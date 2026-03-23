@@ -21,7 +21,7 @@ const FlipCard = React.forwardRef<HTMLDivElement, FlipCardProps>(
       backCard,
       ...props
     },
-    ref
+    ref,
   ) => (
     // The outer wrapper owns hover state and perspective so the pointer
     // target does not change while the inner layer rotates in 3D.
@@ -32,31 +32,30 @@ const FlipCard = React.forwardRef<HTMLDivElement, FlipCardProps>(
           // Only the inner layer rotates. Using group-hover keeps the flip
           // stable even when the card face itself changes during rotation.
           "relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]",
-          innerClassName
+          innerClassName,
         )}
       >
         <Card
           className={cn(
             // Hide mirrored text while the front face is rotated away.
             "absolute inset-0 h-full w-full overflow-hidden [backface-visibility:hidden]",
-            frontClassName
+            frontClassName,
           )}
         >
           {frontCard}
         </Card>
         <Card
           className={cn(
-            // The back face starts rotated and is pulled slightly forward to
-            // reduce blur artifacts that can happen on 3D transformed layers.
-            "absolute inset-0 h-full w-full overflow-hidden [backface-visibility:hidden] [transform:rotateY(180deg)_translateZ(1px)] [will-change:transform]",
-            backClassName
+            // Keep the back face simple to reduce blur artifacts on 3D transforms.
+            "absolute inset-0 h-full w-full overflow-hidden [backface-visibility:hidden] [transform:rotateY(180deg)]",
+            backClassName,
           )}
         >
           {backCard}
         </Card>
       </div>
     </div>
-  )
+  ),
 );
 
 FlipCard.displayName = "FlipCard";

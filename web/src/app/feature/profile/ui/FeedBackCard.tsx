@@ -2,12 +2,9 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 const bubbleDecorations = [
-  { left: "8%", size: "56px", delay: "0s", duration: "13s" },
-  { left: "24%", size: "22px", delay: "-3s", duration: "11s" },
-  { left: "38%", size: "72px", delay: "-6s", duration: "16s" },
-  { left: "54%", size: "34px", delay: "-2s", duration: "12s" },
-  { left: "69%", size: "64px", delay: "-8s", duration: "15s" },
-  { left: "82%", size: "28px", delay: "-5s", duration: "10s" },
+  { left: "14%", size: "22px", delay: "0s", duration: "14s" },
+  { left: "66%", size: "44px", delay: "-4s", duration: "17s" },
+  { left: "82%", size: "18px", delay: "-2s", duration: "12s" },
 ];
 
 interface FeedBackCardProps {
@@ -23,15 +20,16 @@ export function FeedBackCard({
   href,
   keyword,
 }: FeedBackCardProps) {
+  const visibleKeywords = keyword?.slice(0, 3) ?? [];
+
   return (
     <div className="relative flex h-full flex-col justify-between overflow-hidden p-5">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_32%),linear-gradient(180deg,_rgba(255,255,255,0.02),_rgba(255,255,255,0))]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/35 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,_rgba(255,255,255,0.04),_rgba(255,255,255,0)),radial-gradient(circle_at_top_right,_rgba(148,163,184,0.16),_transparent_35%)]" />
       <div className="pointer-events-none absolute inset-0">
         {bubbleDecorations.map((bubble, index) => (
           <span
             key={`${bubble.left}-${index}`}
-            className="absolute bottom-[-18%] rounded-full border border-white/25 bg-white/8 shadow-[inset_0_1px_10px_rgba(255,255,255,0.18)] backdrop-blur-[1px] animate-profile-bubble-float"
+            className="absolute bottom-[-12%] rounded-full border border-white/10 bg-white/6 shadow-[inset_0_1px_8px_rgba(255,255,255,0.12)] animate-profile-bubble-float"
             style={{
               left: bubble.left,
               width: bubble.size,
@@ -40,44 +38,60 @@ export function FeedBackCard({
               animationDuration: bubble.duration,
             }}
           >
-            <span className="absolute left-[18%] top-[16%] h-[18%] w-[18%] rounded-full bg-white/35 blur-[1px]" />
+            <span className="absolute left-[18%] top-[16%] h-[18%] w-[18%] rounded-full bg-white/20 blur-[1px]" />
           </span>
         ))}
       </div>
-      <div className="pointer-events-none absolute -left-8 top-1/2 h-24 w-[140%] -translate-y-1/2 rotate-[-18deg] bg-gradient-to-r from-cyan-400/0 via-cyan-300/24 to-indigo-300/0" />
-      <div className="pointer-events-none absolute -right-10 top-10 h-28 w-28 rounded-full bg-fuchsia-400/12 blur-0" />
+      <div className="pointer-events-none absolute inset-x-5 top-20 h-px bg-white/10" />
 
-      <div className="relative space-y-3">
-        <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/75">
-          Project
-        </p>
-        <p className="line-clamp-3 whitespace-pre-wrap text-2xl font-bold leading-tight">
-          {projectName}
-        </p>
+      <div className="relative space-y-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="space-y-2">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/55">
+              Project
+            </p>
+            <p className="text-sm text-white/55">ID · {id}</p>
+          </div>
+          <Link
+            href={href}
+            aria-label={`${projectName} 상세 보기`}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-slate-900 shadow-[0_8px_18px_rgba(255,255,255,0.14)] transition-transform hover:scale-105 hover:bg-slate-100"
+          >
+            <ArrowUpRight className="h-5 w-5" strokeWidth={2.5} />
+          </Link>
+        </div>
+
+        <div className="space-y-3 pt-3">
+          <p className="line-clamp-3 whitespace-pre-wrap text-lg font-bold leading-[1.18] tracking-[-0.03em] text-white">
+            {projectName}
+          </p>
+        </div>
+
         <div className="flex flex-wrap gap-2">
-          {keyword?.map((item) => (
+          {visibleKeywords.map((item) => (
             <span
               key={item}
-              className="rounded-full bg-white/14 px-3 py-1 text-xs font-medium text-white ring-1 ring-white/15"
+              className="rounded-full border border-white/10 bg-white/8 px-3 py-1 text-xs font-medium text-white/88"
             >
               {item}
             </span>
           ))}
         </div>
+
+        {keyword && keyword.length > visibleKeywords.length ? (
+          <p className="text-xs text-white/45">
+            + {keyword.length - visibleKeywords.length} more
+          </p>
+        ) : null}
       </div>
 
-      <div className="relative flex items-end justify-between gap-3">
-        <div className="space-y-1 text-sm text-white/85">
-          <p className="text-white/65">Project ID</p>
-          <p className="font-medium text-white">{id}</p>
-        </div>
-        <Link
-          href={href}
-          aria-label={`${projectName} 상세 보기`}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-slate-900 transition-colors hover:bg-slate-100"
-        >
-          <ArrowUpRight className="h-5 w-5" strokeWidth={2.5} />
-        </Link>
+      <div className="relative mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+        <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/45">
+          Project
+        </p>
+        <p className="mt-2 text-sm leading-6 text-white/72">
+          키워드와 프로젝트 상세를 확인하려면 우측 상단 버튼으로 이동하세요.
+        </p>
       </div>
     </div>
   );
