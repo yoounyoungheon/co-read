@@ -1,5 +1,5 @@
 import ChatUI from "@/app/feature/play-ground/chat/ui/ChatUI";
-import BuildUI from "@/app/feature/play-ground/ui/log/BuildUI";
+import BuildUI from "@/app/feature/play-ground/log/ui/BuildUI";
 import { PageQueryProps } from "@/app/utils/type";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
