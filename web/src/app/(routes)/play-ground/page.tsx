@@ -1,5 +1,5 @@
 import ChatUI from "@/app/feature/play-ground/chat/ui/ChatUI";
-import BuildUI from "@/app/feature/play-ground/ui/log/BuildUI";
+import BuildUI from "@/app/feature/play-ground/log/ui/BuildUI";
 import { PageQueryProps } from "@/app/utils/type";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
@@ -32,7 +32,7 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
   };
 
   return (
-    <main className="flex flex-col gap-5 py-2 w-full">
+    <main className="flex flex-col gap-5 py-2 w-full items-center">
       {renderContentByType()}
     </main>
   );

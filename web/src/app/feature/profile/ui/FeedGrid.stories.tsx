@@ -15,9 +15,17 @@ const sampleProjects: Project[] = [
     beTechs: ["NestJS"],
     feTechs: ["Next.js"],
     infraTechs: ["Vercel"],
-    images: [createPlaceholderImage("Co-Read", "%23dbeafe")],
+    images: [
+      {
+        path: createPlaceholderImage("Co-Read", "%23dbeafe"),
+        description: "Co-Read 대표 화면",
+      },
+    ],
     startDate: new Date("2025-01-01"),
     endDate: new Date("2025-03-01"),
+    projectMd: "# Co-Read\n\n## 프로젝트 소개\n협업 기반 문서 독해 서비스입니다.",
+    retrospectMd:
+      "## 회고\n공동 편집 경험을 더 자연스럽게 만드는 데 집중했습니다.",
   },
   {
     id: "open-labs",
@@ -28,9 +36,18 @@ const sampleProjects: Project[] = [
     beTechs: ["Spring Boot"],
     feTechs: ["React"],
     infraTechs: ["AWS"],
-    images: [createPlaceholderImage("Open Labs", "%23fde68a")],
+    images: [
+      {
+        path: createPlaceholderImage("Open Labs", "%23fde68a"),
+        description: null,
+      },
+    ],
     startDate: new Date("2024-03-01"),
     endDate: new Date("2024-12-31"),
+    projectMd:
+      "# Open Labs\n\n## 프로젝트 소개\n연구 프로젝트를 아카이빙하고 탐색하는 서비스입니다.",
+    retrospectMd:
+      "## 회고\n탐색 경험과 정보 구조 설계의 중요성을 많이 느꼈습니다.",
   },
   {
     id: "note-flow",
@@ -41,9 +58,18 @@ const sampleProjects: Project[] = [
     beTechs: ["Go"],
     feTechs: ["Next.js"],
     infraTechs: ["Cloud Run"],
-    images: [createPlaceholderImage("Note Flow", "%23bfdbfe")],
+    images: [
+      {
+        path: createPlaceholderImage("Note Flow", "%23bfdbfe"),
+        description: "Note Flow 대표 화면",
+      },
+    ],
     startDate: new Date("2023-08-01"),
     endDate: new Date("2024-01-15"),
+    projectMd:
+      "# Note Flow\n\n## 프로젝트 소개\n개인 지식 관리와 메모 흐름 정리에 초점을 둔 도구입니다.",
+    retrospectMd:
+      "## 회고\n모바일 환경에서 입력 경험을 다듬는 과정이 가장 중요했습니다.",
   },
   {
     id: "focus-board",
@@ -54,9 +80,18 @@ const sampleProjects: Project[] = [
     beTechs: ["FastAPI"],
     feTechs: ["Vue"],
     infraTechs: ["GCP"],
-    images: [createPlaceholderImage("Focus Board", "%23fecaca")],
+    images: [
+      {
+        path: createPlaceholderImage("Focus Board", "%23fecaca"),
+        description: null,
+      },
+    ],
     startDate: new Date("2022-05-01"),
     endDate: new Date("2022-10-01"),
+    projectMd:
+      "# Focus Board\n\n## 프로젝트 소개\n작업 집중도 시각화 대시보드입니다.",
+    retrospectMd:
+      "## 회고\n데이터를 많이 보여주되 복잡하지 않게 만드는 게 핵심이었습니다.",
   },
 ];
 
