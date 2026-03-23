@@ -1,7 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import GitImage from "@/app/assets/git.png";
-import BlogImage from "@/app/assets/t.png";
 import { Card } from "@/app/shared/ui/molecule/card";
 
 export interface ProfileProps {
@@ -24,8 +22,8 @@ export function Profile({
   blogLink,
 }: ProfileProps) {
   const socialLinks = [
-    { href: githubLink, alt: "github", icon: GitImage },
-    { href: blogLink, alt: "blog", icon: BlogImage },
+    { href: githubLink, alt: "github", icon: "/images/git.png" },
+    { href: blogLink, alt: "blog", icon: "/images/t.png" },
   ];
 
   return (
@@ -88,6 +86,11 @@ export function Profile({
                   </div>
                 </Link>
               ))}
+              <Link href="/" className="group" aria-label="home">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-[11px] font-semibold text-white shadow-md transition-transform group-hover:scale-110">
+                  H
+                </div>
+              </Link>
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { ChatLog } from "./ChatLog";
 import { SendMessageForm } from "./SendMessageForm";
 import { SSEProvider } from "@/app/shared/sse/business/context/sseContext";
 import { useSSE } from "@/app/shared/sse/business/hook/useSSE";
-import WineRecommendCard from "@/app/feature/wine/ui/WineRecommendCard";
+import WineRecommendCard from "./WineRecommendCard";
 
 type PairingChunkType = "TITLE" | "COMMENT" | "REASON";
 
