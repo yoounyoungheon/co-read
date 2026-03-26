@@ -2,6 +2,7 @@ import { loadProjectsForGuestRequest } from "./feature/project/business/project.
 import { PageQueryProps } from "./utils/type";
 import { loadAllArticles } from "./feature/article/business/article.service";
 import { MainShowcasePage } from "./feature/profile/page/MainShowcasePage";
+import { loadResumeTimeLineItemsForGuestRequest } from "./feature/resume/business/resume.service";
 import { MainPageType } from "./utils/contants";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
@@ -16,11 +17,17 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
   const articleResponse =
     type === MainPageType.ARTICLE ? await loadAllArticles() : null;
 
+  const timeLineResponse =
+    type === MainPageType.PROFILE
+      ? await loadResumeTimeLineItemsForGuestRequest()
+      : null;
+
   return (
     <main className="flex justify-center w-full">
       <MainShowcasePage
         projects={projectResponse?.data || []}
         articles={articleResponse?.data || []}
+        timeLineItems={timeLineResponse?.data || []}
         type={type}
       />
     </main>

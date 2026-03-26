@@ -6,17 +6,19 @@ import Link from "next/link";
 import Button from "@/app/shared/ui/atom/button";
 import { MainPageType } from "@/app/utils/contants";
 import PlayGround from "../../play-ground/ui/PlayGround";
-import { TimeLine, defaultTimeLineItems } from "../ui/TimeLine";
+import { TimeLine, TimeLineItem } from "../../resume/ui/TimeLine";
 
 export interface MainShowcasePageProps {
   projects: Project[];
   articles: Article[];
+  timeLineItems: TimeLineItem[];
   type: string;
 }
 
 export function MainShowcasePage({
   projects,
   articles,
+  timeLineItems,
   type,
 }: MainShowcasePageProps) {
   const categories = [
@@ -97,7 +99,7 @@ export function MainShowcasePage({
         ) : type === MainPageType.ARTICLE ? (
           <ArticleList articles={articles} />
         ) : type === MainPageType.PROFILE ? (
-          <TimeLine items={defaultTimeLineItems} />
+          <TimeLine items={timeLineItems} />
         ) : (
           <PlayGround types={playGrounTypes} />
         )}
