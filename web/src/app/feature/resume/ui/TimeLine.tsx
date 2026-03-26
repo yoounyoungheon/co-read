@@ -30,8 +30,12 @@ export type ClubTimeLineItem = BaseTimeLineItem & {
 export type BootcampTimeLineItem = BaseTimeLineItem & {
   kind: "bootcamp";
   program: string;
+  programDescription: string;
   awards: string[];
-  retrospective: string[];
+  retrospective: {
+    title: string;
+    description: string;
+  }[];
 };
 
 export type WorkTimeLineItem = BaseTimeLineItem & {
@@ -85,21 +89,21 @@ function SectionHeader({
 function UniversityCard(item: UniversityTimeLineItem) {
   return (
     <Card className="overflow-hidden rounded-[28px] border-none bg-white shadow-[0_12px_32px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/80">
-      <div className="grid gap-5 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
+      <div className="grid gap-4 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
         <SectionHeader {...item} />
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="rounded-2xl bg-slate-900 px-4 py-4 text-white">
             <p className="text-xs uppercase tracking-[0.22em] text-white/55">
               School
             </p>
             <p className="mt-2 text-lg font-semibold">{item.school}</p>
-            <p className="mt-3 text-sm leading-6 text-white/75">
+            <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/75">
               {item.summary}
             </p>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-1">
+          <div className="grid gap-3 lg:grid-cols-1">
             <div className="rounded-2xl bg-slate-50 px-4 py-4 ring-1 ring-slate-200/70">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                 전공
@@ -145,15 +149,15 @@ function UniversityCard(item: UniversityTimeLineItem) {
 function ClubCard(item: ClubTimeLineItem) {
   return (
     <Card className="overflow-hidden rounded-[28px] border-none bg-[linear-gradient(180deg,#fff7fb_0%,#ffffff_100%)] shadow-[0_12px_32px_rgba(15,23,42,0.08)] ring-1 ring-rose-100">
-      <div className="grid gap-5 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
+      <div className="grid gap-4 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
         <SectionHeader {...item} />
 
-        <div className="space-y-4">
-          <p className="rounded-2xl border border-rose-100 bg-white px-4 py-4 text-sm leading-7 text-slate-700">
+        <div className="space-y-3">
+          <p className="whitespace-pre-line rounded-2xl border border-rose-100 bg-white px-4 py-4 text-sm leading-7 text-slate-700">
             {item.intro}
           </p>
 
-          <div className="grid gap-4 lg:grid-cols-1">
+          <div className="grid gap-3 lg:grid-cols-1">
             {item.stories.map((story) => (
               <div
                 key={story.title}
@@ -167,7 +171,7 @@ function ClubCard(item: ClubTimeLineItem) {
                     {story.startTime} - {story.endTime}
                   </Badge>
                 </div>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
+                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-slate-600">
                   {story.description}
                 </p>
               </div>
@@ -182,18 +186,21 @@ function ClubCard(item: ClubTimeLineItem) {
 function BootcampCard(item: BootcampTimeLineItem) {
   return (
     <Card className="overflow-hidden rounded-[28px] border-none bg-[linear-gradient(180deg,#f8faff_0%,#ffffff_100%)] shadow-[0_12px_32px_rgba(15,23,42,0.08)] ring-1 ring-blue-100">
-      <div className="grid gap-5 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
+      <div className="grid gap-4 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
         <SectionHeader {...item} />
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="rounded-2xl bg-slate-900 px-4 py-4 text-white">
             <p className="text-xs uppercase tracking-[0.2em] text-white/55">
               Program
             </p>
             <p className="mt-2 text-lg font-semibold">{item.program}</p>
+            <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/75">
+              {item.programDescription}
+            </p>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-1">
+          <div className="grid gap-3 lg:grid-cols-1">
             <div className="rounded-2xl bg-white px-4 py-4 ring-1 ring-blue-100">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                 수상 및 성과
@@ -212,13 +219,18 @@ function BootcampCard(item: BootcampTimeLineItem) {
               </div>
             </div>
 
-            <div className="space-y-3">
-              {item.retrospective.map((text) => (
+            <div className="space-y-2.5">
+              {item.retrospective.map((retrospective) => (
                 <div
-                  key={text}
-                  className="rounded-2xl bg-white px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-blue-100"
+                  key={retrospective.title}
+                  className="whitespace-pre-line rounded-2xl bg-white px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-blue-100"
                 >
-                  {text}
+                  <p className="text-sm font-semibold text-slate-900">
+                    {retrospective.title}
+                  </p>
+                  <p className="mt-2 whitespace-pre-line text-sm leading-7 text-slate-600">
+                    {retrospective.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -232,10 +244,10 @@ function BootcampCard(item: BootcampTimeLineItem) {
 function WorkCard(item: WorkTimeLineItem) {
   return (
     <Card className="overflow-hidden rounded-[28px] border-none bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_12px_32px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/80">
-      <div className="grid gap-5 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
+      <div className="grid gap-4 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
         <SectionHeader {...item} />
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="rounded-2xl bg-slate-900 px-4 py-4 text-white">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
@@ -263,7 +275,9 @@ function WorkCard(item: WorkTimeLineItem) {
                 </Badge>
               </div>
             </div>
-            <p className="mt-4 text-sm leading-7 text-white/75">{item.intro}</p>
+            <p className="mt-4 whitespace-pre-line text-sm leading-7 text-white/75">
+              {item.intro}
+            </p>
           </div>
 
           <div className="grid gap-3">
@@ -321,16 +335,16 @@ export function TimeLine({ items }: TimeLineProps) {
           </p>
         </div>
 
-        <div className="relative mt-10 pl-8 sm:pl-10">
+        <div className="relative mt-8 pl-8 sm:pl-10">
           <div className="absolute bottom-0 left-3 top-0 w-px bg-gradient-to-b from-fuchsia-400 via-violet-400 to-slate-200 sm:left-4" />
 
-          <div className="space-y-6">
+          <div className="space-y-5">
             {items.map((item, index) => (
               <div key={item.title} className="relative">
                 <div className="absolute left-[-26px] top-7 h-4 w-4 rounded-full border-4 border-white bg-slate-900 shadow-[0_0_0_6px_rgba(216,180,254,0.45)] sm:left-[-32px]" />
                 {renderItemCard(item)}
                 {index !== items.length - 1 ? (
-                  <div className="ml-2 mt-3 h-3 w-px bg-transparent sm:ml-3" />
+                  <div className="ml-2 mt-2 h-2 w-px bg-transparent sm:ml-3" />
                 ) : null}
               </div>
             ))}

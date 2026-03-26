@@ -32,8 +32,12 @@ export interface ResumeClubItem extends ResumeBaseItem {
 export interface ResumeBootcampItem extends ResumeBaseItem {
   kind: "bootcamp";
   program: string;
+  programDescription: string;
   awards: string[];
-  retrospective: string[];
+  retrospective: {
+    title: string;
+    description: string;
+  }[];
 }
 
 export interface ResumeWorkExperience {

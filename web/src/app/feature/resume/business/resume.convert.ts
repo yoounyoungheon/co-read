@@ -33,6 +33,7 @@ const convertResumeItemToTimeLineItem = (item: ResumeItem): TimeLineItem => {
         title: item.title,
         period: item.period,
         program: item.program,
+        programDescription: item.programDescription,
         awards: item.awards,
         retrospective: item.retrospective,
       };
