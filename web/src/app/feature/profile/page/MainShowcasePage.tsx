@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/app/shared/ui/atom/button";
 import { MainPageType } from "@/app/utils/contants";
 import PlayGround from "../../play-ground/ui/PlayGround";
+import { TimeLine, defaultTimeLineItems } from "../ui/TimeLine";
 
 export interface MainShowcasePageProps {
   projects: Project[];
@@ -96,7 +97,7 @@ export function MainShowcasePage({
         ) : type === MainPageType.ARTICLE ? (
           <ArticleList articles={articles} />
         ) : type === MainPageType.PROFILE ? (
-          <></>
+          <TimeLine items={defaultTimeLineItems} />
         ) : (
           <PlayGround types={playGrounTypes} />
         )}
