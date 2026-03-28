@@ -10,7 +10,7 @@ interface UseRtcProps {
 const RTC_CONFIGURATION: RTCConfiguration = {
   iceServers: [
     {
-      urls: "turn:8.229.223.216:3478/",
+      urls: ["stun:8.229.223.216:3478", "turn:8.229.223.216:3478"],
       username: "iddyoon",
       credential: "iddyoon",
     },

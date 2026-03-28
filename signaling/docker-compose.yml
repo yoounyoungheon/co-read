@@ -21,8 +21,8 @@ services:
       --log-file=stdout
       --lt-cred-mech
       --fingerprint
-      --realm=iamyounghun.co.kr
-      --server-name=iamyounghun.co.kr
+      --realm=iamyounghun.site
+      --server-name=iamyounghun.site
       --user=iddyoon:iddyoon
       --external-ip=8.229.223.216
       --listening-port=3478
