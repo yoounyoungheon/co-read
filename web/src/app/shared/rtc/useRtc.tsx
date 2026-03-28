@@ -3,7 +3,7 @@ import SockJS from "sockjs-client";
 import { Client, StompSubscription } from "@stomp/stompjs";
 
 interface UseRtcProps {
-  id: string;
+  roomId: string;
   myKey: string;
 }
 
@@ -17,11 +17,19 @@ const RTC_CONFIGURATION: RTCConfiguration = {
   ],
 };
 
-export function useRtc({ id, myKey }: UseRtcProps) {
-  const roomId = `${id}consulting`;
+const SIGNALING_SERVER_URL =
+  process.env.NEXT_PUBLIC_RTC_SIGNALING_URL ??
+  "https://signaling.iamyounghun.co.kr/api/ws/consulting-room";
 
+export function useRtc({ roomId, myKey }: UseRtcProps) {
+  const consultationRoomId = `${roomId}consulting`;
+
+  const hasStartedStreamRef = useRef(false);
   const otherKeyListRef = useRef<string[]>([]);
   const pcListMapRef = useRef<Map<string, RTCPeerConnection>>(new Map());
+  const pendingPeerConnectionRef = useRef<Map<string, Promise<RTCPeerConnection>>>(
+    new Map(),
+  );
   const peerStreamMapRef = useRef<Map<string, MediaStream>>(new Map());
   const pendingIceCandidatesRef = useRef<Map<string, RTCIceCandidateInit[]>>(
     new Map(),
@@ -30,7 +38,13 @@ export function useRtc({ id, myKey }: UseRtcProps) {
   const localStreamRef = useRef<MediaStream | null>(null);
   const screenStreamRef = useRef<MediaStream | null>(null);
 
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStreams, setRemoteStreams] = useState<MediaStream[]>([]);
+
+  const shouldCreateOffer = useCallback(
+    (otherKey: string) => myKey.localeCompare(otherKey) < 0,
+    [myKey],
+  );
 
   const removeRemoteStream = useCallback((streamId: string) => {
     setRemoteStreams((prev) => prev.filter((stream) => stream.id !== streamId));
@@ -47,6 +61,7 @@ export function useRtc({ id, myKey }: UseRtcProps) {
     });
 
     localStreamRef.current = stream;
+    setLocalStream(stream);
 
     return stream;
   }, []);
@@ -69,6 +84,7 @@ export function useRtc({ id, myKey }: UseRtcProps) {
       pc.onconnectionstatechange = null;
       pc.close();
       pcListMapRef.current.delete(otherKey);
+      pendingPeerConnectionRef.current.delete(otherKey);
       pendingIceCandidatesRef.current.delete(otherKey);
     },
     [removeRemoteStream],
@@ -100,11 +116,11 @@ export function useRtc({ id, myKey }: UseRtcProps) {
       }
 
       clientRef.current.publish({
-        destination: `/app/peer/iceCandidate/${otherKey}/${roomId}`,
+        destination: `/app/peer/iceCandidate/${otherKey}/${consultationRoomId}`,
         body: JSON.stringify({ key: myKey, body: event.candidate }),
       });
     },
-    [myKey, roomId],
+    [consultationRoomId, myKey],
   );
 
   const createPeerConnection = useCallback(
@@ -114,48 +130,57 @@ export function useRtc({ id, myKey }: UseRtcProps) {
         return existingPc;
       }
 
-      const pc = new RTCPeerConnection(RTC_CONFIGURATION);
-      const localStream = await ensureLocalStream();
+      const pendingPc = pendingPeerConnectionRef.current.get(otherKey);
+      if (pendingPc) {
+        return pendingPc;
+      }
 
-      localStream.getTracks().forEach((track) => {
-        const senderExists = pc
-          .getSenders()
-          .some((sender) => sender.track?.kind === track.kind);
+      const pcPromise = (async () => {
+        const pc = new RTCPeerConnection(RTC_CONFIGURATION);
+        pcListMapRef.current.set(otherKey, pc);
 
-        if (!senderExists) {
-          pc.addTrack(track, localStream);
-        }
-      });
+        pc.onicecandidate = (event) => onIceCandidate(event, otherKey);
+        pc.ontrack = (event) => {
+          const stream = event.streams[0];
 
-      pc.onicecandidate = (event) => onIceCandidate(event, otherKey);
-      pc.ontrack = (event) => {
-        const stream = event.streams[0];
+          if (!stream) {
+            return;
+          }
 
-        if (!stream) {
-          return;
-        }
+          peerStreamMapRef.current.set(otherKey, stream);
+          setRemoteStreams((prev) => {
+            const alreadyExists = prev.some(
+              (currentStream) => currentStream.id === stream.id,
+            );
 
-        peerStreamMapRef.current.set(otherKey, stream);
-        setRemoteStreams((prev) => {
-          const alreadyExists = prev.some(
-            (currentStream) => currentStream.id === stream.id,
-          );
+            return alreadyExists ? prev : [...prev, stream];
+          });
+        };
 
-          return alreadyExists ? prev : [...prev, stream];
+        pc.onconnectionstatechange = () => {
+          if (["disconnected", "failed", "closed"].includes(pc.connectionState)) {
+            cleanupPeerConnection(otherKey);
+          }
+        };
+
+        const localStream = await ensureLocalStream();
+
+        localStream.getTracks().forEach((track) => {
+          const senderExists = pc
+            .getSenders()
+            .some((sender) => sender.track?.kind === track.kind);
+
+          if (!senderExists) {
+            pc.addTrack(track, localStream);
+          }
         });
-      };
 
-      pc.onconnectionstatechange = () => {
-        if (
-          ["disconnected", "failed", "closed"].includes(pc.connectionState)
-        ) {
-          cleanupPeerConnection(otherKey);
-        }
-      };
+        pendingPeerConnectionRef.current.delete(otherKey);
+        return pc;
+      })();
 
-      pcListMapRef.current.set(otherKey, pc);
-
-      return pc;
+      pendingPeerConnectionRef.current.set(otherKey, pcPromise);
+      return pcPromise;
     },
     [cleanupPeerConnection, ensureLocalStream, onIceCandidate],
   );
@@ -169,15 +194,19 @@ export function useRtc({ id, myKey }: UseRtcProps) {
 
   const sendOffer = useCallback(
     async (pc: RTCPeerConnection, otherKey: string) => {
+      if (pc.signalingState !== "stable" || pc.localDescription?.type === "offer") {
+        return;
+      }
+
       const offer = await pc.createOffer();
       await setLocalDescription(pc, offer);
 
       clientRef.current?.publish({
-        destination: `/app/peer/offer/${otherKey}/${roomId}`,
+        destination: `/app/peer/offer/${otherKey}/${consultationRoomId}`,
         body: JSON.stringify({ key: myKey, body: offer }),
       });
     },
-    [myKey, roomId],
+    [consultationRoomId, myKey],
   );
 
   const sendAnswer = useCallback(
@@ -186,11 +215,11 @@ export function useRtc({ id, myKey }: UseRtcProps) {
       await setLocalDescription(pc, answer);
 
       clientRef.current?.publish({
-        destination: `/app/peer/answer/${otherKey}/${roomId}`,
+        destination: `/app/peer/answer/${otherKey}/${consultationRoomId}`,
         body: JSON.stringify({ key: myKey, body: answer }),
       });
     },
-    [myKey, roomId],
+    [consultationRoomId, myKey],
   );
 
   const handleRemoteIceCandidate = useCallback(
@@ -214,32 +243,39 @@ export function useRtc({ id, myKey }: UseRtcProps) {
     [],
   );
 
-  const startStream = useCallback(async () => {
+  const announceStreamStart = useCallback(async () => {
     if (!clientRef.current?.connected) {
       return;
     }
 
-    try {
-      await ensureLocalStream();
-    } catch (error) {
-      console.error("로컬 미디어를 가져오지 못했습니다:", error);
-      return;
-    }
-
-    clientRef.current.publish({
-      destination: `/app/call/key`,
-      body: "publish: call/key",
-    });
-
     for (const key of otherKeyListRef.current) {
-      if (pcListMapRef.current.has(key)) {
+      if (pcListMapRef.current.has(key) || !shouldCreateOffer(key)) {
         continue;
       }
 
       const pc = await createPeerConnection(key);
       await sendOffer(pc, key);
     }
-  }, [createPeerConnection, ensureLocalStream, sendOffer]);
+  }, [createPeerConnection, sendOffer, shouldCreateOffer]);
+
+  const startStream = useCallback(async () => {
+    hasStartedStreamRef.current = true;
+
+    try {
+      await ensureLocalStream();
+    } catch (error) {
+      console.error("로컬 미디어를 가져오지 못했습니다:", error);
+      hasStartedStreamRef.current = false;
+      return;
+    }
+
+    if (!clientRef.current?.connected) {
+      console.warn("시그널링 연결 전이라 로컬 스트림만 먼저 시작했습니다.");
+      return;
+    }
+
+    await announceStreamStart();
+  }, [announceStreamStart, ensureLocalStream]);
 
   const startScreenStream = useCallback(async () => {
     try {
@@ -272,7 +308,9 @@ export function useRtc({ id, myKey }: UseRtcProps) {
       });
 
       setRemoteStreams((prev) => {
-        const alreadyExists = prev.some((stream) => stream.id === screenStream.id);
+        const alreadyExists = prev.some(
+          (stream) => stream.id === screenStream.id,
+        );
         return alreadyExists ? prev : [...prev, screenStream];
       });
 
@@ -300,8 +338,9 @@ export function useRtc({ id, myKey }: UseRtcProps) {
 
   useEffect(() => {
     const subscriptions: StompSubscription[] = [];
-    const socket = new SockJS("https://mhsls.site/api/ws/consulting-room");
+    const socket = new SockJS(SIGNALING_SERVER_URL);
     const pcMap = pcListMapRef.current;
+    const pendingPeerConnections = pendingPeerConnectionRef.current;
     const peerStreamMap = peerStreamMapRef.current;
     const pendingIceCandidatesMap = pendingIceCandidatesRef.current;
     const client = new Client({
@@ -314,58 +353,101 @@ export function useRtc({ id, myKey }: UseRtcProps) {
 
     client.onConnect = () => {
       subscriptions.push(
-        client.subscribe(`/topic/call/key`, () => {
-          client.publish({
-            destination: `/app/send/key`,
-            body: JSON.stringify(myKey),
-          });
-        }),
-      );
+        client.subscribe(
+          `/topic/room/participants/${consultationRoomId}`,
+          (message) => {
+            const participantKeys = JSON.parse(message.body);
 
-      subscriptions.push(
-        client.subscribe(`/topic/send/key`, (message) => {
-          const key = JSON.parse(message.body);
+            if (!Array.isArray(participantKeys)) {
+              return;
+            }
 
-          if (key !== myKey && !otherKeyListRef.current.includes(key)) {
-            otherKeyListRef.current.push(key);
+            const nextOtherKeys = participantKeys.filter(
+              (key): key is string => typeof key === "string" && key !== myKey,
+            );
+
+            otherKeyListRef.current = nextOtherKeys;
+
+            for (const existingKey of Array.from(pcListMapRef.current.keys())) {
+              if (!nextOtherKeys.includes(existingKey)) {
+                cleanupPeerConnection(existingKey);
+              }
+            }
+
+            if (!hasStartedStreamRef.current || !client.connected) {
+              return;
+            }
+
+            nextOtherKeys.forEach((key) => {
+              if (
+                pcListMapRef.current.has(key) ||
+                !shouldCreateOffer(key)
+              ) {
+                return;
+              }
+
+              void (async () => {
+                const pc = await createPeerConnection(key);
+                await sendOffer(pc, key);
+              })();
+            });
           }
-        }),
-      );
-
-      subscriptions.push(
-        client.subscribe(`/topic/peer/offer/${myKey}/${roomId}`, async (message) => {
-          const { key, body } = JSON.parse(message.body);
-          const pc = await createPeerConnection(key);
-
-          await pc.setRemoteDescription(new RTCSessionDescription(body));
-          await flushPendingIceCandidates(key);
-          await sendAnswer(pc, key);
-        }),
-      );
-
-      subscriptions.push(
-        client.subscribe(`/topic/peer/answer/${myKey}/${roomId}`, async (message) => {
-          const { key, body } = JSON.parse(message.body);
-          const pc = pcListMapRef.current.get(key);
-
-          if (!pc) {
-            return;
-          }
-
-          await pc.setRemoteDescription(new RTCSessionDescription(body));
-          await flushPendingIceCandidates(key);
-        }),
+        ),
       );
 
       subscriptions.push(
         client.subscribe(
-          `/topic/peer/iceCandidate/${myKey}/${roomId}`,
+          `/topic/peer/offer/${myKey}/${consultationRoomId}`,
+          async (message) => {
+            const { key, body } = JSON.parse(message.body);
+            const pc = await createPeerConnection(key);
+
+            await pc.setRemoteDescription(new RTCSessionDescription(body));
+            await flushPendingIceCandidates(key);
+            await sendAnswer(pc, key);
+          },
+        ),
+      );
+
+      subscriptions.push(
+        client.subscribe(
+          `/topic/peer/answer/${myKey}/${consultationRoomId}`,
+          async (message) => {
+            const { key, body } = JSON.parse(message.body);
+            const pc = pcListMapRef.current.get(key);
+
+            if (!pc) {
+              return;
+            }
+
+            if (pc.signalingState !== "have-local-offer") {
+              return;
+            }
+
+            await pc.setRemoteDescription(new RTCSessionDescription(body));
+            await flushPendingIceCandidates(key);
+          },
+        ),
+      );
+
+      subscriptions.push(
+        client.subscribe(
+          `/topic/peer/iceCandidate/${myKey}/${consultationRoomId}`,
           async (message) => {
             const { key, body } = JSON.parse(message.body);
             await handleRemoteIceCandidate(key, body);
           },
         ),
       );
+
+      client.publish({
+        destination: `/app/room/join/${consultationRoomId}`,
+        body: JSON.stringify(myKey),
+      });
+
+      if (hasStartedStreamRef.current) {
+        void announceStreamStart();
+      }
     };
 
     client.activate();
@@ -379,12 +461,15 @@ export function useRtc({ id, myKey }: UseRtcProps) {
 
       localStreamRef.current?.getTracks().forEach((track) => track.stop());
       localStreamRef.current = null;
+      setLocalStream(null);
 
       Array.from(pcMap.keys()).forEach((key) => cleanupPeerConnection(key));
       pcMap.clear();
+      pendingPeerConnections.clear();
       peerStreamMap.clear();
       pendingIceCandidatesMap.clear();
       otherKeyListRef.current = [];
+      hasStartedStreamRef.current = false;
       setRemoteStreams([]);
 
       client.deactivate();
@@ -395,12 +480,16 @@ export function useRtc({ id, myKey }: UseRtcProps) {
     createPeerConnection,
     flushPendingIceCandidates,
     handleRemoteIceCandidate,
+    announceStreamStart,
+    consultationRoomId,
     myKey,
-    roomId,
+    sendOffer,
     sendAnswer,
+    shouldCreateOffer,
   ]);
 
   return {
+    localStream,
     startStream,
     startScreenStream,
     remoteStreams,

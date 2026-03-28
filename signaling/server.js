@@ -4,7 +4,13 @@ const cors = require("cors");
 const sockjs = require("sockjs");
 
 const PORT = Number(process.env.PORT || 8080);
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "*";
+const CLIENT_ORIGINS = (
+  process.env.CLIENT_ORIGINS ||
+  "https://iamyounghun.site,http://localhost:3000"
+)
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 const WS_PREFIX = "/api/ws/consulting-room";
 
 const app = express();
@@ -19,10 +25,18 @@ let messageSequence = 1;
 
 const connections = new Map();
 const destinationSubscriptions = new Map();
+const roomParticipants = new Map();
 
 app.use(
   cors({
-    origin: CLIENT_ORIGIN === "*" ? true : CLIENT_ORIGIN,
+    origin: (origin, callback) => {
+      if (!origin || CLIENT_ORIGINS.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   }),
 );
@@ -90,14 +104,6 @@ function parseFrame(frameText) {
 }
 
 function getMappedDestinations(destination) {
-  if (destination === "/app/call/key") {
-    return ["/topic/call/key"];
-  }
-
-  if (destination === "/app/send/key") {
-    return ["/topic/send/key"];
-  }
-
   const peerMatch = destination.match(
     /^\/app\/peer\/(offer|answer|iceCandidate)\/([^/]+)\/([^/]+)$/,
   );
@@ -108,6 +114,38 @@ function getMappedDestinations(destination) {
   }
 
   return [];
+}
+
+function getRoomParticipantKeys(roomId) {
+  return Array.from(roomParticipants.get(roomId)?.keys() ?? []);
+}
+
+function broadcastRoomParticipants(roomId) {
+  broadcast(
+    `/topic/room/participants/${roomId}`,
+    JSON.stringify(getRoomParticipantKeys(roomId)),
+  );
+}
+
+function upsertRoomParticipant(connectionState, roomId, key) {
+  const previousKey = connectionState.joinedRooms.get(roomId);
+
+  if (previousKey && previousKey !== key) {
+    const participants = roomParticipants.get(roomId);
+    participants?.delete(previousKey);
+
+    if (participants?.size === 0) {
+      roomParticipants.delete(roomId);
+    }
+  }
+
+  if (!roomParticipants.has(roomId)) {
+    roomParticipants.set(roomId, new Map());
+  }
+
+  roomParticipants.get(roomId).set(key, connectionState.sessionId);
+  connectionState.joinedRooms.set(roomId, key);
+  broadcastRoomParticipants(roomId);
 }
 
 function sendMessageFrame(connectionState, subscription, destination, body) {
@@ -172,6 +210,17 @@ function removeSubscription(connectionState, subscriptionId) {
 }
 
 function cleanupConnection(connectionState) {
+  for (const [roomId, key] of connectionState.joinedRooms.entries()) {
+    const participants = roomParticipants.get(roomId);
+    participants?.delete(key);
+
+    if (participants?.size === 0) {
+      roomParticipants.delete(roomId);
+    }
+
+    broadcastRoomParticipants(roomId);
+  }
+
   for (const subscriptionId of connectionState.subscriptions.keys()) {
     removeSubscription(connectionState, subscriptionId);
   }
@@ -212,10 +261,22 @@ function handleConnect(connectionState) {
   );
 }
 
-function handleSend(frame) {
+function handleSend(connectionState, frame) {
   const destination = frame.headers.destination;
 
   if (!destination) {
+    return;
+  }
+
+  const joinMatch = destination.match(/^\/app\/room\/join\/([^/]+)$/);
+
+  if (joinMatch) {
+    const key = JSON.parse(frame.body);
+
+    if (typeof key === "string" && key) {
+      upsertRoomParticipant(connectionState, joinMatch[1], key);
+    }
+
     return;
   }
 
@@ -252,7 +313,7 @@ function handleFrame(connectionState, frame) {
       }
       return;
     case "SEND":
-      handleSend(frame);
+      handleSend(connectionState, frame);
       return;
     case "DISCONNECT":
       connectionState.connection.close();
@@ -269,6 +330,7 @@ sockServer.on("connection", (connection) => {
     connection,
     connected: false,
     subscriptions: new Map(),
+    joinedRooms: new Map(),
     buffer: "",
   };
 

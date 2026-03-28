@@ -9,8 +9,8 @@
 `useRtc()`는 WebRTC 피어 연결과 SockJS/STOMP 기반 시그널링을 함께 관리하는 훅이다.
 
 ```tsx
-const { startStream, startScreenStream, remoteStreams } = useRtc({
-  id,
+const { localStream, startStream, startScreenStream, remoteStreams } = useRtc({
+  roomId,
   myKey,
 });
 ```
@@ -23,18 +23,18 @@ const { startStream, startScreenStream, remoteStreams } = useRtc({
 
 ## 전제
 
-### 1. `id`와 `myKey`가 반드시 있어야 한다
+### 1. `roomId`와 `myKey`가 반드시 있어야 한다
 
 ```tsx
-const { startStream, startScreenStream, remoteStreams } = useRtc({
-  id: "room-1",
+const { localStream, startStream, startScreenStream, remoteStreams } = useRtc({
+  roomId: "room-1",
   myKey: "user-a",
 });
 ```
 
-- `id`
+- `roomId`
   - 실제 room id의 베이스 값
-  - 내부적으로 `${id}consulting` 형태의 `roomId`로 변환된다
+  - 내부적으로 `${roomId}consulting` 형태의 시그널링 room id로 변환된다
 - `myKey`
   - 현재 사용자 식별 키
   - 시그널링 topic 경로에 그대로 들어간다
@@ -96,6 +96,13 @@ remoteStreams.map((stream) => (
 
 - 이 배열에는 상대 peer stream이 들어간다
 - 현재 구현에서는 화면 공유 stream도 일시적으로 추가될 수 있다
+
+### `localStream`
+
+현재 내 카메라/마이크 로컬 미디어 스트림이다.
+
+- `null`이면 아직 로컬 미디어를 시작하지 않은 상태다
+- UI에서 로컬 preview를 직접 렌더링할 때 사용한다
 
 ## 시그널링 경로
 
@@ -268,7 +275,7 @@ destination: `/app/peer/iceCandidate/${otherKey}/${roomId}`
 현재 room id는 아래 규칙이다.
 
 ```ts
-const roomId = `${id}consulting`;
+const consultationRoomId = `${roomId}consulting`;
 ```
 
 시그널링 서버가 이 경로를 그대로 라우팅한다고 가정한다.
@@ -294,7 +301,7 @@ const roomId = `${id}consulting`;
 잘못된 예:
 
 ```tsx
-useRtc({ id: "room-1", myKey: "" });
+useRtc({ roomId: "room-1", myKey: "" });
 ```
 
 이 경우 topic 경로가 깨진다.
@@ -318,8 +325,8 @@ import { useEffect, useRef } from "react";
 import { useRtc } from "@/app/shared/rtc/useRtc";
 
 export function RtcRoom() {
-  const { startStream, startScreenStream, remoteStreams } = useRtc({
-    id: "room-1",
+  const { localStream, startStream, startScreenStream, remoteStreams } = useRtc({
+    roomId: "room-1",
     myKey: "user-a",
   });
 
@@ -337,6 +344,16 @@ export function RtcRoom() {
 
   return (
     <div>
+      <video
+        ref={(node) => {
+          if (node) {
+            node.srcObject = localStream;
+          }
+        }}
+        autoPlay
+        playsInline
+        muted
+      />
       <button onClick={() => void startStream()}>통화 시작</button>
       <button onClick={() => void startScreenStream()}>화면 공유</button>
 

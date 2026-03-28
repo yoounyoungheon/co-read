@@ -21,6 +21,7 @@ export function MainShowcasePage({
   timeLineItems,
   type,
 }: MainShowcasePageProps) {
+  const webRtcPath = `/play-ground?type=WEB_RTC&id=${crypto.randomUUID()}`;
   const categories = [
     MainPageType.PROFILE,
     MainPageType.PROJECT,
@@ -45,7 +46,7 @@ export function MainShowcasePage({
       type: "WEB RTC",
       description:
         "WEB RTC를 활용한 실시간 통신을 제공하는 플레이그라운드입니다.",
-      path: "/play-ground?type=WEB_RTC",
+      path: webRtcPath,
     },
     {
       type: "CSS ONLY",

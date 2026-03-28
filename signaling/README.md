@@ -2,13 +2,11 @@
 
 `web/src/app/shared/rtc/useRtc.tsx` uses `SockJS + STOMP` with these destinations:
 
-- publish: `/app/call/key`
-- publish: `/app/send/key`
+- publish: `/app/room/join/:roomId`
 - publish: `/app/peer/offer/:otherKey/:roomId`
 - publish: `/app/peer/answer/:otherKey/:roomId`
 - publish: `/app/peer/iceCandidate/:otherKey/:roomId`
-- subscribe: `/topic/call/key`
-- subscribe: `/topic/send/key`
+- subscribe: `/topic/room/participants/:roomId`
 - subscribe: `/topic/peer/offer/:myKey/:roomId`
 - subscribe: `/topic/peer/answer/:myKey/:roomId`
 - subscribe: `/topic/peer/iceCandidate/:myKey/:roomId`
@@ -27,8 +25,8 @@ npm run dev
 
 - `PORT`
   - default: `8080`
-- `CLIENT_ORIGIN`
-  - default: `*`
+- `CLIENT_ORIGINS`
+  - default: `https://iamyounghun.site,http://localhost:3000`
 
 ## Endpoints
 

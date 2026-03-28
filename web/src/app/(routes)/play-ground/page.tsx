@@ -1,10 +1,13 @@
 import ChatUI from "@/app/feature/play-ground/chat/ui/ChatUI";
 import BuildUI from "@/app/feature/play-ground/log/ui/BuildUI";
+import RtcRoom from "@/app/feature/play-ground/rtc/ui/RtcRoom";
 import { PageQueryProps } from "@/app/utils/type";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
   const type =
     typeof searchParams.type === "string" ? searchParams.type : undefined;
+  const roomId =
+    typeof searchParams.id === "string" ? searchParams.id : undefined;
 
   if (!type) {
     return (
@@ -21,7 +24,11 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
       case "LOG_STREAMING":
         return <BuildUI />;
       case "WEB_RTC":
-        return <div>프로젝트 콘텐츠</div>;
+        return roomId ? (
+          <RtcRoom roomId={roomId} />
+        ) : (
+          <div>WEB_RTC에는 `id` 쿼리스트링이 필요합니다.</div>
+        );
       case "CSS_ONLY":
         return <div>CSS ONLY 콘텐츠</div>;
       default:

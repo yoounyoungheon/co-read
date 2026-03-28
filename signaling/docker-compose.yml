@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  signaling:
+    image: yoonyounghun/signaling:latest
+    container_name: signaling
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      CLIENT_ORIGINS: "https://iamyounghun.site,http://localhost:3000"

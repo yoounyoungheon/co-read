@@ -21,6 +21,7 @@
 - `rcc-rendering`
 - `css-only-state`
 - `sse-chat-streaming`
+- `rtc-signaling`
 - `storybook-authoring`
 - `style-implementation`
 
@@ -56,7 +57,9 @@ npm run start
 
 이 서버는 특정 AI agent나 특정 클라이언트 전용이 아닙니다. `stdio` 방식으로 MCP 서버를 실행할 수 있는 클라이언트라면 같은 방식으로 연결할 수 있습니다.
 
-아래 예시는 Claude Desktop 형식의 설정 예시일 뿐이며, 다른 MCP 클라이언트에서도 같은 실행 정보(`command`, `args`, `cwd`)를 사용하면 됩니다.
+### Claude Desktop 예시
+
+아래는 Claude Desktop에서 많이 쓰는 `mcpServers` 형식의 예시입니다.
 
 ```json
 {
@@ -71,6 +74,58 @@ npm run start
 ```
 
 개발 중 연결 확인만 빠르게 하려면 `start` 대신 `dev`를 쓸 수 있지만, 안정적인 연동은 빌드 후 `start`가 더 적합합니다.
+
+### Codex에서 사용하려면
+
+Codex CLI에서 이 MCP를 사용하려면 사용자 설정 파일 `~/.codex/config.toml`에 서버를 등록해야 합니다.
+
+```toml
+[mcp_servers.frontend-guidance-mcp]
+command = "npm"
+args = ["run", "start"]
+cwd = "/Users/yun-yeongheon/dev/co-read/mcp"
+```
+
+설정을 추가한 뒤에는 Codex를 다시 시작해야 새 세션에서 MCP가 연결됩니다.
+
+### OpenCode 예시
+
+OpenCode에서는 `opencode.json` 또는 `~/.config/opencode/opencode.json`의 `mcp` 필드에 로컬 MCP 서버를 등록합니다.
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "frontend-guidance-mcp": {
+      "type": "local",
+      "command": ["npm", "run", "start"],
+      "enabled": true,
+      "environment": {
+        "PWD": "/Users/yun-yeongheon/dev/co-read/mcp"
+      }
+    }
+  }
+}
+```
+
+다만 이 서버는 `cwd`가 필요하므로, OpenCode에서 실행 디렉터리를 별도로 지정할 수 없다면 아래처럼 절대 경로로 시작 커맨드를 감싼 런처 스크립트를 두는 편이 안전합니다.
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "frontend-guidance-mcp": {
+      "type": "local",
+      "command": [
+        "zsh",
+        "-lc",
+        "cd /Users/yun-yeongheon/dev/co-read/mcp && npm run start"
+      ],
+      "enabled": true
+    }
+  }
+}
+```
 
 ## 사용 예시
 
