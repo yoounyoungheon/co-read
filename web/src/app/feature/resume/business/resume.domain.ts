@@ -21,6 +21,12 @@ export interface ResumeClubStory {
   startTime: string;
   endTime: string;
   description: string;
+  links: ResumeItemLink[];
+}
+
+export interface ResumeItemLink {
+  header: string;
+  path: string;
 }
 
 export interface ResumeClubItem extends ResumeBaseItem {
@@ -37,12 +43,14 @@ export interface ResumeBootcampItem extends ResumeBaseItem {
   retrospective: {
     title: string;
     description: string;
+    links: ResumeItemLink[];
   }[];
 }
 
 export interface ResumeWorkExperience {
   title: string;
   description: string;
+  links: ResumeItemLink[];
 }
 
 export interface ResumeWorkItem extends ResumeBaseItem {

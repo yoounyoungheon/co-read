@@ -25,6 +25,12 @@ const meta: Meta<typeof PlayGround> = {
         description: "CSS 중심의 인터랙션을 확인할 수 있는 플레이그라운드입니다.",
         path: "/play-ground/css-only",
       },
+      {
+        type: "code gen stream",
+        description:
+          "코드 생성 진행 상태를 스트리밍으로 확인할 수 있는 플레이그라운드입니다.",
+        path: "/play-ground?type=CODE_GEN_STREAM",
+      },
     ],
   },
 };

@@ -1,4 +1,5 @@
 import ChatUI from "@/app/feature/play-ground/chat/ui/ChatUI";
+import CodeGenUI from "@/app/feature/play-ground/code-gen/ui/CodeGenUI";
 import BuildUI from "@/app/feature/play-ground/log/ui/BuildUI";
 import RtcRoom from "@/app/feature/play-ground/rtc/ui/RtcRoom";
 import { PageQueryProps } from "@/app/utils/type";
@@ -23,6 +24,8 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
         return <ChatUI />;
       case "LOG_STREAMING":
         return <BuildUI />;
+      case "CODE_GEN_STREAM":
+        return <CodeGenUI />;
       case "WEB_RTC":
         return roomId ? (
           <RtcRoom roomId={roomId} />

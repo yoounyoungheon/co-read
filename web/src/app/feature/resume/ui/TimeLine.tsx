@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Badge from "@/app/shared/ui/atom/badge";
 import { Card } from "@/app/shared/ui/molecule/card";
 
@@ -6,6 +7,11 @@ export type BaseTimeLineItem = {
   badge: string;
   title: string;
   period?: string;
+};
+
+export type TimeLineItemLink = {
+  header: string;
+  path: string;
 };
 
 export type UniversityTimeLineItem = BaseTimeLineItem & {
@@ -24,6 +30,7 @@ export type ClubTimeLineItem = BaseTimeLineItem & {
     startTime: string;
     endTime: string;
     description: string;
+    links: TimeLineItemLink[];
   }[];
 };
 
@@ -35,6 +42,7 @@ export type BootcampTimeLineItem = BaseTimeLineItem & {
   retrospective: {
     title: string;
     description: string;
+    links: TimeLineItemLink[];
   }[];
 };
 
@@ -47,6 +55,7 @@ export type WorkTimeLineItem = BaseTimeLineItem & {
   experiences: {
     title: string;
     description: string;
+    links: TimeLineItemLink[];
   }[];
 };
 
@@ -81,6 +90,37 @@ function SectionHeader({
         {period ? (
           <p className="mt-2 text-sm font-medium text-slate-500">{period}</p>
         ) : null}
+      </div>
+    </div>
+  );
+}
+
+function ItemLinks({ links }: { links: TimeLineItemLink[] }) {
+  if (links.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="mt-10 flex flex-col items-start">
+      <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+        &lt;관련 링크&gt;
+      </h3>
+      <div className="mt-3 space-x-2">
+        {links.map((link) => {
+          const isExternal = /^https?:\/\//.test(link.path);
+
+          return (
+            <Link
+              key={`${link.header}-${link.path}`}
+              href={link.path}
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noreferrer" : undefined}
+              className="text-sm font-medium text-slate-700 underline decoration-slate-300 underline-offset-4 transition hover:text-slate-900 hover:decoration-slate-500"
+            >
+              {link.header + `,`}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
@@ -174,6 +214,7 @@ function ClubCard(item: ClubTimeLineItem) {
                 <p className="mt-3 whitespace-pre-line text-sm leading-7 text-slate-600">
                   {story.description}
                 </p>
+                <ItemLinks links={story.links} />
               </div>
             ))}
           </div>
@@ -231,6 +272,7 @@ function BootcampCard(item: BootcampTimeLineItem) {
                   <p className="mt-2 whitespace-pre-line text-sm leading-7 text-slate-600">
                     {retrospective.description}
                   </p>
+                  <ItemLinks links={retrospective.links} />
                 </div>
               ))}
             </div>
@@ -293,6 +335,7 @@ function WorkCard(item: WorkTimeLineItem) {
                   <p className="whitespace-pre-line text-sm leading-7 text-slate-600">
                     {experience.description}
                   </p>
+                  <ItemLinks links={experience.links} />
                 </div>
               </div>
             ))}
