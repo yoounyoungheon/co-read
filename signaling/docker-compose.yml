@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.3"
 
 services:
   signaling:
@@ -10,3 +10,21 @@ services:
     environment:
       PORT: "8080"
       CLIENT_ORIGINS: "https://iamyounghun.site,http://localhost:3000"
+
+  coturn:
+    image: coturn/coturn:latest
+    container_name: coturn
+    restart: unless-stopped
+    network_mode: host
+    command: >
+      -n
+      --log-file=stdout
+      --lt-cred-mech
+      --fingerprint
+      --realm=iamyounghun.co.kr
+      --server-name=iamyounghun.co.kr
+      --user=iddyoon:iddyoon
+      --external-ip=8.229.223.216
+      --listening-port=3478
+      --min-port=49160
+      --max-port=49200
