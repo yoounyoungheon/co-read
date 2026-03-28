@@ -10,9 +10,7 @@ interface UseRtcProps {
 const RTC_CONFIGURATION: RTCConfiguration = {
   iceServers: [
     {
-      urls: "turn:13.125.215.188:3478",
-      username: "splaw",
-      credential: "splaw",
+      urls: "stun:stun.l.google.com:19302'",
     },
   ],
 };
@@ -27,9 +25,9 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
   const hasStartedStreamRef = useRef(false);
   const otherKeyListRef = useRef<string[]>([]);
   const pcListMapRef = useRef<Map<string, RTCPeerConnection>>(new Map());
-  const pendingPeerConnectionRef = useRef<Map<string, Promise<RTCPeerConnection>>>(
-    new Map(),
-  );
+  const pendingPeerConnectionRef = useRef<
+    Map<string, Promise<RTCPeerConnection>>
+  >(new Map());
   const peerStreamMapRef = useRef<Map<string, MediaStream>>(new Map());
   const pendingIceCandidatesRef = useRef<Map<string, RTCIceCandidateInit[]>>(
     new Map(),
@@ -158,7 +156,9 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
         };
 
         pc.onconnectionstatechange = () => {
-          if (["disconnected", "failed", "closed"].includes(pc.connectionState)) {
+          if (
+            ["disconnected", "failed", "closed"].includes(pc.connectionState)
+          ) {
             cleanupPeerConnection(otherKey);
           }
         };
@@ -194,7 +194,10 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
 
   const sendOffer = useCallback(
     async (pc: RTCPeerConnection, otherKey: string) => {
-      if (pc.signalingState !== "stable" || pc.localDescription?.type === "offer") {
+      if (
+        pc.signalingState !== "stable" ||
+        pc.localDescription?.type === "offer"
+      ) {
         return;
       }
 
@@ -379,10 +382,7 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
             }
 
             nextOtherKeys.forEach((key) => {
-              if (
-                pcListMapRef.current.has(key) ||
-                !shouldCreateOffer(key)
-              ) {
+              if (pcListMapRef.current.has(key) || !shouldCreateOffer(key)) {
                 return;
               }
 
@@ -391,7 +391,7 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
                 await sendOffer(pc, key);
               })();
             });
-          }
+          },
         ),
       );
 
