@@ -1,0 +1,16 @@
+{
+  "name": "rtc-signaling-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express-based SockJS/STOMP signaling server for the co-read RTC playground.",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "sockjs": "^0.3.24"
+  }
+}

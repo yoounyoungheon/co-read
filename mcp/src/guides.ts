@@ -9,6 +9,7 @@ export type GuideId =
   | "rcc-rendering"
   | "css-only-state"
   | "sse-chat-streaming"
+  | "rtc-signaling"
   | "storybook-authoring"
   | "style-implementation";
 
@@ -389,6 +390,69 @@ const guides: GuideDefinition[] = [
 ## 드리프트 경고
 - \`mcp/guidance/stream.md\`는 아직 \`prepare\`, \`title\`, \`description\` 같은 예전 named event를 설명하고 있습니다.
 - 구현 작업의 canonical 기준은 \`web/src/app/api/streaming/chat/route.ts\`와 shared SSE/chat source 파일들입니다.
+`,
+  },
+  {
+    id: "rtc-signaling",
+    title: "RTC 시그널링 가이드",
+    summary:
+      "useRtc는 SockJS/STOMP 시그널링과 WebRTC peer 연결을 함께 관리하며, offer/answer/iceCandidate 경로와 roomId 규칙을 정확히 맞춰야 합니다.",
+    triggers: {
+      paths: [
+        "web/src/app/shared/rtc/**",
+        "web/src/app/feature/play-ground/**",
+        "signaling/**",
+      ],
+      keywords: [
+        "rtc",
+        "webrtc",
+        "signaling",
+        "signalling",
+        "sockjs",
+        "stomp",
+        "peer connection",
+        "ice candidate",
+        "offer",
+        "answer",
+        "screen share",
+        "useRtc",
+      ],
+    },
+    sources: [
+      "mcp/guidance/use-rtc.md",
+      "web/src/app/shared/rtc/useRtc.tsx",
+      "signaling/server.js",
+      "signaling/README.md",
+    ],
+    canonicalSources: [
+      "web/src/app/shared/rtc/useRtc.tsx",
+      "signaling/server.js",
+      "signaling/README.md",
+    ],
+    guideFiles: ["mcp/guidance/use-rtc.md"],
+    body: `# rtc-signaling
+
+## 언제 읽어야 하나
+- \`shared/rtc\`, WebRTC 연결 흐름, 시그널링 서버를 수정할 때 읽습니다.
+- 작업 설명에 \`useRtc\`, offer/answer, ice candidate, SockJS, STOMP, 화면 공유, peer connection이 언급될 때 읽습니다.
+
+## 근거 기반 규칙
+- 현재 RTC 구현은 \`useRtc.tsx\`가 클라이언트 WebRTC 상태와 SockJS/STOMP 시그널링을 함께 관리하는 구조입니다.
+- 시그널링 destination은 \`/app/*\` publish와 \`/topic/*\` subscribe 경로를 그대로 유지해야 합니다.
+- room 식별자는 현재 \`${"${id}"}consulting\` 규칙을 사용하므로, client와 signaling 서버가 같은 규칙을 공유해야 합니다.
+- remote description 전에 들어온 ICE candidate는 즉시 적용하지 않고 queue 후 flush 해야 합니다.
+- 화면 공유는 재협상 대신 \`replaceTrack()\` 기반으로 video sender만 교체하는 흐름입니다.
+
+## 현재 레포 패턴
+- \`startStream()\`은 먼저 \`/app/call/key\`를 publish 하고, 수집된 상대 key 기준으로 offer를 만듭니다.
+- 상대는 \`/topic/call/key\`를 받고 \`/app/send/key\`로 자신의 key를 다시 보냅니다.
+- offer를 받은 쪽은 remote description 적용 후 answer를 생성하고, answer를 받은 쪽이 최종적으로 연결을 완성합니다.
+- cleanup에서는 STOMP subscription 해제, local/screen stream stop, peer connection close를 모두 수행합니다.
+
+## 주의사항
+- \`myKey\`가 고유하지 않으면 topic 경로가 충돌합니다.
+- SockJS URL과 signaling 서버 endpoint가 어긋나면 연결 자체가 성립하지 않습니다.
+- TURN 서버 자격 증명은 현재 client 코드에 하드코딩돼 있으므로 보안상 별도 관리가 필요합니다.
 `,
   },
   {
