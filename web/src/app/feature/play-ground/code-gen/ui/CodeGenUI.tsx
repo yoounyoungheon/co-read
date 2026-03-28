@@ -112,22 +112,22 @@ const Stepper = ({
         "
       >
         <div className="flex min-w-max gap-2">
-        {CODE_GEN_STEPS.map((step) => {
-          const isActive = currentStep === step;
+          {CODE_GEN_STEPS.map((step) => {
+            const isActive = currentStep === step;
 
-          return (
-            <Button
-              key={step}
-              variant={isActive ? "solid" : "outline"}
-              type="primary"
-              radius="full"
-              className="min-w-[112px] shrink-0 px-4 py-2 text-sm capitalize shadow-none"
-              onClick={() => onChange(step)}
-            >
-              {step}
-            </Button>
-          );
-        })}
+            return (
+              <Button
+                key={step}
+                variant={isActive ? "solid" : "outline"}
+                type="primary"
+                radius="full"
+                className="min-w-[112px] shrink-0 px-4 py-2 text-sm capitalize shadow-none"
+                onClick={() => onChange(step)}
+              >
+                {step}
+              </Button>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -199,7 +199,9 @@ const ResultPanel = ({ result }: { result?: CodeGenSummary }) => {
         </p>
         <p
           className={`mt-2 text-sm font-semibold ${
-            result.result === "SUCCESS" ? "text-primary-main" : "text-error-main"
+            result.result === "SUCCESS"
+              ? "text-primary-main"
+              : "text-error-main"
           }`}
         >
           {result.result}
@@ -234,9 +236,9 @@ const StepDescriptionPanel = () => {
           코드 생성 단계 안내
         </h2>
         <p className="text-sm leading-6 text-slate-600">
-          각 단계가 어떤 역할을 담당하는지 먼저 보고, 아래 스테퍼에서 현재
-          진행 중인 영역을 확인해 보세요. 새로 고침을 하면, 스트림 데이터가
-          다시 처음부터 들어와요!
+          각 단계가 어떤 역할을 담당하는지 먼저 보고, 아래 스테퍼에서 현재 진행
+          중인 영역을 확인해 보세요. 새로 고침을 하면, 스트림 데이터가 다시
+          처음부터 들어와요!
         </p>
       </div>
 

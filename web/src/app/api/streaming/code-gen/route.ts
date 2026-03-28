@@ -30,8 +30,10 @@ type EndPayload = {
   artifact: string;
 };
 
-const STREAM_DELAY_MS = 1000;
-const STATUS_TRANSITION_DELAY_MS = 2200;
+const DEFAULT_STREAM_DELAY_MS = 1000;
+const DEFAULT_STATUS_TRANSITION_DELAY_MS = 2200;
+const PRODUCTION_STREAM_DELAY_MS = 200;
+const PRODUCTION_STATUS_TRANSITION_DELAY_MS = 200;
 const RETRY_DELAY_MS = 1000 * 60 * 60;
 const END_FLUSH_INTERVAL_MS = 200;
 const END_FLUSH_COUNT = 4;
@@ -662,6 +664,14 @@ const toSSERetry = (retryMs: number) => `retry: ${retryMs}\n\n`;
 const toSSEComment = (comment: string) => `:${comment}\n\n`;
 
 export async function GET(request: Request) {
+  const isProduction = process.env.NODE_ENV === "production";
+  const streamDelayMs = isProduction
+    ? PRODUCTION_STREAM_DELAY_MS
+    : DEFAULT_STREAM_DELAY_MS;
+  const statusTransitionDelayMs = isProduction
+    ? PRODUCTION_STATUS_TRANSITION_DELAY_MS
+    : DEFAULT_STATUS_TRANSITION_DELAY_MS;
+
   let closed = false;
 
   const stream = new ReadableStream<Uint8Array>({
@@ -692,7 +702,7 @@ export async function GET(request: Request) {
         try {
           send(toSSERetry(RETRY_DELAY_MS));
           send(toSSEEvent("start", null));
-          await sleep(STREAM_DELAY_MS);
+          await sleep(streamDelayMs);
 
           for (let index = 0; index < PROCESSING_EVENTS.length; index += 1) {
             const event = PROCESSING_EVENTS[index];
@@ -705,11 +715,11 @@ export async function GET(request: Request) {
               previousEvent.result === "PENDING" &&
               event.result === "SUCCESS"
             ) {
-              await sleep(STATUS_TRANSITION_DELAY_MS);
+              await sleep(statusTransitionDelayMs);
             }
 
             send(toSSEEvent("processing", event));
-            await sleep(STREAM_DELAY_MS);
+            await sleep(streamDelayMs);
           }
 
           send(toSSEEvent("end", END_PAYLOAD));

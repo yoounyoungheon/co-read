@@ -374,7 +374,7 @@ export function TimeLine({ items }: TimeLineProps) {
           </h2>
           <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
             학교에서 시작해 동아리, 부트캠프, 실무 경험까지 이어진 흐름을
-            따라가며 지금 어떤 개발자가 되었는지 소개합니다.
+            따라가며 지금 어떤 개발자가 되었는지 소개할게요.
           </p>
         </div>
 
