@@ -10,7 +10,9 @@ interface UseRtcProps {
 const RTC_CONFIGURATION: RTCConfiguration = {
   iceServers: [
     {
-      urls: "stun:stun.l.google.com:19302'",
+      urls: "turn:13.125.215.188:3478",
+      username: "splaw",
+      credential: "splaw",
     },
   ],
 };
