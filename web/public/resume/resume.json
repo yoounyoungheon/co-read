@@ -65,6 +65,10 @@
           "description": "\"비대면 금융 서비스\"라는 주제로 팀장을 맡아, 영상통화를 통해 은행 업무를 처리할 수 있는 비대면 창구 서비스를 설계하고 개발했어요.\n\n- 실시간 영상 상담, 화면 공유, 문서 공유, 금융 서비스 가입 신청 흐름까지 하나의 상담 프로세스를 설계 및 구현\n- 브라우저 환경에서의 peer connection 관리와 스트림 데이터 처리 구조를 설계\n\n기술 선택과 구조 설계에 대해 깊이 고민한 점을 인정받아 프로젝트는 최우수상을 수상했어요.",
           "links": [
             {
+              "header": "web rtc 기능을 테스트 해보세요!(카메라, 마이크 권한 필요해요. WEB RTC 버튼을 클릭하세요.)",
+              "path": "https://iamyounghun.site?type=PLAY_GROUND"
+            },
+            {
               "header": "\"화창\" 프로젝트를 진행한 자세한 내용이 궁금하다면?",
               "path": "https://www.iamyounghun.site/project?id=p1"
             }
