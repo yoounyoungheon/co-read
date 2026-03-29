@@ -1,10 +1,13 @@
 import { MarkdownViewer } from "@/app/shared/ui/molecule/markdown-viewer";
+import { ProjectImage } from "../business/project.domain";
+import { ProjectImageList } from "./ProjectImageList";
 
 export interface ProjectReviewProps {
   markdown: string;
+  images?: ProjectImage[];
 }
 
-export function ProjectReview({ markdown }: ProjectReviewProps) {
+export function ProjectReview({ markdown, images = [] }: ProjectReviewProps) {
   return (
     <div
       className="
@@ -18,6 +21,7 @@ export function ProjectReview({ markdown }: ProjectReviewProps) {
         variant="notion"
         className="max-w-none"
       />
+      {images.length > 0 ? <ProjectImageList images={images} /> : null}
     </div>
   );
 }

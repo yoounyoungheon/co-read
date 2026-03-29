@@ -101,7 +101,7 @@ function ItemLinks({ links }: { links: TimeLineItemLink[] }) {
   }
 
   return (
-    <div className="mt-10 flex flex-col items-start">
+    <div className="mt-3 flex flex-col items-start">
       <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
         &lt;관련 링크&gt;
       </h3>
