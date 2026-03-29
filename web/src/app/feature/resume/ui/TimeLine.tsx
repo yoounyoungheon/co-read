@@ -164,7 +164,7 @@ function UniversityCard(item: UniversityTimeLineItem) {
 
             <div className="rounded-2xl bg-slate-50 px-4 py-4 ring-1 ring-slate-200/70">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                들었던 수업
+                인상깊이 들었던 수업
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {item.courses.map((course) => (
