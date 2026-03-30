@@ -1,7 +1,7 @@
 {
   "id": "p2",
   "title": "우아하나\n시니어 모임 통장",
-  "keyword": ["Spring Boot", "Next.js", "FastAPI"],
+  "keyword": ["시니어 UX", "모임 통장"],
   "description": [
     "액티브 시니어 대상 모임통장 플랫폼 서비스",
     "[모임 통장 관리] 통장 내역 조회 및 참여 멤버 관리 기능 제공",

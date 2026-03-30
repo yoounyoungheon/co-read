@@ -1,7 +1,7 @@
 {
   "id": "p5",
-  "title": "독서 커뮤니티 백엔드 POC\nAgentic AI 검증 프로젝트",
-  "keyword": ["Agentic AI", "Spring Boot", "OpenSearch"],
+  "title": "회사 AI 솔루션 검증 POC 프로젝트",
+  "keyword": ["백엔드", "유즈케이스 검수", "AI 기반 운영 환경 구축"],
   "description": [
     "자사 Agentic AI 솔루션의 성능과 완성도를 검증하기 위한 백엔드 애플리케이션 POC 프로젝트예요.",
     "독서 커뮤니티 백엔드 애플리케이션을 대상으로, PRD와 유즈케이스 기준 구현 수준을 점검하고 보완했어요.",
