@@ -10,7 +10,13 @@
 `useRtc()`는 WebRTC peer connection과 SockJS/STOMP 기반 signaling을 함께 관리하는 훅이다.
 
 ```tsx
-const { localStream, startStream, startScreenStream, remoteStreams } = useRtc({
+const {
+  localStream,
+  startStream,
+  startScreenStream,
+  remoteStreams,
+  stopRtc,
+} = useRtc({
   roomId,
   myKey,
 });
@@ -25,6 +31,7 @@ const { localStream, startStream, startScreenStream, remoteStreams } = useRtc({
 - offer / answer / ICE candidate 처리
 - 원격 `MediaStream[]`를 React state로 노출
 - 화면 공유 시 `replaceTrack()` 처리
+- 화면 종료 시 RTC 자원 정리
 
 ## 전제
 
@@ -71,6 +78,11 @@ await startStream();
 3. signaling 연결이 이미 되어 있으면 `announceStreamStart()`
 4. 연결이 아직 안 되어 있으면 로컬 stream만 먼저 시작하고, `onConnect` 후 이어서 negotiation
 
+추가 특징:
+
+- 생성 중인 `getUserMedia()` promise가 있으면 재사용한다
+- dispose 이후 늦게 stream이 도착하면 즉시 track을 stop하고 버린다
+
 ### `startScreenStream()`
 
 화면 공유를 시작한다.
@@ -100,6 +112,22 @@ remoteStreams.map((stream) => <video key={stream.id} />);
 
 - 이 배열에는 상대 peer의 remote `MediaStream`이 들어간다
 - stream id 기준으로 중복 삽입을 막고 있다
+
+### `stopRtc()`
+
+RTC 관련 자원을 직접 정리한다.
+
+```tsx
+stopRtc();
+```
+
+정리 범위:
+
+- STOMP client deactivate
+- local / screen stream track stop
+- peer connection close
+- participant / peer / ICE / pending map 초기화
+- `localStream`, `remoteStreams` state 초기화
 
 ### `localStream`
 
@@ -272,6 +300,7 @@ destination: `/app/peer/iceCandidate/${otherKey}/${consultationRoomId}`;
 
 - `otherKey -> Promise<RTCPeerConnection>`
 - 같은 peer에 대한 비동기 connection 생성 race를 막는다
+- 생성 실패 시 pending entry를 정리해 이후 다시 생성할 수 있게 한다
 
 ### `peerStreamMapRef`
 
@@ -286,9 +315,18 @@ destination: `/app/peer/iceCandidate/${otherKey}/${consultationRoomId}`;
 
 - 카메라/마이크 로컬 stream 캐시
 
+### `pendingLocalStreamRef`
+
+- 생성 중인 `getUserMedia()` promise 캐시
+- 동시에 여러 번 로컬 stream을 요청해도 한 번만 브라우저 권한 요청이 뜨게 한다
+
 ### `screenStreamRef`
 
 - 화면 공유 stream 캐시
+
+### `isDisposedRef`
+
+- cleanup 이후 늦게 도착한 async media 결과를 무시하기 위한 플래그
 
 ## `createPeerConnection()` 구현 특징
 
@@ -303,6 +341,7 @@ destination: `/app/peer/iceCandidate/${otherKey}/${consultationRoomId}`;
 5. 로컬 stream track 추가
 
 이 패턴은 participant 목록 이벤트가 짧은 시간 안에 여러 번 와도 동일 peer에 대해 중복 connection이 생기는 것을 줄인다.
+또한 생성 도중 실패해도 pending entry를 반드시 비우므로, 다음 signaling 이벤트에서 재시도할 수 있다.
 
 ## 화면 공유 규칙
 
@@ -320,7 +359,7 @@ destination: `/app/peer/iceCandidate/${otherKey}/${consultationRoomId}`;
 
 ## cleanup
 
-훅 unmount 시 아래 정리를 수행한다.
+`stopRtc()` 또는 훅 unmount 시 아래 정리를 수행한다.
 
 - STOMP subscription `unsubscribe()`
 - screen stream track stop
@@ -332,6 +371,7 @@ destination: `/app/peer/iceCandidate/${otherKey}/${consultationRoomId}`;
 - STOMP client `deactivate()`
 
 즉 화면을 떠나면 연결 상태를 기본적으로 정리한다.
+UI에서는 `RtcRoom`이 브라우저 이탈 시 현재 `localStream`을 직접 stop한 뒤 `stopRtc()`를 호출하는 방식으로 함께 정리한다.
 
 ## 가장 중요한 규칙
 
@@ -381,16 +421,23 @@ import { useRtc } from "@/app/shared/rtc/useRtc";
 
 export function RtcRoom() {
   const myKeyRef = useRef(crypto.randomUUID());
-  const { localStream, startStream, startScreenStream, remoteStreams } = useRtc(
-    {
-      roomId: "room-1",
-      myKey: myKeyRef.current,
-    },
-  );
+  const {
+    localStream,
+    startStream,
+    startScreenStream,
+    remoteStreams,
+    stopRtc,
+  } = useRtc({
+    roomId: "room-1",
+    myKey: myKeyRef.current,
+  });
 
   useEffect(() => {
     void startStream();
-  }, [startStream]);
+    return () => {
+      stopRtc();
+    };
+  }, [startStream, stopRtc]);
 
   return (
     <div>

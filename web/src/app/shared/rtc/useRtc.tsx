@@ -21,6 +21,8 @@ const SIGNALING_SERVER_URL =
   process.env.NEXT_PUBLIC_RTC_SIGNALING_URL ??
   "https://signaling.iamyounghun.co.kr/api/ws/consulting-room";
 
+const RTC_DISPOSED_ERROR_MESSAGE = "RTC has been disposed.";
+
 export function useRtc({ roomId, myKey }: UseRtcProps) {
   const consultationRoomId = `${roomId}consulting`;
 
@@ -37,6 +39,8 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
   const clientRef = useRef<Client | null>(null);
   const localStreamRef = useRef<MediaStream | null>(null);
   const screenStreamRef = useRef<MediaStream | null>(null);
+  const isDisposedRef = useRef(false);
+  const pendingLocalStreamRef = useRef<Promise<MediaStream> | null>(null);
 
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStreams, setRemoteStreams] = useState<MediaStream[]>([]);
@@ -55,15 +59,32 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
       return localStreamRef.current;
     }
 
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
+    if (pendingLocalStreamRef.current) {
+      return pendingLocalStreamRef.current;
+    }
 
-    localStreamRef.current = stream;
-    setLocalStream(stream);
+    const streamPromise = navigator.mediaDevices
+      .getUserMedia({
+        video: true,
+        audio: true,
+      })
+      .then((stream) => {
+        if (isDisposedRef.current) {
+          stream.getTracks().forEach((track) => track.stop());
+          throw new Error(RTC_DISPOSED_ERROR_MESSAGE);
+        }
 
-    return stream;
+        localStreamRef.current = stream;
+        setLocalStream(stream);
+
+        return stream;
+      })
+      .finally(() => {
+        pendingLocalStreamRef.current = null;
+      });
+
+    pendingLocalStreamRef.current = streamPromise;
+    return streamPromise;
   }, []);
 
   const cleanupPeerConnection = useCallback(
@@ -89,6 +110,31 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
     },
     [removeRemoteStream],
   );
+
+  const stopRtc = useCallback(() => {
+    isDisposedRef.current = true;
+    pendingLocalStreamRef.current = null;
+    clientRef.current?.deactivate();
+    clientRef.current = null;
+
+    screenStreamRef.current?.getTracks().forEach((track) => track.stop());
+    screenStreamRef.current = null;
+
+    localStreamRef.current?.getTracks().forEach((track) => track.stop());
+    localStreamRef.current = null;
+    setLocalStream(null);
+
+    Array.from(pcListMapRef.current.keys()).forEach((key) =>
+      cleanupPeerConnection(key),
+    );
+    pcListMapRef.current.clear();
+    pendingPeerConnectionRef.current.clear();
+    peerStreamMapRef.current.clear();
+    pendingIceCandidatesRef.current.clear();
+    otherKeyListRef.current = [];
+    hasStartedStreamRef.current = false;
+    setRemoteStreams([]);
+  }, [cleanupPeerConnection]);
 
   const flushPendingIceCandidates = useCallback(async (otherKey: string) => {
     const pc = pcListMapRef.current.get(otherKey);
@@ -136,49 +182,63 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
       }
 
       const pcPromise = (async () => {
-        const pc = new RTCPeerConnection(RTC_CONFIGURATION);
-        pcListMapRef.current.set(otherKey, pc);
+        let pc: RTCPeerConnection | null = null;
 
-        pc.onicecandidate = (event) => onIceCandidate(event, otherKey);
-        pc.ontrack = (event) => {
-          const stream = event.streams[0];
+        try {
+          const nextPc = new RTCPeerConnection(RTC_CONFIGURATION);
+          pc = nextPc;
+          pcListMapRef.current.set(otherKey, nextPc);
 
-          if (!stream) {
-            return;
-          }
+          nextPc.onicecandidate = (event) => onIceCandidate(event, otherKey);
+          nextPc.ontrack = (event) => {
+            const stream = event.streams[0];
 
-          peerStreamMapRef.current.set(otherKey, stream);
-          setRemoteStreams((prev) => {
-            const alreadyExists = prev.some(
-              (currentStream) => currentStream.id === stream.id,
-            );
+            if (!stream) {
+              return;
+            }
 
-            return alreadyExists ? prev : [...prev, stream];
+            peerStreamMapRef.current.set(otherKey, stream);
+            setRemoteStreams((prev) => {
+              const alreadyExists = prev.some(
+                (currentStream) => currentStream.id === stream.id,
+              );
+
+              return alreadyExists ? prev : [...prev, stream];
+            });
+          };
+
+          nextPc.onconnectionstatechange = () => {
+            if (
+              ["disconnected", "failed", "closed"].includes(
+                nextPc.connectionState,
+              )
+            ) {
+              cleanupPeerConnection(otherKey);
+            }
+          };
+
+          const localStream = await ensureLocalStream();
+
+          localStream.getTracks().forEach((track) => {
+            const senderExists = nextPc
+              .getSenders()
+              .some((sender) => sender.track?.kind === track.kind);
+
+            if (!senderExists) {
+              nextPc.addTrack(track, localStream);
+            }
           });
-        };
 
-        pc.onconnectionstatechange = () => {
-          if (
-            ["disconnected", "failed", "closed"].includes(pc.connectionState)
-          ) {
-            cleanupPeerConnection(otherKey);
+          return nextPc;
+        } catch (error) {
+          if (pc) {
+            pc.close();
+            pcListMapRef.current.delete(otherKey);
           }
-        };
-
-        const localStream = await ensureLocalStream();
-
-        localStream.getTracks().forEach((track) => {
-          const senderExists = pc
-            .getSenders()
-            .some((sender) => sender.track?.kind === track.kind);
-
-          if (!senderExists) {
-            pc.addTrack(track, localStream);
-          }
-        });
-
-        pendingPeerConnectionRef.current.delete(otherKey);
-        return pc;
+          throw error;
+        } finally {
+          pendingPeerConnectionRef.current.delete(otherKey);
+        }
       })();
 
       pendingPeerConnectionRef.current.set(otherKey, pcPromise);
@@ -269,6 +329,13 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
     try {
       await ensureLocalStream();
     } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message === RTC_DISPOSED_ERROR_MESSAGE
+      ) {
+        return;
+      }
+
       console.error("로컬 미디어를 가져오지 못했습니다:", error);
       hasStartedStreamRef.current = false;
       return;
@@ -289,6 +356,12 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
         video: true,
         audio: true,
       });
+
+      if (isDisposedRef.current) {
+        screenStream.getTracks().forEach((track) => track.stop());
+        return;
+      }
+
       const screenVideoTrack = screenStream.getVideoTracks()[0];
       const localVideoTrack = localStream.getVideoTracks()[0];
 
@@ -336,18 +409,22 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
         screenStreamRef.current = null;
       };
     } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message === RTC_DISPOSED_ERROR_MESSAGE
+      ) {
+        return;
+      }
+
       console.error("화면 공유 중 오류 발생:", error);
       alert("화면 공유를 시작하는 데 실패했습니다. 권한을 확인하세요.");
     }
   }, [ensureLocalStream, removeRemoteStream]);
 
   useEffect(() => {
+    isDisposedRef.current = false;
     const subscriptions: StompSubscription[] = [];
     const socket = new SockJS(SIGNALING_SERVER_URL);
-    const pcMap = pcListMapRef.current;
-    const pendingPeerConnections = pendingPeerConnectionRef.current;
-    const peerStreamMap = peerStreamMapRef.current;
-    const pendingIceCandidatesMap = pendingIceCandidatesRef.current;
     const client = new Client({
       webSocketFactory: () => socket,
       debug: (value) => console.log(value),
@@ -457,25 +534,7 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
 
     return () => {
       subscriptions.forEach((subscription) => subscription.unsubscribe());
-
-      screenStreamRef.current?.getTracks().forEach((track) => track.stop());
-      screenStreamRef.current = null;
-
-      localStreamRef.current?.getTracks().forEach((track) => track.stop());
-      localStreamRef.current = null;
-      setLocalStream(null);
-
-      Array.from(pcMap.keys()).forEach((key) => cleanupPeerConnection(key));
-      pcMap.clear();
-      pendingPeerConnections.clear();
-      peerStreamMap.clear();
-      pendingIceCandidatesMap.clear();
-      otherKeyListRef.current = [];
-      hasStartedStreamRef.current = false;
-      setRemoteStreams([]);
-
-      client.deactivate();
-      clientRef.current = null;
+      stopRtc();
     };
   }, [
     cleanupPeerConnection,
@@ -488,6 +547,7 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
     sendOffer,
     sendAnswer,
     shouldCreateOffer,
+    stopRtc,
   ]);
 
   return {
@@ -495,5 +555,6 @@ export function useRtc({ roomId, myKey }: UseRtcProps) {
     startStream,
     startScreenStream,
     remoteStreams,
+    stopRtc,
   };
 }

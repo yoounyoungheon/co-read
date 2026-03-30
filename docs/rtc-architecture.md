@@ -120,6 +120,7 @@ Participant A        useRtc A            Signaling Server         useRtc B      
 - 현재 탭의 `myKey`를 랜덤 UUID로 1회 생성한다.
 - `useRtc({ roomId, myKey })`를 호출한다.
 - 마운트 시 `startStream()`을 자동 실행한다.
+- 브라우저 이탈 시 현재 로컬 스트림을 직접 stop한 뒤 `stopRtc()`를 호출한다.
 - `localStream`, `remoteStreams`, `startScreenStream()`을 UI에 연결한다.
 
 즉 `RtcRoom`은 RTC 정책을 구현하지 않고, `useRtc`가 제공하는 상태와 액션을 화면에 연결하는 thin wrapper에 가깝다.
@@ -172,6 +173,7 @@ useRtc({
   startStream,
   startScreenStream,
   remoteStreams,
+  stopRtc,
 }
 ```
 
@@ -201,6 +203,10 @@ useRtc({
   - 로컬 스트림 캐시
 - `screenStreamRef`
   - 화면 공유 스트림 캐시
+- `isDisposedRef`
+  - cleanup 이후 늦게 도착한 async media 결과를 무시하기 위한 dispose 플래그
+- `pendingLocalStreamRef`
+  - 중복 `getUserMedia()` 호출을 막기 위한 pending promise 캐시
 
 ### offer 생성 규칙
 
@@ -219,7 +225,9 @@ const shouldCreateOffer = (otherKey) => myKey.localeCompare(otherKey) < 0;
 특징:
 
 - 한 번 얻은 스트림은 `localStreamRef`에 저장해 재사용한다.
+- 생성 중인 promise가 있으면 `pendingLocalStreamRef`를 재사용한다.
 - React state `localStream`도 함께 갱신해 UI preview에 사용한다.
+- dispose 이후 늦게 도착한 stream은 즉시 track을 stop하고 버린다.
 
 ### peer connection 생성
 
@@ -232,6 +240,7 @@ const shouldCreateOffer = (otherKey) => myKey.localeCompare(otherKey) < 0;
 5. `onicecandidate`, `ontrack`, `onconnectionstatechange` 핸들러를 등록한다.
 
 이 함수는 peer connection 중복 생성 race를 막기 위해 `pendingPeerConnectionRef`를 사용한다.
+또한 생성 도중 실패해도 pending entry를 정리하므로, 이후 같은 peer에 대해 다시 생성 시도할 수 있다.
 
 ### signaling 연결
 
@@ -240,7 +249,7 @@ const shouldCreateOffer = (otherKey) => myKey.localeCompare(otherKey) < 0;
 현재 signaling URL:
 
 - `NEXT_PUBLIC_RTC_SIGNALING_URL`
-- 미지정 시 기본값: `http://localhost:8080/api/ws/consulting-room`
+- 미지정 시 기본값: `https://signaling.iamyounghun.co.kr/api/ws/consulting-room`
 
 연결 완료 후 하는 일:
 
@@ -324,7 +333,7 @@ ICE candidate는 peer별 topic으로 교환한다.
 
 ### cleanup
 
-훅이 unmount 될 때:
+`stopRtc()` 또는 훅 unmount 시:
 
 - STOMP subscription 해제
 - screen/local stream track stop
@@ -332,6 +341,9 @@ ICE candidate는 peer별 topic으로 교환한다.
 - participant/ICE/pending connection map 초기화
 - `remoteStreams` 초기화
 - STOMP client deactivate
+
+추가로 UI 레이어인 `RtcRoom`도 브라우저 이탈 시 현재 `localStream`을 직접 stop한 뒤 `stopRtc()`를 호출한다.
+즉 실제 미디어 정리는 `useRtc`와 `RtcRoom`이 함께 수행한다.
 
 ## signaling 서버의 역할
 

@@ -11,6 +11,7 @@ export interface RtcRoomState {
   remoteStreams: MediaStream[];
   startStream: () => void | Promise<void>;
   startScreenStream: () => void | Promise<void>;
+  stopRtc: () => void;
 }
 
 export interface RtcRoomProps {
@@ -107,11 +108,55 @@ export default function RtcRoom({ roomId }: RtcRoomProps) {
     roomId,
     myKey: myKeyRef.current,
   });
-  const { startStream } = rtcState;
+  const { startStream, localStream } = rtcState;
+  const latestRtcStateRef = useRef(rtcState);
+
+  latestRtcStateRef.current = rtcState;
 
   useEffect(() => {
     void startStream();
   }, [startStream]);
+
+  useEffect(() => {
+    if (!localStream) {
+      return;
+    }
+
+    return () => {
+      localStream.getTracks().forEach((track) => track.stop());
+    };
+  }, [localStream]);
+
+  useEffect(() => {
+    const cleanupLocalMedia = () => {
+      latestRtcStateRef.current.localStream?.getTracks().forEach((track) => {
+        track.stop();
+      });
+    };
+
+    const handlePageHide = () => {
+      cleanupLocalMedia();
+      latestRtcStateRef.current.stopRtc();
+    };
+
+    const handleBeforeUnload = () => {
+      cleanupLocalMedia();
+      latestRtcStateRef.current.stopRtc();
+    };
+
+    window.addEventListener("pagehide", handlePageHide);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("pagehide", handlePageHide);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      cleanupLocalMedia();
+      latestRtcStateRef.current.remoteStreams.forEach((stream) => {
+        stream.getTracks().forEach((track) => track.stop());
+      });
+      latestRtcStateRef.current.stopRtc();
+    };
+  }, []);
 
   return <RtcRoomView roomId={roomId} rtcState={rtcState} />;
 }
