@@ -120,6 +120,7 @@ function MockRtcRoomPreview({
       remoteStreams: remotes.map(({ stream }) => stream),
       startStream: () => undefined,
       startScreenStream: () => undefined,
+      stopRtc: () => undefined,
     });
 
     return () => {
@@ -138,6 +139,7 @@ function MockRtcRoomPreview({
             remoteStreams: [],
             startStream: () => undefined,
             startScreenStream: () => undefined,
+            stopRtc: () => undefined,
           }}
         />
       </div>
@@ -165,6 +167,7 @@ export const Empty: Story = {
           remoteStreams: [],
           startStream: () => undefined,
           startScreenStream: () => undefined,
+          stopRtc: () => undefined,
         }}
       />
     </div>
