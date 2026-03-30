@@ -1,4 +1,5 @@
 import ChatUI from "@/app/feature/play-ground/chat/ui/ChatUI";
+import OnlyCssComponents from "@/app/feature/play-ground/css-only/ui/OnlyCssComponents";
 import CodeGenUI from "@/app/feature/play-ground/code-gen/ui/CodeGenUI";
 import BuildUI from "@/app/feature/play-ground/log/ui/BuildUI";
 import RtcRoom from "@/app/feature/play-ground/rtc/ui/RtcRoom";
@@ -33,7 +34,7 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
           <div>WEB_RTC에는 `id` 쿼리스트링이 필요합니다.</div>
         );
       case "CSS_ONLY":
-        return <div>CSS ONLY 콘텐츠</div>;
+        return <OnlyCssComponents />;
       default:
         return <div>알 수 없는 타입입니다.</div>;
     }
