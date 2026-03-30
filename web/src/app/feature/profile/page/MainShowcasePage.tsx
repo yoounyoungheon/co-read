@@ -43,7 +43,7 @@ export function MainShowcasePage({
       path: "/play-ground?type=LOG_STREAMING",
     },
     {
-      type: "code gen stream",
+      type: "Code Gen Streaming",
       description:
         "코드 생성 상태와 최종 결과를 SSE로 확인할 수 있는 플레이그라운드입니다.",
       path: "/play-ground?type=CODE_GEN_STREAM",

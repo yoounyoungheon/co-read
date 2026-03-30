@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Card } from "@/app/shared/ui/molecule/card";
 
 interface FeedFrontCardProps {
-  image: string;
+  image?: string | null;
   projectName: string;
   href: string;
 }
@@ -32,13 +32,36 @@ export function FeedFrontCard({
       </div>
       <div className="p-2">
         <Card className="relative w-[100%] aspect-square rounded-2xl bg-white shadow-none">
-          <Image
-            src={image}
-            alt={projectName}
-            fill
-            sizes="1000px"
-            className="object-cover rounded-2xl"
-          />
+          {image ? (
+            <Image
+              src={image}
+              alt={projectName}
+              fill
+              sizes="1000px"
+              className="rounded-2xl object-cover"
+            />
+          ) : (
+            <div
+              className="
+                flex
+                h-full
+                w-full
+                items-center
+                justify-center
+                rounded-2xl
+                bg-gradient-to-br
+                from-pink-700
+                via-purple-300
+                to-indigo-500
+                px-6
+                text-center
+              "
+            >
+              <span className="text-lg font-semibold tracking-[0.12em] text-white sm:text-xl">
+                {projectName}
+              </span>
+            </div>
+          )}
         </Card>
       </div>
     </div>
