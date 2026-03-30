@@ -41,7 +41,7 @@ export function CssOnlyTabItemCard({
           peer-checked:border-primary-main
         "
       >
-        <span className="text-xs font-semibold uppercase tracking-[0.22em] opacity-60">
+        <span className="text-xs font-semibold uppercase opacity-60">
           {tab.eyebrow}
         </span>
         <span className="mt-2 text-base font-semibold">{tab.label}</span>

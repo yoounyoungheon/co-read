@@ -47,7 +47,7 @@ export function FeedBackCard({
       <div className="relative space-y-4">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/55">
+            <p className="text-[11px] font-semibold uppercase text-white/55">
               Project
             </p>
             <p className="text-sm text-white/55">ID · {id}</p>
