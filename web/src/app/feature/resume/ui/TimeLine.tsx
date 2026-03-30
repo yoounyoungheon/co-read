@@ -133,12 +133,16 @@ function UniversityCard(item: UniversityTimeLineItem) {
         <SectionHeader {...item} />
 
         <div className="space-y-3">
-          <div className="rounded-2xl bg-slate-900 px-4 py-4 text-white">
-            <p className="text-xs uppercase tracking-[0.22em] text-white/55">
+          <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#f8fbff_0%,#ffffff_52%,#f8f7ff_100%)] px-4 py-4 text-slate-900 ring-1 ring-slate-200/80">
+            <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-sky-100/70 blur-2xl" />
+            <div className="pointer-events-none absolute bottom-0 right-10 h-16 w-16 rounded-full bg-violet-100/60 blur-2xl" />
+            <p className="relative text-xs uppercase tracking-[0.22em] text-slate-400">
               School
             </p>
-            <p className="mt-2 text-lg font-semibold">{item.school}</p>
-            <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/75">
+            <p className="relative mt-2 text-lg font-semibold text-slate-900">
+              {item.school}
+            </p>
+            <p className="relative mt-3 whitespace-pre-line text-sm leading-6 text-slate-600">
               {item.summary}
             </p>
           </div>
@@ -193,9 +197,16 @@ function ClubCard(item: ClubTimeLineItem) {
         <SectionHeader {...item} />
 
         <div className="space-y-3">
-          <p className="whitespace-pre-line rounded-2xl border border-rose-100 bg-white px-4 py-4 text-sm leading-7 text-slate-700">
-            {item.intro}
-          </p>
+          <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#fff8fb_0%,#ffffff_52%,#fff7fa_100%)] px-4 py-4 text-slate-900 ring-1 ring-rose-100">
+            <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-rose-100/70 blur-2xl" />
+            <div className="pointer-events-none absolute bottom-0 right-10 h-16 w-16 rounded-full bg-pink-100/60 blur-2xl" />
+            <p className="relative text-xs uppercase tracking-[0.2em] text-slate-400">
+              Intro
+            </p>
+            <p className="relative mt-3 whitespace-pre-line text-sm leading-7 text-slate-700">
+              {item.intro}
+            </p>
+          </div>
 
           <div className="grid gap-3 lg:grid-cols-1">
             {item.stories.map((story) => (
@@ -231,12 +242,16 @@ function BootcampCard(item: BootcampTimeLineItem) {
         <SectionHeader {...item} />
 
         <div className="space-y-3">
-          <div className="rounded-2xl bg-slate-900 px-4 py-4 text-white">
-            <p className="text-xs uppercase tracking-[0.2em] text-white/55">
+          <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#f6fbff_0%,#ffffff_52%,#f5f7ff_100%)] px-4 py-4 text-slate-900 ring-1 ring-blue-100">
+            <div className="pointer-events-none absolute -right-10 -top-8 h-28 w-28 rounded-full bg-blue-100/70 blur-2xl" />
+            <div className="pointer-events-none absolute bottom-0 right-12 h-16 w-16 rounded-full bg-cyan-100/70 blur-2xl" />
+            <p className="relative text-xs uppercase tracking-[0.2em] text-slate-400">
               Program
             </p>
-            <p className="mt-2 text-lg font-semibold">{item.program}</p>
-            <p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/75">
+            <p className="relative mt-2 text-lg font-semibold text-slate-900">
+              {item.program}
+            </p>
+            <p className="relative mt-3 whitespace-pre-line text-sm leading-6 text-slate-600">
               {item.programDescription}
             </p>
           </div>
@@ -290,20 +305,24 @@ function WorkCard(item: WorkTimeLineItem) {
         <SectionHeader {...item} />
 
         <div className="space-y-3">
-          <div className="rounded-2xl bg-slate-900 px-4 py-4 text-white">
+          <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#f7fbff_0%,#ffffff_52%,#f8fbff_100%)] px-4 py-4 text-slate-900 ring-1 ring-slate-200/80">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-emerald-100/60 blur-2xl" />
+            <div className="pointer-events-none absolute bottom-0 right-12 h-16 w-16 rounded-full bg-sky-100/60 blur-2xl" />
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">
+              <div className="relative">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
                   Company
                 </p>
-                <p className="mt-2 text-xl font-semibold">{item.company}</p>
+                <p className="mt-2 text-xl font-semibold text-slate-900">
+                  {item.company}
+                </p>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="relative flex flex-wrap gap-2">
                 <Badge
                   tone="zinc"
                   variant="outline"
                   size="sm"
-                  className="border-white/25 text-white"
+                  className="border-slate-300 text-slate-700"
                 >
                   {item.role}
                 </Badge>
@@ -311,13 +330,13 @@ function WorkCard(item: WorkTimeLineItem) {
                   tone="zinc"
                   variant="outline"
                   size="sm"
-                  className="border-white/25 text-white"
+                  className="border-slate-300 text-slate-700"
                 >
                   {item.employmentPeriod}
                 </Badge>
               </div>
             </div>
-            <p className="mt-4 whitespace-pre-line text-sm leading-7 text-white/75">
+            <p className="relative mt-4 whitespace-pre-line text-sm leading-7 text-slate-600">
               {item.intro}
             </p>
           </div>
