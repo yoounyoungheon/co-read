@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Button from "@/app/shared/ui/atom/button";
 import { useRtc } from "@/app/shared/rtc/useRtc";
 import StreamCard from "./StreamCard";
+import { RtcShareLinkButton } from "./RtcShareLinkButton";
 
 export interface RtcRoomState {
   localStream: MediaStream | null;
@@ -24,7 +25,10 @@ function createRtcKey() {
   return `rtc-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-export function RtcRoomView({ roomId, rtcState }: RtcRoomProps & { rtcState: RtcRoomState }) {
+export function RtcRoomView({
+  roomId,
+  rtcState,
+}: RtcRoomProps & { rtcState: RtcRoomState }) {
   const { localStream, remoteStreams, startScreenStream } = rtcState;
   return (
     <section className="flex w-full max-w-6xl flex-col gap-5">
@@ -47,6 +51,7 @@ export function RtcRoomView({ roomId, rtcState }: RtcRoomProps & { rtcState: Rtc
             >
               화면 공유
             </Button>
+            <RtcShareLinkButton />
           </div>
         </div>
 
