@@ -9,7 +9,7 @@ services:
       - "8080:8080"
     environment:
       PORT: "8080"
-      CLIENT_ORIGINS: "https://iamyounghun.site,http://localhost:3000"
+      CLIENT_ORIGINS: "https://iamyounghun.co.kr,http://localhost:3000"
 
   coturn:
     image: coturn/coturn:latest
@@ -21,8 +21,8 @@ services:
       --log-file=stdout
       --lt-cred-mech
       --fingerprint
-      --realm=iamyounghun.site
-      --server-name=iamyounghun.site
+      --realm=iamyounghun.co.kr
+      --server-name=iamyounghun.co.kr
       --user=iddyoon:iddyoon
       --external-ip=8.229.223.216
       --listening-port=3478

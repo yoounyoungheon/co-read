@@ -26,7 +26,7 @@ npm run dev
 - `PORT`
   - default: `8080`
 - `CLIENT_ORIGINS`
-  - default: `https://iamyounghun.site,http://localhost:3000`
+  - default: `https://iamyounghun.co.kr,http://localhost:3000`
 
 ## Endpoints
 

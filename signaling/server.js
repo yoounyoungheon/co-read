@@ -6,7 +6,7 @@ const sockjs = require("sockjs");
 const PORT = Number(process.env.PORT || 8080);
 const CLIENT_ORIGINS = (
   process.env.CLIENT_ORIGINS ||
-  "https://iamyounghun.site,http://localhost:3000"
+  "https://iamyounghun.co.kr,http://localhost:3000"
 )
   .split(",")
   .map((origin) => origin.trim())

@@ -12,7 +12,7 @@
 - coturn 이미지: `coturn/coturn:latest`
 - 배포 위치: GCP VM
 - 외부 IP: `8.229.223.216`
-- realm: `iamyounghun.site`
+- realm: `iamyounghun.co.kr`
 - 계정: `iddyoon / iddyoon`
 - listening port: `3478`
 - relay port range: `49160-49200`
@@ -69,7 +69,7 @@ services:
       - "8080:8080"
     environment:
       PORT: "8080"
-      CLIENT_ORIGINS: "https://iamyounghun.site,http://localhost:3000"
+      CLIENT_ORIGINS: "https://iamyounghun.co.kr,http://localhost:3000"
 
   coturn:
     image: coturn/coturn:latest
@@ -81,8 +81,8 @@ services:
       --log-file=stdout
       --lt-cred-mech
       --fingerprint
-      --realm=iamyounghun.site
-      --server-name=iamyounghun.site
+      --realm=iamyounghun.co.kr
+      --server-name=iamyounghun.co.kr
       --user=iddyoon:iddyoon
       --external-ip=8.229.223.216
       --listening-port=3478
@@ -127,7 +127,7 @@ TURN 인증 영역 이름이다.
 현재 값:
 
 ```text
-iamyounghun.site
+iamyounghun.co.kr
 ```
 
 ### `--server-name`

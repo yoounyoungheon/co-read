@@ -1,12 +1,14 @@
-# GCP + Gabia Signaling 배포 가이드
+# GCP + Gabia + Vercel DNS Signaling 배포 가이드
 
-이 문서는 현재 프로젝트의 signaling 서버를 GCP VM에 배포하고, 가비아 도메인으로 HTTPS reverse proxy를 붙인 과정을 순서대로 정리한다.
+이 문서는 현재 프로젝트의 signaling 서버를 GCP VM에 배포하고, 가비아에서 구매한 도메인을 Vercel DNS로 관리하면서 HTTPS reverse proxy를 붙인 과정을 순서대로 정리한다.
 
 대상 구성:
 
 - signaling 서버: Docker 이미지 `yoonyounghun/signaling`
 - 배포 위치: GCP Compute Engine VM
 - 도메인: `signaling.iamyounghun.co.kr`
+- 도메인 구매처: 가비아
+- authoritative DNS: Vercel DNS
 - reverse proxy / TLS: nginx + certbot
 - 프론트 signaling 접속 주소:
   - `https://signaling.iamyounghun.co.kr/api/ws/consulting-room`
@@ -72,11 +74,28 @@ gcloud compute firewall-rules create allow-https-443 \
 gcloud compute firewall-rules list
 ```
 
-## 3. 가비아 DNS 설정
+## 3. DNS 설정
 
-가비아에서 `iamyounghun.co.kr` 도메인을 가지고 있다는 전제다.
+`iamyounghun.co.kr` 도메인은 가비아에서 구매했지만, 실제 DNS authoritative 서버는 Vercel이다.
 
-DNS에 아래 `A` 레코드를 추가한다.
+즉 DNS 레코드는 가비아가 아니라 **Vercel DNS**에서 관리해야 한다.
+
+먼저 authoritative DNS를 확인하려면:
+
+```bash
+dig NS iamyounghun.co.kr
+```
+
+예시 결과:
+
+```text
+ns1.vercel-dns.com.
+ns2.vercel-dns.com.
+```
+
+이 경우 가비아 DNS 화면의 레코드는 실제 서비스에 반영되지 않는다.
+
+Vercel DNS에 아래 `A` 레코드를 추가한다.
 
 - 타입: `A`
 - 호스트: `signaling`
@@ -84,7 +103,13 @@ DNS에 아래 `A` 레코드를 추가한다.
 
 예시:
 
-- `signaling.iamyounghun.co.kr -> xxx.xxx.xxx.xxx`
+- `signaling.iamyounghun.co.kr -> 8.229.223.216`
+
+주의:
+
+- `signaling`에 기존 `CNAME`, redirect, forwarding 성격의 설정이 있으면 제거한다.
+- 최종적으로는 `A signaling 8.229.223.216`가 authoritative DNS에 존재해야 한다.
+- 가비아에 같은 레코드가 남아 있어도 실제 DNS가 Vercel이면 반영되지 않는다. 혼동을 줄이기 위해 정리하는 편이 좋다.
 
 DNS 확인:
 
@@ -97,6 +122,8 @@ nslookup signaling.iamyounghun.co.kr
 ```bash
 dig signaling.iamyounghun.co.kr
 ```
+
+정상이라면 `8.229.223.216`이 반환되어야 한다.
 
 ## 4. VM에 Docker 설치
 
@@ -170,7 +197,7 @@ docker run -d \
   --restart unless-stopped \
   -p 8080:8080 \
   -e PORT=8080 \
-  -e CLIENT_ORIGINS="https://iamyounghun.site,http://localhost:3000" \
+  -e CLIENT_ORIGINS="https://iamyounghun.co.kr,http://localhost:3000" \
   yoonyounghun/signaling:latest
 ```
 
@@ -335,7 +362,7 @@ services:
       - "8080:8080"
     environment:
       PORT: "8080"
-      CLIENT_ORIGINS: "https://iamyounghun.site,http://localhost:3000"
+      CLIENT_ORIGINS: "https://iamyounghun.co.kr,http://localhost:3000"
 ```
 
 최신 Docker 환경에서는 `version` 필드가 obsolete 경고를 낼 수 있다. 최신 `docker compose`에서는 없어도 되지만, 구버전 호환을 위해 남길 수 있다.
@@ -358,7 +385,7 @@ sudo docker compose up -d
 
 - GCP VM이 실제로 떠 있는지 확인
 - 8080, 80, 443 방화벽 규칙이 열려 있는지 확인
-- `signaling.iamyounghun.co.kr` DNS가 VM IP를 가리키는지 확인
+- `signaling.iamyounghun.co.kr` DNS가 authoritative DNS 기준으로 VM IP를 가리키는지 확인
 - nginx가 `127.0.0.1:8080`으로 reverse proxy 중인지 확인
 - certbot 인증서가 발급됐는지 확인
 - 프론트가 `https://signaling.iamyounghun.co.kr/api/ws/consulting-room`를 사용 중인지 확인
@@ -419,3 +446,24 @@ sudo docker compose up -d
 ```text
 https://signaling.iamyounghun.co.kr/api/ws/consulting-room
 ```
+
+### 5. 가비아에 레코드를 넣었는데 실제 조회 결과가 다를 때
+
+이 경우는 대체로 authoritative DNS가 가비아가 아닌 상태다.
+
+예를 들어:
+
+```bash
+dig NS iamyounghun.co.kr
+```
+
+결과가 아래처럼 나오면:
+
+```text
+ns1.vercel-dns.com.
+ns2.vercel-dns.com.
+```
+
+- 실제 DNS는 Vercel이 관리 중이다.
+- 따라서 `signaling` 레코드도 Vercel DNS에서 수정해야 한다.
+- 가비아에 설정된 `A` 레코드는 반영되지 않는다.

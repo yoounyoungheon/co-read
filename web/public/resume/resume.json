@@ -66,11 +66,11 @@
           "links": [
             {
               "header": "web rtc 기능을 테스트 해보세요!(카메라, 마이크 권한 필요해요. WEB RTC 버튼을 클릭하세요.)",
-              "path": "https://iamyounghun.site?type=PLAY_GROUND"
+              "path": "https://iamyounghun.co.kr?type=PLAY_GROUND"
             },
             {
               "header": "\"화창\" 프로젝트를 진행한 자세한 내용이 궁금하다면?",
-              "path": "https://www.iamyounghun.site/project?id=p1"
+              "path": "https://www.iamyounghun.co.kr/project?id=p1"
             }
           ]
         },
@@ -80,7 +80,7 @@
           "links": [
             {
               "header": "\"우아하나\" 프로젝트를 진행한 자세한 내용이 궁금하다면?",
-              "path": "https://www.iamyounghun.site/project?id=p2"
+              "path": "https://www.iamyounghun.co.kr/project?id=p2"
             }
           ]
         }
@@ -102,11 +102,11 @@
           "links": [
             {
               "header": "실시간 코드 생성 UI",
-              "path": "https://www.iamyounghun.site/play-ground?type=CODE_GEN_STREAM"
+              "path": "https://www.iamyounghun.co.kr/play-ground?type=CODE_GEN_STREAM"
             },
             {
               "header": "실시간 로그 스트리밍 UI",
-              "path": "https://www.iamyounghun.site/play-ground?type=LOG_STREAMING"
+              "path": "https://www.iamyounghun.co.kr/play-ground?type=LOG_STREAMING"
             }
           ]
         },
@@ -116,7 +116,7 @@
           "links": [
             {
               "header": "상세한 내용 보러가기",
-              "path": "https://www.iamyounghun.site/project?id=p5"
+              "path": "https://www.iamyounghun.co.kr/project?id=p5"
             }
           ]
         }
