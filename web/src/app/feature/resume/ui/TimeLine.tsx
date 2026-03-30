@@ -201,7 +201,10 @@ function ClubCard(item: ClubTimeLineItem) {
             <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-rose-100/70 blur-2xl" />
             <div className="pointer-events-none absolute bottom-0 right-10 h-16 w-16 rounded-full bg-pink-100/60 blur-2xl" />
             <p className="relative text-xs uppercase tracking-[0.2em] text-slate-400">
-              Intro
+              Club
+            </p>
+            <p className="relative mt-2 text-lg font-semibold text-slate-900">
+              동아리
             </p>
             <p className="relative mt-3 whitespace-pre-line text-sm leading-7 text-slate-700">
               {item.intro}
