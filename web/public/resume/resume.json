@@ -107,6 +107,10 @@
             {
               "header": "실시간 로그 스트리밍 UI",
               "path": "https://www.iamyounghun.co.kr/play-ground?type=LOG_STREAMING"
+            },
+            {
+              "header": "상세한 내용 보러가기",
+              "path": "https://www.iamyounghun.co.kr/project?id=p4"
             }
           ]
         },
@@ -116,7 +120,7 @@
           "links": [
             {
               "header": "상세한 내용 보러가기",
-              "path": "https://www.iamyounghun.co.kr/project?id=p5"
+              "path": "https://www.iamyounghun.co.kr/project?id=p7"
             }
           ]
         }

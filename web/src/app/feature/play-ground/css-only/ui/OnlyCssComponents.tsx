@@ -139,7 +139,7 @@ const CSS_ONLY_TABS: CssOnlyTabItem[] = [
     eyebrow: "Looks fancy, still CSS",
     title: "있어 보이는데 JS는 안 썼어요",
     description:
-      "3D transform만으로도 꽤 그럴듯한 UI가 나와요. 발표할 때는 복잡해 보이는데, 실제 상태는 hover 하나예요.",
+      "3D transform만으로도 꽤 그럴듯한 UI가 나와요.",
     points: [
       "요약과 상세를 한 카드 안에 우겨 넣기 좋음",
       "보는 사람은 어려워 보이는데 구현은 의외로 단순",
@@ -150,7 +150,7 @@ const CSS_ONLY_TABS: CssOnlyTabItem[] = [
 
 function CssOnlyFlipCardSection() {
   return (
-    <section className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+    <section className="flex flex-col gap-4">
       <SectionIntro
         indexLabel="01. Flip Card"
         title="CSS로 구현한 FlipCard"
@@ -163,7 +163,7 @@ function CssOnlyFlipCardSection() {
 
 function CssOnlyExpandableSection() {
   return (
-    <section className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+    <section className="flex flex-col gap-4">
       <SectionIntro
         indexLabel="02. Expand Card"
         title="클릭하면 펼쳐지는 카드를 만듭니다."
@@ -185,10 +185,10 @@ function CssOnlyTabsSection() {
       <SectionIntro
         indexLabel="03. Recommended Pattern"
         title="CSS-only 탭입니다."
-        description="가장 재사용성이 높은 패턴은 탭이에요. 소개, 기능, 비교, 단계 요약처럼 한 자리에서 여러 상태를 전환해야 할 때 `radio + label + peer-checked` 조합이 깔끔하게 동작합니다."
+        description="가장 재사용성이 높은 패턴은 탭이에요. 소개, 기능, 비교, 단계 요약처럼 한 자리에서 여러 상태를 전환해야 할 때 `radio + label + peer-checked` 조합으로 동작합니다."
       />
 
-      <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
+      <div className="flex flex-col gap-4">
         {CSS_ONLY_TABS.map((tab, index) => (
           <CssOnlyTabItemCard
             key={tab.id}
