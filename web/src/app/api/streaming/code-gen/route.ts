@@ -30,7 +30,7 @@ type EndPayload = {
   artifact: string;
 };
 
-const STREAM_DELAY_MS = 300;
+const STREAM_DELAY_MS = 200;
 const RETRY_DELAY_MS = 1000 * 60 * 60;
 const END_FLUSH_INTERVAL_MS = 200;
 const END_FLUSH_COUNT = 4;
