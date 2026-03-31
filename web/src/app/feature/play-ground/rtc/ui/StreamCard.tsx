@@ -10,6 +10,7 @@ export interface StreamCardProps {
   muted?: boolean;
   mirror?: boolean;
   emptyLabel?: string;
+  aspectRatio?: "video" | "square";
 }
 
 export default function StreamCard({
@@ -19,6 +20,7 @@ export default function StreamCard({
   muted = false,
   mirror = false,
   emptyLabel = "스트림을 기다리는 중입니다.",
+  aspectRatio = "video",
 }: StreamCardProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -63,7 +65,8 @@ export default function StreamCard({
   return (
     <section
       className={cn(
-        "relative aspect-video w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-950 shadow-sm",
+        "relative w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-950 shadow-sm",
+        aspectRatio === "square" ? "aspect-square" : "aspect-video",
         className,
       )}
     >

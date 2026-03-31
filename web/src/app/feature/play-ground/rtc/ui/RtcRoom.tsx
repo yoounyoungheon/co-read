@@ -88,6 +88,7 @@ export function RtcRoomView({
                 key={stream.id}
                 stream={stream}
                 name={`Remote ${index + 1}`}
+                aspectRatio="square"
                 className="w-[320px] shrink-0"
               />
             ))}
