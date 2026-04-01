@@ -6,19 +6,12 @@ const sampleProject: Project = {
   id: "co-read",
   title: "Co-Read",
   keyword: ["Next.js", "NestJS", "Vercel"],
-  description: ["협업 기반 문서 독해 서비스"],
-  thinks: ["공동 편집 경험 개선"],
-  beTechs: ["NestJS"],
-  feTechs: ["Next.js"],
-  infraTechs: ["Vercel"],
   images: [
     {
       path: "/images/p2_1.png",
       description: "서비스 대표 화면",
     },
   ],
-  startDate: new Date("2025-01-01"),
-  endDate: new Date("2025-03-01"),
   projectMd: "# Co-Read\n\n## 프로젝트 소개\n협업 기반 문서 독해 서비스입니다.",
   retrospectMd:
     "## 회고\n프로젝트 카드 예시를 통해 시각적 정보를 전달합니다.",
