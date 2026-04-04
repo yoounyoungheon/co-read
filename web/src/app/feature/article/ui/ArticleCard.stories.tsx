@@ -11,7 +11,7 @@ const sampleArticle: Article = {
 };
 
 const meta: Meta<typeof ArticleCard> = {
-  title: "Feature/profile/ArticleCard",
+  title: "Feature/article/ArticleCard",
   component: ArticleCard,
   tags: ["autodocs"],
   parameters: {

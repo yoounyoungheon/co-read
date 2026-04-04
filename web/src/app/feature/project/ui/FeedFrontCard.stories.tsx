@@ -3,7 +3,7 @@ import { Card } from "@/app/shared/ui/molecule/card";
 import { FeedFrontCard } from "./FeedFrontCard";
 
 const meta: Meta<typeof FeedFrontCard> = {
-  title: "Feature/profile/FeedFrontCard",
+  title: "Feature/project/FeedFrontCard",
   component: FeedFrontCard,
   tags: ["autodocs"],
   parameters: {
@@ -48,4 +48,3 @@ export const LongProjectName: Story = {
   },
   render: Default.render,
 };
-

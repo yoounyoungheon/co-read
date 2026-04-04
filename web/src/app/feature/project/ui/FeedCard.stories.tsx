@@ -13,12 +13,11 @@ const sampleProject: Project = {
     },
   ],
   projectMd: "# Co-Read\n\n## 프로젝트 소개\n협업 기반 문서 독해 서비스입니다.",
-  retrospectMd:
-    "## 회고\n프로젝트 카드 예시를 통해 시각적 정보를 전달합니다.",
+  retrospectMd: "## 회고\n프로젝트 카드 예시를 통해 시각적 정보를 전달합니다.",
 };
 
 const meta: Meta<typeof FeedCard> = {
-  title: "Feature/profile/FeedCard",
+  title: "Feature/project/FeedCard",
   component: FeedCard,
   tags: ["autodocs"],
   parameters: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import BuildUI from "./BuildUI";
 
 const meta: Meta<typeof BuildUI> = {
-  title: "Feature/play-ground/BuildUI",
+  title: "Feature/play-ground/logs/BuildUI",
   component: BuildUI,
   tags: ["autodocs"],
   parameters: {

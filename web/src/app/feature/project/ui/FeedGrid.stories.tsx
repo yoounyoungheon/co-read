@@ -16,7 +16,8 @@ const sampleProjects: Project[] = [
         description: "Co-Read 대표 화면",
       },
     ],
-    projectMd: "# Co-Read\n\n## 프로젝트 소개\n협업 기반 문서 독해 서비스입니다.",
+    projectMd:
+      "# Co-Read\n\n## 프로젝트 소개\n협업 기반 문서 독해 서비스입니다.",
     retrospectMd:
       "## 회고\n공동 편집 경험을 더 자연스럽게 만드는 데 집중했습니다.",
   },
@@ -68,7 +69,7 @@ const sampleProjects: Project[] = [
 ];
 
 const meta: Meta<typeof FeedGrid> = {
-  title: "Feature/profile/FeedGrid",
+  title: "Feature/project/FeedGrid",
   component: FeedGrid,
   tags: ["autodocs"],
   parameters: {

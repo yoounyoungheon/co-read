@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import ChatUI from "./ChatUI";
 
 const meta: Meta<typeof ChatUI> = {
-  title: "Feature/chat/ChatUI",
+  title: "Feature/play-ground/chat/ChatUI",
   component: ChatUI,
   tags: ["autodocs"],
   parameters: {

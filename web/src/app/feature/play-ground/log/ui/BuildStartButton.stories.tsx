@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import BuildStartButton from "./BuildStartButton";
 
 const meta: Meta<typeof BuildStartButton> = {
-  title: "Feature/play-ground/BuildStartButton",
+  title: "Feature/play-ground/logs/BuildStartButton",
   component: BuildStartButton,
   tags: ["autodocs"],
   parameters: {

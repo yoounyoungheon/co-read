@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { SendMessageForm } from "./SendMessageForm";
 
 const meta: Meta<typeof SendMessageForm> = {
-  title: "Feature/chat/SendMessageForm",
+  title: "Feature/play-ground/chat/SendMessageForm",
   component: SendMessageForm,
   tags: ["autodocs"],
   parameters: {

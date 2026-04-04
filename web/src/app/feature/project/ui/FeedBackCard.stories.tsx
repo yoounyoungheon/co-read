@@ -3,7 +3,7 @@ import { Card } from "@/app/shared/ui/molecule/card";
 import { FeedBackCard } from "./FeedBackCard";
 
 const meta: Meta<typeof FeedBackCard> = {
-  title: "Feature/profile/FeedBackCard",
+  title: "Feature/project/FeedBackCard",
   component: FeedBackCard,
   tags: ["autodocs"],
   parameters: {

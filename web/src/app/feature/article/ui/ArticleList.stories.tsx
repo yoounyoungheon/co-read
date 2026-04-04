@@ -27,7 +27,7 @@ const sampleArticles: Article[] = [
 ];
 
 const meta: Meta<typeof ArticleList> = {
-  title: "Feature/profile/ArticleList",
+  title: "Feature/article/ArticleList",
   component: ArticleList,
   tags: ["autodocs"],
   parameters: {

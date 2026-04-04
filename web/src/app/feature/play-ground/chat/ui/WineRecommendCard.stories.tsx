@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import WineRecommendCard from "./WineRecommendCard";
 
 const meta: Meta<typeof WineRecommendCard> = {
-  title: "Feature/chat/WineRecommendCard",
+  title: "Feature/play-ground/chat/WineRecommendCard",
   component: WineRecommendCard,
   tags: ["autodocs"],
   parameters: {

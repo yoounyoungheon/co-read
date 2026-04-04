@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import Log from "./Log";
 
 const meta: Meta<typeof Log> = {
-  title: "Feature/play-ground/Log",
+  title: "Feature/play-ground/logs/Log",
   component: Log,
   tags: ["autodocs"],
   parameters: {
