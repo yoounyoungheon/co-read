@@ -3,6 +3,7 @@ import OnlyCssComponents from "@/app/feature/play-ground/css-only/ui/OnlyCssComp
 import CodeGenUI from "@/app/feature/play-ground/code-gen/ui/CodeGenUI";
 import BuildUI from "@/app/feature/play-ground/log/ui/BuildUI";
 import RtcRoom from "@/app/feature/play-ground/rtc/ui/RtcRoom";
+import { PLAY_GROUND_ROUTE_TYPE } from "@/app/feature/play-ground/presentation/play-ground.view-model";
 import { PageQueryProps } from "@/app/utils/type";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
@@ -21,19 +22,19 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
 
   const renderContentByType = () => {
     switch (type) {
-      case "AI_CHAT_STREAMING":
+      case PLAY_GROUND_ROUTE_TYPE.AI_CHAT_STREAMING:
         return <ChatUI />;
-      case "LOG_STREAMING":
+      case PLAY_GROUND_ROUTE_TYPE.LOG_STREAMING:
         return <BuildUI />;
-      case "CODE_GEN_STREAM":
+      case PLAY_GROUND_ROUTE_TYPE.CODE_GEN_STREAM:
         return <CodeGenUI />;
-      case "WEB_RTC":
+      case PLAY_GROUND_ROUTE_TYPE.WEB_RTC:
         return roomId ? (
           <RtcRoom roomId={roomId} />
         ) : (
           <div>WEB_RTC에는 `id` 쿼리스트링이 필요합니다.</div>
         );
-      case "CSS_ONLY":
+      case PLAY_GROUND_ROUTE_TYPE.CSS_ONLY:
         return <OnlyCssComponents />;
       default:
         return <div>알 수 없는 타입입니다.</div>;

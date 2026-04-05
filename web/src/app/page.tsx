@@ -7,6 +7,7 @@ import { MainPageType } from "./utils/contants";
 import { presentArticleCards } from "./feature/article/presentation/article.presenter";
 import { presentProjectCards } from "./feature/project/presentation/project.presenter";
 import { presentResumeTimeLine } from "./feature/resume/presentation/resume.presenter";
+import { presentPlayGroundCards } from "./feature/play-ground/presentation/play-ground.presenter";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
   const type =
@@ -34,6 +35,8 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
   const timeLineItems = timeLineResponse?.data
     ? presentResumeTimeLine(timeLineResponse.data)
     : [];
+  const playGroundItems =
+    type === MainPageType.PLAY_GROUND ? presentPlayGroundCards() : [];
 
   return (
     <main className="flex justify-center w-full">
@@ -41,6 +44,7 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
         projects={projectCards}
         articles={articleCards}
         timeLineItems={timeLineItems}
+        playGroundItems={playGroundItems}
         type={type}
       />
     </main>

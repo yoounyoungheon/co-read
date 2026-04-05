@@ -8,11 +8,13 @@ import { MainPageType } from "@/app/utils/contants";
 import PlayGround from "../../play-ground/ui/PlayGround";
 import { TimeLine } from "../../resume/ui/TimeLine";
 import type { ResumeTimeLineItemViewModel } from "../../resume/presentation/resume.view-model";
+import type { PlayGroundCardViewModel } from "../../play-ground/presentation/play-ground.view-model";
 
 export interface MainShowcasePageProps {
   projects: ProjectCardViewModel[];
   articles: ArticleCardViewModel[];
   timeLineItems: ResumeTimeLineItemViewModel[];
+  playGroundItems: PlayGroundCardViewModel[];
   type: string;
 }
 
@@ -20,48 +22,15 @@ export function MainShowcasePage({
   projects,
   articles,
   timeLineItems,
+  playGroundItems,
   type,
 }: MainShowcasePageProps) {
-  const webRtcPath = `/play-ground?type=WEB_RTC&id=${crypto.randomUUID()}`;
   const categories = [
     MainPageType.PROFILE,
     MainPageType.PROJECT,
     MainPageType.ARTICLE,
     MainPageType.PLAY_GROUND,
   ] as const;
-
-  const playGrounTypes = [
-    {
-      type: "AI Chat Streaming",
-      description:
-        "AI가 응답하는 스트리밍 데이터를 채팅 UI로 구현한 플레이그라운드입니다.",
-      path: "/play-ground?type=AI_CHAT_STREAMING",
-    },
-    {
-      type: "Log Streaming",
-      description:
-        "로그성 데이터의 실시간 스트리밍을 제공하는 플레이그라운드입니다.",
-      path: "/play-ground?type=LOG_STREAMING",
-    },
-    {
-      type: "Code Gen Streaming",
-      description:
-        "코드 생성 상태와 최종 결과를 SSE로 확인할 수 있는 플레이그라운드입니다.",
-      path: "/play-ground?type=CODE_GEN_STREAM",
-    },
-    {
-      type: "WEB RTC",
-      description:
-        "WEB RTC를 활용한 실시간 통신을 제공하는 플레이그라운드입니다.",
-      path: webRtcPath,
-    },
-    {
-      type: "CSS ONLY",
-      description:
-        "JS없이 상태가 존재하는 컴포넌트 예시를 제공하는 플레이그라운드입니다.",
-      path: "/play-ground?type=CSS_ONLY",
-    },
-  ];
 
   const renderCategoryButtonText = (category: string) => {
     switch (category) {
@@ -109,7 +78,7 @@ export function MainShowcasePage({
         ) : type === MainPageType.PROFILE ? (
           <TimeLine items={timeLineItems} />
         ) : (
-          <PlayGround types={playGrounTypes} />
+          <PlayGround types={playGroundItems} />
         )}
       </div>
     </section>

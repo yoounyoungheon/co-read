@@ -1,13 +1,8 @@
+import type { PlayGroundCardViewModel } from "../presentation/play-ground.view-model";
 import PlayGroundButton from "./PlayGroundButton";
 
-type PlayGroundItem = {
-  type: string;
-  description: string;
-  path: string;
-};
-
 type PlayGroundProps = {
-  types: PlayGroundItem[];
+  types: PlayGroundCardViewModel[];
 };
 
 export function PlayGround({ types }: PlayGroundProps) {
