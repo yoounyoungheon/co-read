@@ -1,10 +1,10 @@
 "use server";
 
-import type { TimeLineItem } from "@/app/feature/resume/ui/TimeLine";
 import { APIResponseType, checkResponseStatus } from "@/app/utils/http";
 import { API_PATH } from "@/app/utils/http/api-path";
-import { convertResumeToTimeLineItems } from "./resume.convert";
-import { createResumeDomain, Resume } from "./resume.domain";
+import { Resume } from "./resume.domain";
+import { ResumeApiModel } from "./resume.api-model";
+import { mapResumeApiModelToDomain } from "./resume.mapper";
 
 export const loadResumeForGuestRequest = async (): Promise<
   APIResponseType<Resume>
@@ -15,8 +15,8 @@ export const loadResumeForGuestRequest = async (): Promise<
     });
     checkResponseStatus(response.status);
 
-    const responseData = await response.json();
-    const resume = createResumeDomain(responseData.items);
+    const responseData = (await response.json()) as ResumeApiModel;
+    const resume = mapResumeApiModelToDomain(responseData);
 
     return {
       isSuccess: true,
@@ -31,25 +31,4 @@ export const loadResumeForGuestRequest = async (): Promise<
       message: error instanceof Error ? error.message : String(error),
     };
   }
-};
-
-export const loadResumeTimeLineItemsForGuestRequest = async (): Promise<
-  APIResponseType<TimeLineItem[]>
-> => {
-  const response = await loadResumeForGuestRequest();
-
-  if (response.isFailure || response.data === null) {
-    return {
-      isSuccess: false,
-      isFailure: true,
-      data: null,
-      message: response.message,
-    };
-  }
-
-  return {
-    isSuccess: true,
-    isFailure: false,
-    data: convertResumeToTimeLineItems(response.data),
-  };
 };

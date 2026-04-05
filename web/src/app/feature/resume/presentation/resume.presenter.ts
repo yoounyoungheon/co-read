@@ -1,11 +1,11 @@
-import type { TimeLineItem } from "@/app/feature/resume/ui/TimeLine";
-import type { Resume, ResumeItem } from "./resume.domain";
+import type { Resume, ResumeItem } from "../business/resume.domain";
+import type { ResumeTimeLineItemViewModel } from "./resume.view-model";
 
-const convertResumeItemToTimeLineItem = (item: ResumeItem): TimeLineItem => {
+const presentResumeItem = (item: ResumeItem): ResumeTimeLineItemViewModel => {
   switch (item.kind) {
     case "university":
       return {
-        kind: "university",
+        kind: item.kind,
         tone: item.tone,
         badge: item.badge,
         title: item.title,
@@ -17,7 +17,7 @@ const convertResumeItemToTimeLineItem = (item: ResumeItem): TimeLineItem => {
       };
     case "club":
       return {
-        kind: "club",
+        kind: item.kind,
         tone: item.tone,
         badge: item.badge,
         title: item.title,
@@ -27,7 +27,7 @@ const convertResumeItemToTimeLineItem = (item: ResumeItem): TimeLineItem => {
       };
     case "bootcamp":
       return {
-        kind: "bootcamp",
+        kind: item.kind,
         tone: item.tone,
         badge: item.badge,
         title: item.title,
@@ -39,7 +39,7 @@ const convertResumeItemToTimeLineItem = (item: ResumeItem): TimeLineItem => {
       };
     case "work":
       return {
-        kind: "work",
+        kind: item.kind,
         tone: item.tone,
         badge: item.badge,
         title: item.title,
@@ -53,8 +53,8 @@ const convertResumeItemToTimeLineItem = (item: ResumeItem): TimeLineItem => {
   }
 };
 
-export const convertResumeToTimeLineItems = (
+export const presentResumeTimeLine = (
   resume: Resume,
-): TimeLineItem[] => {
-  return resume.items.map(convertResumeItemToTimeLineItem);
+): ResumeTimeLineItemViewModel[] => {
+  return resume.items.map(presentResumeItem);
 };

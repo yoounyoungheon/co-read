@@ -1,72 +1,18 @@
 import Link from "next/link";
 import Badge from "@/app/shared/ui/atom/badge";
 import { Card } from "@/app/shared/ui/molecule/card";
-
-export type BaseTimeLineItem = {
-  tone: "slate" | "rose" | "blue" | "zinc";
-  badge: string;
-  title: string;
-  period?: string;
-};
-
-export type TimeLineItemLink = {
-  header: string;
-  path: string;
-};
-
-export type UniversityTimeLineItem = BaseTimeLineItem & {
-  kind: "university";
-  school: string;
-  majors: string[];
-  courses: string[];
-  summary: string;
-};
-
-export type ClubTimeLineItem = BaseTimeLineItem & {
-  kind: "club";
-  intro: string;
-  stories: {
-    title: string;
-    startTime: string;
-    endTime: string;
-    description: string;
-    links: TimeLineItemLink[];
-  }[];
-};
-
-export type BootcampTimeLineItem = BaseTimeLineItem & {
-  kind: "bootcamp";
-  program: string;
-  programDescription: string;
-  awards: string[];
-  retrospective: {
-    title: string;
-    description: string;
-    links: TimeLineItemLink[];
-  }[];
-};
-
-export type WorkTimeLineItem = BaseTimeLineItem & {
-  kind: "work";
-  company: string;
-  role: string;
-  employmentPeriod: string;
-  intro: string;
-  experiences: {
-    title: string;
-    description: string;
-    links: TimeLineItemLink[];
-  }[];
-};
-
-export type TimeLineItem =
-  | UniversityTimeLineItem
-  | ClubTimeLineItem
-  | BootcampTimeLineItem
-  | WorkTimeLineItem;
+import type {
+  ResumeBaseTimeLineItemViewModel,
+  ResumeBootcampTimeLineItemViewModel,
+  ResumeClubTimeLineItemViewModel,
+  ResumeTimeLineItemViewModel,
+  ResumeTimeLineLinkViewModel,
+  ResumeUniversityTimeLineItemViewModel,
+  ResumeWorkTimeLineItemViewModel,
+} from "../presentation/resume.view-model";
 
 export interface TimeLineProps {
-  items: TimeLineItem[];
+  items: ResumeTimeLineItemViewModel[];
 }
 
 function SectionHeader({
@@ -74,7 +20,7 @@ function SectionHeader({
   badge,
   title,
   period,
-}: Pick<TimeLineItem, "tone" | "badge" | "title" | "period">) {
+}: Pick<ResumeBaseTimeLineItemViewModel, "tone" | "badge" | "title" | "period">) {
   return (
     <div className="flex flex-col gap-3">
       <Badge
@@ -95,7 +41,7 @@ function SectionHeader({
   );
 }
 
-function ItemLinks({ links }: { links: TimeLineItemLink[] }) {
+function ItemLinks({ links }: { links: ResumeTimeLineLinkViewModel[] }) {
   if (links.length === 0) {
     return null;
   }
@@ -126,7 +72,7 @@ function ItemLinks({ links }: { links: TimeLineItemLink[] }) {
   );
 }
 
-function UniversityCard(item: UniversityTimeLineItem) {
+function UniversityCard(item: ResumeUniversityTimeLineItemViewModel) {
   return (
     <Card className="overflow-hidden rounded-[28px] border-none bg-white shadow-[0_12px_32px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/80">
       <div className="grid gap-4 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
@@ -190,7 +136,7 @@ function UniversityCard(item: UniversityTimeLineItem) {
   );
 }
 
-function ClubCard(item: ClubTimeLineItem) {
+function ClubCard(item: ResumeClubTimeLineItemViewModel) {
   return (
     <Card className="overflow-hidden rounded-[28px] border-none bg-[linear-gradient(180deg,#fff7fb_0%,#ffffff_100%)] shadow-[0_12px_32px_rgba(15,23,42,0.08)] ring-1 ring-rose-100">
       <div className="grid gap-4 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
@@ -238,7 +184,7 @@ function ClubCard(item: ClubTimeLineItem) {
   );
 }
 
-function BootcampCard(item: BootcampTimeLineItem) {
+function BootcampCard(item: ResumeBootcampTimeLineItemViewModel) {
   return (
     <Card className="overflow-hidden rounded-[28px] border-none bg-[linear-gradient(180deg,#f8faff_0%,#ffffff_100%)] shadow-[0_12px_32px_rgba(15,23,42,0.08)] ring-1 ring-blue-100">
       <div className="grid gap-4 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
@@ -301,7 +247,7 @@ function BootcampCard(item: BootcampTimeLineItem) {
   );
 }
 
-function WorkCard(item: WorkTimeLineItem) {
+function WorkCard(item: ResumeWorkTimeLineItemViewModel) {
   return (
     <Card className="overflow-hidden rounded-[28px] border-none bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_12px_32px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/80">
       <div className="grid gap-4 p-5 sm:grid-cols-[200px_minmax(0,1fr)] sm:p-6">
@@ -368,7 +314,7 @@ function WorkCard(item: WorkTimeLineItem) {
   );
 }
 
-function renderItemCard(item: TimeLineItem) {
+function renderItemCard(item: ResumeTimeLineItemViewModel) {
   switch (item.kind) {
     case "university":
       return <UniversityCard {...item} />;
