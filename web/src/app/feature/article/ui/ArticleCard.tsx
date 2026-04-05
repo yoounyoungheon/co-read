@@ -1,9 +1,9 @@
 import Link from "next/link";
-import type { Article } from "@/app/feature/article/business/article.domain";
 import { Card } from "@/app/shared/ui/molecule/card";
+import type { ArticleCardViewModel } from "../presentation/article.view-model";
 
 export interface ArticleCardProps {
-  article: Article;
+  article: ArticleCardViewModel;
 }
 
 export function ArticleCard({ article }: ArticleCardProps) {
@@ -43,7 +43,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           <div className="flex items-center gap-2 text-[11px] text-slate-400">
             <span>•</span>
             <span className="max-w-[160px] truncate">
-              {new URL(article.url).hostname}
+              {article.hostname}
             </span>
           </div>
         </div>

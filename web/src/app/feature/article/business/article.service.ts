@@ -2,6 +2,8 @@
 import { APIResponseType, checkResponseStatus } from "@/app/utils/http";
 import { Article } from "./article.domain";
 import { API_PATH } from "@/app/utils/http/api-path";
+import { ArticleApiModel } from "./article.api-model";
+import { mapArticleApiModelListToDomain } from "./article.mapper";
 
 export const loadAllArticles = async (): Promise<
   APIResponseType<Article[]>
@@ -12,10 +14,12 @@ export const loadAllArticles = async (): Promise<
     });
     checkResponseStatus(response.status);
 
+    const responseData = (await response.json()) as ArticleApiModel[];
+
     return {
       isSuccess: true,
       isFailure: false,
-      data: await response.json(),
+      data: mapArticleApiModelListToDomain(responseData),
     };
   } catch (error) {
     return {

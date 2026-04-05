@@ -1,8 +1,8 @@
-import type { Article } from "@/app/feature/article/business/article.domain";
 import { ArticleCard } from "./ArticleCard";
+import type { ArticleCardViewModel } from "../presentation/article.view-model";
 
 export interface ArticleListProps {
-  articles: Article[];
+  articles: ArticleCardViewModel[];
 }
 
 export function ArticleList({ articles }: ArticleListProps) {
