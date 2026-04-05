@@ -6,7 +6,7 @@ export interface ProfileProps {
   name: string;
   job: string;
   spec: string[];
-  intorudctiion: string;
+  introduction: string;
   profileImage: string | StaticImageData;
   githubLink: string;
   blogLink: string;
@@ -16,7 +16,7 @@ export function Profile({
   name,
   job,
   spec,
-  intorudctiion,
+  introduction,
   profileImage,
   githubLink,
   blogLink,
@@ -62,7 +62,7 @@ export function Profile({
             <div className="mt-1 flex flex-row items-stretch gap-3">
               <div className="w-1 self-stretch rounded-full bg-gradient-to-b from-pink-400 to-purple-500" />
               <p className="whitespace-pre-line text-xs leading-relaxed text-gray-700 lg:text-sm">
-                {intorudctiion}
+                {introduction}
               </p>
             </div>
 
