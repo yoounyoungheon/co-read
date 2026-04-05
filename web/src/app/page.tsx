@@ -2,8 +2,11 @@ import { loadProjectsForGuestRequest } from "./feature/project/business/project.
 import { PageQueryProps } from "./utils/type";
 import { loadAllArticles } from "./feature/article/business/article.service";
 import { MainShowcasePage } from "./feature/profile/page/MainShowcasePage";
-import { loadResumeTimeLineItemsForGuestRequest } from "./feature/resume/business/resume.service";
+import { loadResumeForGuestRequest } from "./feature/resume/business/resume.service";
 import { MainPageType } from "./utils/contants";
+import { presentArticleCards } from "./feature/article/presentation/article.presenter";
+import { presentProjectCards } from "./feature/project/presentation/project.presenter";
+import { presentResumeTimeLine } from "./feature/resume/presentation/resume.presenter";
 
 export default async function MainPage({ searchParams }: PageQueryProps) {
   const type =
@@ -19,15 +22,25 @@ export default async function MainPage({ searchParams }: PageQueryProps) {
 
   const timeLineResponse =
     type === MainPageType.PROFILE
-      ? await loadResumeTimeLineItemsForGuestRequest()
+      ? await loadResumeForGuestRequest()
       : null;
+
+  const projectCards = projectResponse?.data
+    ? presentProjectCards(projectResponse.data)
+    : [];
+  const articleCards = articleResponse?.data
+    ? presentArticleCards(articleResponse.data)
+    : [];
+  const timeLineItems = timeLineResponse?.data
+    ? presentResumeTimeLine(timeLineResponse.data)
+    : [];
 
   return (
     <main className="flex justify-center w-full">
       <MainShowcasePage
-        projects={projectResponse?.data || []}
-        articles={articleResponse?.data || []}
-        timeLineItems={timeLineResponse?.data || []}
+        projects={projectCards}
+        articles={articleCards}
+        timeLineItems={timeLineItems}
         type={type}
       />
     </main>

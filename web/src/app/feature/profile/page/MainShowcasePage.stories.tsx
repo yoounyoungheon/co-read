@@ -1,65 +1,45 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type { Article } from "@/app/feature/article/business/article.domain";
-import type { Project } from "@/app/feature/project/business/project.domain";
+import type { ArticleCardViewModel } from "@/app/feature/article/presentation/article.view-model";
+import type { ProjectCardViewModel } from "@/app/feature/project/presentation/project.view-model";
 import {
   MainShowcasePage,
   type MainShowcasePageProps,
 } from "./MainShowcasePage";
 import { MainPageType } from "@/app/utils/contants";
+import { defaultTimeLineItems } from "../../resume/ui/TimeLine.stories";
 
-const sampleProjects: Project[] = [
+const sampleProjects: ProjectCardViewModel[] = [
   {
     id: "co-read",
     title: "Co-Read",
     keyword: ["Next.js", "NestJS", "Vercel"],
-    images: [
-      {
-        path: "/images/p2_1.png",
-        description: "서비스 메인 화면",
-      },
-    ],
-    projectMd: "# Co-Read\n\n## 프로젝트 소개\n협업 기반 문서 독해 서비스입니다.",
-    retrospectMd: "## 회고\n공동 편집 경험을 더 자연스럽게 만드는 데 집중했습니다.",
+    href: "/project?id=co-read",
+    imageSrc: "/images/p2_1.png",
   },
   {
     id: "open-labs",
     title: "Open Labs",
     keyword: ["React", "Spring Boot", "AWS"],
-    images: [
-      {
-        path: "/images/p2_1.png",
-        description: null,
-      },
-    ],
-    projectMd:
-      "# Open Labs\n\n## 프로젝트 소개\n연구 프로젝트를 아카이빙하고 탐색하는 서비스입니다.",
-    retrospectMd:
-      "## 회고\n탐색 경험과 정보 구조 설계의 중요성을 많이 느꼈습니다.",
+    href: "/project?id=open-labs",
+    imageSrc: "/images/p2_1.png",
   },
   {
     id: "note-flow",
     title: "Note Flow",
     keyword: ["Next.js", "Go", "Cloud Run"],
-    images: [
-      {
-        path: "/images/p2_2.png",
-        description: "노트 흐름 관리 화면",
-      },
-    ],
-    projectMd:
-      "# Note Flow\n\n## 프로젝트 소개\n개인 지식 관리와 메모 흐름 정리에 초점을 둔 도구입니다.",
-    retrospectMd:
-      "## 회고\n모바일 환경에서 입력 경험을 다듬는 과정이 가장 중요했습니다.",
+    href: "/project?id=note-flow",
+    imageSrc: "/images/p2_2.png",
   },
 ];
 
-const sampleArticles: Article[] = [
+const sampleArticles: ArticleCardViewModel[] = [
   {
     id: "1",
     title: "협업 문서 독해 경험을 개선하는 UI 설계",
     description:
       "복수 사용자가 같은 문서를 함께 읽고 상호작용할 때 필요한 피드백 구조와 인터랙션 설계 원칙을 정리한 글입니다.",
     url: "https://younghun123.tistory.com/1",
+    hostname: "younghun123.tistory.com",
   },
   {
     id: "2",
@@ -67,6 +47,7 @@ const sampleArticles: Article[] = [
     description:
       "단순한 UI 조립을 넘어서, 화면 문맥과 제품 흐름 안에서 컴포넌트를 어떻게 나눌지에 대한 고민을 담았습니다.",
     url: "https://younghun123.tistory.com/2",
+    hostname: "younghun123.tistory.com",
   },
   {
     id: "3",
@@ -74,6 +55,7 @@ const sampleArticles: Article[] = [
     description:
       "콘텐츠 탐색 경험을 개선하기 위해 정보 구조를 어떻게 설계하고 검증했는지 사례 중심으로 정리했습니다.",
     url: "https://younghun123.tistory.com/3",
+    hostname: "younghun123.tistory.com",
   },
 ];
 
@@ -87,6 +69,7 @@ const meta: Meta<typeof MainShowcasePage> = {
   args: {
     projects: sampleProjects,
     articles: sampleArticles,
+    timeLineItems: defaultTimeLineItems,
     type: MainPageType.PROJECT,
   },
   argTypes: {
@@ -151,37 +134,21 @@ export const ManyProjects: Story = {
   args: {
     projects: [
       ...sampleProjects,
-      {
-        id: "focus-board",
-        title: "Focus Board",
-        keyword: ["Vue", "FastAPI", "GCP"],
-        images: [
-          {
-            path: "/images/p2_3.png",
-            description: null,
-          },
-        ],
-        projectMd:
-          "# Focus Board\n\n## 프로젝트 소개\n작업 집중도 시각화 대시보드입니다.",
-        retrospectMd:
-          "## 회고\n데이터를 많이 보여주되 복잡하지 않게 만드는 게 핵심이었습니다.",
-      },
-      {
-        id: "archive-room",
-        title: "Archive Room",
-        keyword: ["Kotlin", "Next.js", "AWS"],
-        images: [
-          {
-            path: "/images/p2_4.png",
-            description: "콘텐츠 분류 화면",
-          },
-        ],
-        projectMd:
-          "# Archive Room\n\n## 프로젝트 소개\n콘텐츠 저장과 분류에 집중한 서비스입니다.",
-        retrospectMd:
-          "## 회고\n검색 경험을 개선하려면 저장 구조부터 잘 설계해야 했습니다.",
-      },
-    ],
+        {
+          id: "focus-board",
+          title: "Focus Board",
+          keyword: ["Vue", "FastAPI", "GCP"],
+          href: "/project?id=focus-board",
+          imageSrc: "/images/p2_3.png",
+        },
+        {
+          id: "archive-room",
+          title: "Archive Room",
+          keyword: ["Kotlin", "Next.js", "AWS"],
+          href: "/project?id=archive-room",
+          imageSrc: "/images/p2_4.png",
+        },
+      ],
   },
   render: Default.render,
 };

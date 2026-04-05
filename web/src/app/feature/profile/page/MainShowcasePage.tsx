@@ -1,17 +1,18 @@
-import type { Article } from "@/app/feature/article/business/article.domain";
-import type { Project } from "@/app/feature/project/business/project.domain";
+import type { ArticleCardViewModel } from "@/app/feature/article/presentation/article.view-model";
+import type { ProjectCardViewModel } from "@/app/feature/project/presentation/project.view-model";
 import { FeedGrid } from "../../project/ui/FeedGrid";
 import { ArticleList } from "../../article/ui/ArticleList";
 import Link from "next/link";
 import Button from "@/app/shared/ui/atom/button";
 import { MainPageType } from "@/app/utils/contants";
 import PlayGround from "../../play-ground/ui/PlayGround";
-import { TimeLine, TimeLineItem } from "../../resume/ui/TimeLine";
+import { TimeLine } from "../../resume/ui/TimeLine";
+import type { ResumeTimeLineItemViewModel } from "../../resume/presentation/resume.view-model";
 
 export interface MainShowcasePageProps {
-  projects: Project[];
-  articles: Article[];
-  timeLineItems: TimeLineItem[];
+  projects: ProjectCardViewModel[];
+  articles: ArticleCardViewModel[];
+  timeLineItems: ResumeTimeLineItemViewModel[];
   type: string;
 }
 
