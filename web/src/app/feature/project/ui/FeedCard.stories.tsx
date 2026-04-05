@@ -1,19 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type { Project } from "@/app/feature/project/business/project.domain";
+import type { ProjectCardViewModel } from "../presentation/project.view-model";
 import { FeedCard } from "./FeedCard";
 
-const sampleProject: Project = {
+const sampleProject: ProjectCardViewModel = {
   id: "co-read",
   title: "Co-Read",
   keyword: ["Next.js", "NestJS", "Vercel"],
-  images: [
-    {
-      path: "/images/p2_1.png",
-      description: "서비스 대표 화면",
-    },
-  ],
-  projectMd: "# Co-Read\n\n## 프로젝트 소개\n협업 기반 문서 독해 서비스입니다.",
-  retrospectMd: "## 회고\n프로젝트 카드 예시를 통해 시각적 정보를 전달합니다.",
+  href: "/project?id=co-read",
+  imageSrc: "/images/p2_1.png",
 };
 
 const meta: Meta<typeof FeedCard> = {
