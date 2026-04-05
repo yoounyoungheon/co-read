@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { TimeLine, TimeLineItem } from "./TimeLine";
+import { TimeLine } from "./TimeLine";
+import type { ResumeTimeLineItemViewModel } from "../presentation/resume.view-model";
 
-export const defaultTimeLineItems: TimeLineItem[] = [
+export const defaultTimeLineItems: ResumeTimeLineItemViewModel[] = [
   {
     kind: "university",
     tone: "slate",
