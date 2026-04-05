@@ -12,7 +12,7 @@ const meta: Meta<typeof Profile> = {
     name: "윤영헌",
     job: "🖥️ developer",
     spec: ["Dongguk Univ · scsc & biz", "Open Labs · 2025 ~"],
-    intorudctiion:
+    introduction:
       "안녕하세요! 개발자 윤영헌입니다.\n융합소프트웨어와 경영학을 전공했습니다.\n비즈니스, 기술적 관점에서 변화에 유연한 소프트웨어 설계를 고민합니다.\ne-mail: iddyoon@gmail.com",
     profileImage: "/images/profile.png",
     githubLink: "https://github.com/yoounyoungheon",
@@ -31,7 +31,7 @@ const meta: Meta<typeof Profile> = {
       control: "object",
       description: "학력이나 이력처럼 줄 단위로 보여줄 경력 정보 목록입니다.",
     },
-    intorudctiion: {
+    introduction: {
       control: "text",
       description: "줄바꿈을 포함할 수 있는 자기소개 문구입니다.",
     },
@@ -69,7 +69,7 @@ export const LongIntroduction: Story = {
       "Business Administration · Double Major",
       "Open Labs · Backend Engineer",
     ],
-    intorudctiion:
+    introduction:
       "사용자 경험과 제품 완성도를 함께 보는 개발을 지향합니다.\n빠르게 만드는 것보다 오래 유지되는 구조를 선호하고, 팀 안에서 문제를 명확히 정의하는 과정에도 관심이 많습니다.\n최근에는 서비스 설계와 실행 사이의 간극을 줄이는 방법을 고민하고 있습니다.",
   },
   render: Default.render,
