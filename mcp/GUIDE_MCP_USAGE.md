@@ -42,15 +42,18 @@
 ```bash
 cd mcp
 npm install
-npm run dev
+npm run build
+node dist/index.js
 ```
 
-빌드 후 실행:
+직접 `node`로 실행할 때는 엔트리 파일이 `dist/index.js`이므로, 먼저 빌드가 필요합니다.
+
+개발 중에도 `npm run start` 대신 아래처럼 직접 실행할 수 있습니다.
 
 ```bash
 cd mcp
 npm run build
-npm run start
+node dist/index.js
 ```
 
 ## stdio 기반 MCP 클라이언트 연결 예시
@@ -65,15 +68,15 @@ npm run start
 {
   "mcpServers": {
     "frontend-guidance-mcp": {
-      "command": "npm",
-      "args": ["run", "start"],
+      "command": "node",
+      "args": ["dist/index.js"],
       "cwd": "/Users/yun-yeongheon/dev/co-read/mcp"
     }
   }
 }
 ```
 
-개발 중 연결 확인만 빠르게 하려면 `start` 대신 `dev`를 쓸 수 있지만, 안정적인 연동은 빌드 후 `start`가 더 적합합니다.
+이 패키지의 소스 엔트리는 TypeScript(`src/index.ts`)이므로, `node`로 직접 실행할 때는 빌드 후 `dist/index.js`를 실행하는 방식이 가장 안전합니다.
 
 ### Codex에서 사용하려면
 
@@ -81,8 +84,8 @@ Codex CLI에서 이 MCP를 사용하려면 사용자 설정 파일 `~/.codex/con
 
 ```toml
 [mcp_servers.frontend-guidance-mcp]
-command = "npm"
-args = ["run", "start"]
+command = "node"
+args = ["dist/index.js"]
 cwd = "/Users/yun-yeongheon/dev/co-read/mcp"
 ```
 
@@ -98,7 +101,7 @@ OpenCode에서는 `opencode.json` 또는 `~/.config/opencode/opencode.json`의 `
   "mcp": {
     "frontend-guidance-mcp": {
       "type": "local",
-      "command": ["npm", "run", "start"],
+      "command": ["node", "dist/index.js"],
       "enabled": true,
       "environment": {
         "PWD": "/Users/yun-yeongheon/dev/co-read/mcp"
@@ -119,12 +122,98 @@ OpenCode에서는 `opencode.json` 또는 `~/.config/opencode/opencode.json`의 `
       "command": [
         "zsh",
         "-lc",
-        "cd /Users/yun-yeongheon/dev/co-read/mcp && npm run start"
+        "cd /Users/yun-yeongheon/dev/co-read/mcp && node dist/index.js"
       ],
       "enabled": true
     }
   }
 }
+```
+
+### OpenCode 작업 지시문에 함께 넣을 운영 규칙
+
+OpenCode가 이 MCP를 더 적극적으로 활용하게 하려면, 세션 프롬프트나 작업 지시문에 아래 운영 규칙을 함께 넣는 편이 좋습니다.
+
+#### Search mode
+
+```text
+[search-mode]
+MAXIMIZE SEARCH EFFORT. Launch multiple background agents IN PARALLEL:
+- explore agents (codebase patterns, file structures, ast-grep)
+- librarian agents (remote repos, official docs, GitHub examples)
+Plus direct tools: Grep, ripgrep (rg), ast-grep (sg)
+NEVER stop at first result - be exhaustive.
+```
+
+의도:
+
+- 내부 코드베이스 탐색과 외부 레퍼런스 수집을 동시에 강제합니다.
+- 첫 검색 결과만 보고 멈추지 않도록 해서, 가이드 선택이나 구현 근거를 더 넓게 확보하게 합니다.
+
+#### Analyze mode
+
+```text
+[analyze-mode]
+ANALYSIS MODE. Gather context before diving deep:
+CONTEXT GATHERING (parallel):
+- 1-2 explore agents (codebase patterns, implementations)
+- 1-2 librarian agents (if external library involved)
+- Direct tools: Grep, AST-grep, LSP for targeted searches
+
+IF COMPLEX - DO NOT STRUGGLE ALONE. Consult specialists:
+- **Oracle**: Conventional problems (architecture, debugging, complex logic)
+- **Artistry**: Non-conventional problems (different approach needed)
+
+SYNTHESIZE findings before proceeding.
+```
+
+의도:
+
+- 바로 수정에 들어가지 않고 먼저 맥락을 수집하게 만듭니다.
+- 외부 라이브러리, 구조 변경, 복잡한 디버깅처럼 혼자 판단하면 위험한 상황에서 추가 전문 에이전트 사용을 유도합니다.
+
+#### delegate_task 호출 규칙
+
+```text
+MANDATORY delegate_task params: ALWAYS include load_skills=[] and run_in_background when calling delegate_task.
+Example: delegate_task(subagent_type="explore", prompt="...", run_in_background=true, load_skills=[])
+```
+
+의도:
+
+- 위임 호출 시 필수 파라미터 누락을 방지합니다.
+- 특히 백그라운드 탐색 작업을 병렬화할 때 호출 형식을 일관되게 유지하는 데 도움이 됩니다.
+
+#### 함께 붙여 넣는 예시
+
+아래처럼 OpenCode에 작업을 줄 때 MCP 사용 설명과 운영 규칙을 한 번에 넣을 수 있습니다.
+
+```text
+Use frontend-guidance-mcp when the task touches frontend implementation guidance.
+First resolve relevant guides from the task and target paths, then read only the selected guides.
+
+[search-mode]
+MAXIMIZE SEARCH EFFORT. Launch multiple background agents IN PARALLEL:
+- explore agents (codebase patterns, file structures, ast-grep)
+- librarian agents (remote repos, official docs, GitHub examples)
+Plus direct tools: Grep, ripgrep (rg), ast-grep (sg)
+NEVER stop at first result - be exhaustive.
+
+[analyze-mode]
+ANALYSIS MODE. Gather context before diving deep:
+CONTEXT GATHERING (parallel):
+- 1-2 explore agents (codebase patterns, implementations)
+- 1-2 librarian agents (if external library involved)
+- Direct tools: Grep, AST-grep, LSP for targeted searches
+
+IF COMPLEX - DO NOT STRUGGLE ALONE. Consult specialists:
+- **Oracle**: Conventional problems (architecture, debugging, complex logic)
+- **Artistry**: Non-conventional problems (different approach needed)
+
+SYNTHESIZE findings before proceeding.
+
+MANDATORY delegate_task params: ALWAYS include load_skills=[] and run_in_background when calling delegate_task.
+Example: delegate_task(subagent_type="explore", prompt="...", run_in_background=true, load_skills=[])
 ```
 
 ## 사용 예시

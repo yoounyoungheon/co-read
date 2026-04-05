@@ -9,14 +9,18 @@
 ```bash
 cd mcp
 npm install
-npm run dev
+npm run build
+node dist/index.js
 ```
 
-빌드 후 실행:
+직접 `node`로 실행할 때는 먼저 빌드가 필요합니다. 엔트리 파일은 `dist/index.js`입니다.
+
+다시 실행할 때도 아래처럼 사용하면 됩니다.
 
 ```bash
+cd mcp
 npm run build
-npm run start
+node dist/index.js
 ```
 
 ## 현재 포함된 툴
@@ -34,12 +38,12 @@ npm run start
 {
   "mcpServers": {
     "frontend-guidance-mcp": {
-      "command": "npm",
-      "args": ["run", "start"],
+      "command": "node",
+      "args": ["dist/index.js"],
       "cwd": "/Users/yun-yeongheon/dev/co-read/mcp"
     }
   }
 }
 ```
 
-개발 중에는 `start` 대신 `dev`를 써도 되지만, 클라이언트 연동은 보통 빌드된 `start`가 더 안정적입니다.
+이 패키지의 소스 엔트리는 TypeScript(`src/index.ts`)라서, 클라이언트 연동은 빌드된 `dist/index.js`를 `node`로 직접 실행하는 방식이 가장 안정적입니다.
