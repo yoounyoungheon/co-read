@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { Dialog, DialogContent } from "@/app/shared/ui/molecule/dialog";
-import { ProjectImage } from "../business/project.domain";
+import type { ProjectImageViewModel } from "../presentation/project.view-model";
 
 export interface ProjectImageDetailDialogProps {
-  image?: string | ProjectImage;
+  image?: ProjectImageViewModel;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -19,12 +19,12 @@ export function ProjectImageDetailDialog({
     return null;
   }
 
-  const src = typeof image === "string" ? image : image.path;
+  const src = image.src;
   if (!src) {
     return null;
   }
 
-  const description = typeof image === "string" ? null : image.description;
+  const description = image.description;
   const alt = description ?? "프로젝트 이미지 상세";
 
   return (

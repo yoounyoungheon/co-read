@@ -1,7 +1,12 @@
 "use server";
 import { APIResponseType, checkResponseStatus } from "@/app/utils/http";
 import { API_PATH } from "@/app/utils/http/api-path";
-import { createProjectDomain, Project } from "./project.domain";
+import { Project } from "./project.domain";
+import { ProjectApiModel } from "./project.api-model";
+import {
+  mapProjectApiModelListToDomain,
+  mapProjectApiModelToDomain,
+} from "./project.mapper";
 
 export const loadProjectsForGuestRequest = async (): Promise<
   APIResponseType<Project[]>
@@ -12,10 +17,12 @@ export const loadProjectsForGuestRequest = async (): Promise<
     });
     checkResponseStatus(response.status);
 
+    const responseData = (await response.json()) as ProjectApiModel[];
+
     return {
       isSuccess: true,
       isFailure: false,
-      data: await response.json(),
+      data: mapProjectApiModelListToDomain(responseData),
     };
   } catch (error) {
     return {
@@ -35,19 +42,8 @@ export const loadProjectForGuestRequest = async (
       cache: "no-store",
     });
     checkResponseStatus(response.status);
-    const responseData = await response.json();
-    const projectMd = responseData.projectMd ?? responseData.markdown;
-    const retrospectMd =
-      responseData.retrospectMd ?? responseData.markdown2;
-
-    const project = createProjectDomain(
-      responseData.id,
-      responseData.title,
-      responseData.images,
-      responseData.keyword,
-      projectMd,
-      retrospectMd,
-    );
+    const responseData = (await response.json()) as ProjectApiModel;
+    const project = mapProjectApiModelToDomain(responseData);
 
     return {
       isSuccess: true,

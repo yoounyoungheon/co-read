@@ -1,10 +1,10 @@
 import { MarkdownViewer } from "@/app/shared/ui/molecule/markdown-viewer";
-import { ProjectImage } from "../business/project.domain";
 import { ProjectImageList } from "./ProjectImageList";
+import type { ProjectImageViewModel } from "../presentation/project.view-model";
 
 export interface ProjectReviewProps {
   markdown: string;
-  images?: ProjectImage[];
+  images?: ProjectImageViewModel[];
 }
 
 export function ProjectReview({ markdown, images = [] }: ProjectReviewProps) {

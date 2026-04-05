@@ -1,8 +1,8 @@
-import { Project } from "@/app/feature/project/business/project.domain";
 import { FeedCard } from "./FeedCard";
+import type { ProjectCardViewModel } from "../presentation/project.view-model";
 
 interface FeedGridProps {
-  projects: Project[];
+  projects: ProjectCardViewModel[];
 }
 
 export const FeedGrid = ({ projects }: FeedGridProps) => {

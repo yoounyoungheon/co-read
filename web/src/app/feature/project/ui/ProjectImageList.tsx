@@ -2,20 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ProjectImage } from "../business/project.domain";
 import { Card } from "@/app/shared/ui/molecule/card";
 import { ProjectImageDetailDialog } from "./ProjectImageDetailDialog";
+import type { ProjectImageViewModel } from "../presentation/project.view-model";
 
 export interface ProjectImageListProps {
-  images: Array<string | ProjectImage>;
+  images: ProjectImageViewModel[];
 }
 
 export function ProjectImageList({ images }: ProjectImageListProps) {
-  const [selectedImage, setSelectedImage] = useState<string | ProjectImage>();
-  const validImages = images.filter((image) => {
-    const src = typeof image === "string" ? image : image.path;
-    return Boolean(src);
-  });
+  const [selectedImage, setSelectedImage] = useState<ProjectImageViewModel>();
+  const validImages = images.filter((image) => Boolean(image.src));
 
   return (
     <>
@@ -42,11 +39,8 @@ export function ProjectImageList({ images }: ProjectImageListProps) {
             "
           >
             {validImages.map((image, index) => {
-              const src = typeof image === "string" ? image : image.path;
-              const description =
-                typeof image === "string"
-                  ? `프로젝트 이미지 ${index + 1}`
-                  : image.description;
+              const src = image.src;
+              const description = image.description ?? `프로젝트 이미지 ${index + 1}`;
               const alt = description ?? `프로젝트 이미지 ${index + 1}`;
 
               return (
