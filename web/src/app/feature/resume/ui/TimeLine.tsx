@@ -20,7 +20,10 @@ function SectionHeader({
   badge,
   title,
   period,
-}: Pick<ResumeBaseTimeLineItemViewModel, "tone" | "badge" | "title" | "period">) {
+}: Pick<
+  ResumeBaseTimeLineItemViewModel,
+  "tone" | "badge" | "title" | "period"
+>) {
   return (
     <div className="flex flex-col gap-3">
       <Badge
@@ -94,8 +97,8 @@ function UniversityCard(item: ResumeUniversityTimeLineItemViewModel) {
           </div>
 
           <div className="grid gap-3 lg:grid-cols-1">
-            <div className="rounded-2xl bg-slate-50 px-4 py-4 ring-1 ring-slate-200/70">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <Card className="rounded-2xl px-4 py-4 shadow-none">
+              <p className="text-xs font-semibold uppercase text-slate-500">
                 전공
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -110,10 +113,10 @@ function UniversityCard(item: ResumeUniversityTimeLineItemViewModel) {
                   </Badge>
                 ))}
               </div>
-            </div>
+            </Card>
 
-            <div className="rounded-2xl bg-slate-50 px-4 py-4 ring-1 ring-slate-200/70">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <Card className="rounded-2xl px-4 py-4 shadow-none">
+              <p className="text-xs font-semibold uppercase text-slate-500">
                 인상깊이 들었던 수업
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -128,7 +131,7 @@ function UniversityCard(item: ResumeUniversityTimeLineItemViewModel) {
                   </Badge>
                 ))}
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
