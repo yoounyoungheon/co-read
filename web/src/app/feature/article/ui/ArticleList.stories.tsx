@@ -1,14 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type { Article } from "@/app/feature/article/business/article.domain";
+import type { ArticleCardViewModel } from "../presentation/article.view-model";
 import { ArticleList } from "./ArticleList";
 
-const sampleArticles: Article[] = [
+const sampleArticles: ArticleCardViewModel[] = [
   {
     id: "1",
     title: "협업 문서 독해 경험을 개선하는 UI 설계",
     description:
       "복수 사용자가 같은 문서를 함께 읽고 상호작용할 때 필요한 피드백 구조와 인터랙션 설계 원칙을 정리한 글입니다.",
     url: "https://younghun123.tistory.com/1",
+    hostname: "younghun123.tistory.com",
   },
   {
     id: "2",
@@ -16,6 +17,7 @@ const sampleArticles: Article[] = [
     description:
       "단순한 UI 조립을 넘어서, 화면 문맥과 제품 흐름 안에서 컴포넌트를 어떻게 나눌지에 대한 고민을 담았습니다.",
     url: "https://younghun123.tistory.com/2",
+    hostname: "younghun123.tistory.com",
   },
   {
     id: "3",
@@ -23,6 +25,7 @@ const sampleArticles: Article[] = [
     description:
       "콘텐츠 탐색 경험을 개선하기 위해 정보 구조를 어떻게 설계하고 검증했는지 사례 중심으로 정리했습니다.",
     url: "https://younghun123.tistory.com/3",
+    hostname: "younghun123.tistory.com",
   },
 ];
 

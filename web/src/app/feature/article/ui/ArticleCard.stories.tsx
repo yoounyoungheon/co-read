@@ -1,13 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import type { Article } from "@/app/feature/article/business/article.domain";
+import type { ArticleCardViewModel } from "../presentation/article.view-model";
 import { ArticleCard } from "./ArticleCard";
 
-const sampleArticle: Article = {
+const sampleArticle: ArticleCardViewModel = {
   id: "1",
   title: "협업 문서 독해 경험을 개선하는 UI 설계",
   description:
     "복수 사용자가 같은 문서를 함께 읽고 상호작용할 때 필요한 피드백 구조와 인터랙션 설계 원칙을 정리한 글입니다.",
   url: "https://younghun123.tistory.com/1",
+  hostname: "younghun123.tistory.com",
 };
 
 const meta: Meta<typeof ArticleCard> = {
