@@ -12,19 +12,11 @@ import { SSEProvider } from "@/app/shared/sse/business/context/sseContext";
 import { useSSE } from "@/app/shared/sse/business/hook/useSSE";
 import BuildStartButton, { BuildStartType } from "./BuildStartButton";
 import Log from "./Log";
-
-type BuildStage = "SCM" | "BUILD" | "DEPLOY";
-
-type ProgressEventPayload = {
-  type: BuildStage;
-  delta: string;
-  length: number;
-};
-
-type EndEventPayload = {
-  success: boolean;
-  message: string;
-};
+import {
+  BuildEndEventPayload,
+  BuildProgressEventPayload,
+  BuildStage,
+} from "../types/model";
 
 type ToastState = {
   open: boolean;
@@ -38,7 +30,10 @@ const initialToastState: ToastState = {
   description: undefined,
 };
 
-const appendLogChunk = (previousLog: string, payload: ProgressEventPayload) => {
+const appendLogChunk = (
+  previousLog: string,
+  payload: BuildProgressEventPayload,
+) => {
   const nextExpectedLength = previousLog.length + payload.delta.length;
 
   if (payload.length === nextExpectedLength) {
@@ -101,10 +96,10 @@ const BuildUIContent = () => {
         {
           eventName: "progress",
           handle: (event) => {
-            let payload: ProgressEventPayload;
+            let payload: BuildProgressEventPayload;
 
             try {
-              payload = JSON.parse(event.data) as ProgressEventPayload;
+              payload = JSON.parse(event.data) as BuildProgressEventPayload;
             } catch {
               return;
             }
@@ -123,10 +118,10 @@ const BuildUIContent = () => {
         {
           eventName: "end",
           handle: (event) => {
-            let payload: EndEventPayload;
+            let payload: BuildEndEventPayload;
 
             try {
-              payload = JSON.parse(event.data) as EndEventPayload;
+              payload = JSON.parse(event.data) as BuildEndEventPayload;
             } catch {
               close();
               return;

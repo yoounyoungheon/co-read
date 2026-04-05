@@ -8,35 +8,7 @@ import { SendMessageForm } from "./SendMessageForm";
 import { SSEProvider } from "@/app/shared/sse/business/context/sseContext";
 import { useSSE } from "@/app/shared/sse/business/hook/useSSE";
 import WineRecommendCard from "./WineRecommendCard";
-
-type PairingChunkType = "TITLE" | "COMMENT" | "REASON";
-
-type ChatSSEEvent =
-  | {
-      type: "CHAT";
-      data: {
-        content: string;
-      };
-    }
-  | {
-      type: "START";
-      data: {
-        type: "MESSAGE";
-        message: string;
-      };
-    }
-  | {
-      type: "PAIRING";
-      data: {
-        type: PairingChunkType;
-        rank: number;
-        content: string;
-      };
-    }
-  | {
-      type: "FINISH";
-      data: null;
-    };
+import { ChatSSEEvent } from "../types/model";
 
 type PairingRecommendation = {
   rank: number;
