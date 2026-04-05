@@ -2,7 +2,7 @@
 
 이 문서는 `co-read` 레포 안의 `web` 애플리케이션 구조를 정리합니다.
 
-`web`은 Next.js App Router 기반 프론트엔드이며, 사용자에게 보이는 실제 화면, 공통 UI, feature UI, SSE/RTC 클라이언트 로직, Storybook 기반 컴포넌트 문서화를 함께 포함합니다.
+`web`은 Next.js App Router 기반 프론트엔드 애플리케이션이며, 사용자에게 보이는 실제 화면, 공통 UI, feature UI, SSE/RTC 클라이언트 로직, Storybook 기반 컴포넌트 문서화를 함께 포함합니다.
 
 ## 개요
 
@@ -15,6 +15,22 @@
 - Storybook을 같은 경로에 유지하는 컴포넌트 문서화 패턴
 
 즉 이 애플리케이션은 단순한 페이지 모음이 아니라, **서버 렌더링 중심의 화면 조합 구조 + feature 단위 데이터 경계 + 상호작용 모듈 분리**를 함께 갖춘 프론트엔드입니다.
+
+아래 다이어그램은 현재 `web`에서 데이터를 어떤 방향으로 흘려 보내는지, 그리고 `ui - business - api` 레이어가 어디에서 만나는지를 단순화해서 보여줍니다.
+
+```text
+[ External JSON / API Response ]
+                -> [ API Layer ]                 : 외부 응답 또는 내부 route handler
+                -> [ Business Mapper Layer ]     : API contract를 domain으로 변환
+                -> [ Business Service Layer ]    : fetch, 상태 검사, domain 반환
+                -> [ Server Composition Layer ]  : page/layout에서 데이터 조합
+                -> [ Presentation Component ]    : domain을 view model로 가공
+                -> [ UI Component ]              : view model을 실제 화면으로 렌더링
+                -> [ Browser Render ]            : 사용자가 최종 결과를 확인
+
+Layer summary:
+API Response -> api-model -> domain -> view-model -> UI Render
+```
 
 ## 디렉터리 구조
 
@@ -78,7 +94,8 @@ web/
 1. query param에서 현재 탭 결정
 2. 필요한 feature service만 서버에서 호출
 3. service가 반환한 domain을 presenter가 view model로 변환
-4. `MainShowcasePage`가 최종 UI 조합 수행
+4. playground 카드 메타데이터도 presenter에서 view model로 준비
+5. `MainShowcasePage`가 최종 UI 조합 수행
 
 즉 메인 페이지의 데이터 흐름은 아래처럼 정리됩니다.
 
@@ -87,6 +104,7 @@ page.tsx
   -> feature service
   -> domain data
   -> feature presenter
+  -> playground presenter
   -> view model
   -> MainShowcasePage
 ```
@@ -270,7 +288,20 @@ domain을 view model로 변환합니다.
 - `rtc`
 - `css-only`
 
-이 영역은 일반 feature와 완전히 동일한 구조는 아니지만, 최소한 아래 원칙은 유지합니다.
+이 영역은 일반 feature와 완전히 동일한 구조는 아니지만, 현재는 카드 메타데이터와 route type 같은 정적 화면 데이터는 `presentation`으로 올리고, 실시간 상태와 브라우저 상호작용은 여전히 feature UI 인접 레이어에 두는 방식으로 정리되어 있습니다.
+
+즉 `play-ground`는 아래처럼 둘로 나뉩니다.
+
+- presentation에 둘 것
+  - playground 카드 목록
+  - route type 상수
+  - 카드용 view model
+- UI 인접 레이어에 둘 것
+  - SSE 수신 상태
+  - RTC `MediaStream`
+  - 브라우저 상호작용과 로컬 렌더링 상태
+
+이 기준 아래에서 다음 원칙을 유지합니다.
 
 - transport/event payload는 가능하면 UI 밖 타입 파일로 분리
 - 공통 SSE lifecycle은 `shared/sse`에서 관리
@@ -283,6 +314,10 @@ domain을 view model로 변환합니다.
   - 채팅 SSE 이벤트 타입
 - `play-ground/log/types/model.ts`
   - 로그 스트리밍 이벤트 타입
+- `play-ground/presentation/play-ground.presenter.ts`
+  - playground 카드 메타데이터와 동적 `WEB_RTC` path 생성
+- `play-ground/presentation/play-ground.view-model.ts`
+  - playground 카드 view model과 route type 상수
 - `ChatUI`
   - 채팅 전용 조합과 렌더링 상태 담당
 - `BuildUI`
