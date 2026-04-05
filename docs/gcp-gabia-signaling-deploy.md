@@ -78,112 +78,9 @@ gcloud compute firewall-rules list
 
 `iamyounghun.co.kr` 도메인은 가비아에서 구매했지만, 실제 DNS authoritative 서버는 Vercel이다.
 
-즉 DNS 레코드는 가비아가 아니라 **Vercel DNS**에서 관리해야 한다.
+즉 DNS 레코드는 가비아가 아니라 **Vercel DNS**에서 관리 중이다.
 
-먼저 authoritative DNS를 확인하려면:
-
-```bash
-dig NS iamyounghun.co.kr
-```
-
-예시 결과:
-
-```text
-ns1.vercel-dns.com.
-ns2.vercel-dns.com.
-```
-
-이 경우 가비아 DNS 화면의 레코드는 실제 서비스에 반영되지 않는다.
-
-Vercel DNS에 아래 `A` 레코드를 추가한다.
-
-- 타입: `A`
-- 호스트: `signaling`
-- 값: VM 공인 IP
-
-예시:
-
-- `signaling.iamyounghun.co.kr -> 8.229.223.216`
-
-주의:
-
-- `signaling`에 기존 `CNAME`, redirect, forwarding 성격의 설정이 있으면 제거한다.
-- 최종적으로는 `A signaling 8.229.223.216`가 authoritative DNS에 존재해야 한다.
-- 가비아에 같은 레코드가 남아 있어도 실제 DNS가 Vercel이면 반영되지 않는다. 혼동을 줄이기 위해 정리하는 편이 좋다.
-
-DNS 확인:
-
-```bash
-nslookup signaling.iamyounghun.co.kr
-```
-
-또는
-
-```bash
-dig signaling.iamyounghun.co.kr
-```
-
-정상이라면 `8.229.223.216`이 반환되어야 한다.
-
-## 4. VM에 Docker 설치
-
-아래는 Ubuntu VM 안에서 실행한다.
-
-기본 패키지:
-
-```bash
-sudo apt update
-sudo apt install -y ca-certificates curl gnupg lsb-release
-```
-
-Docker keyring:
-
-```bash
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-  sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
-```
-
-Docker apt source 등록:
-
-```bash
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
-
-패키지 목록 갱신:
-
-```bash
-sudo apt update
-apt-cache policy docker-ce
-```
-
-설치:
-
-```bash
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-```
-
-확인:
-
-```bash
-docker --version
-docker compose version
-```
-
-현재 사용자에게 docker 권한 부여:
-
-```bash
-sudo usermod -aG docker $USER
-newgrp docker
-```
-
-주의:
-
-- 최신 Ubuntu에서는 `docker-compose` 대신 `docker compose`를 사용한다.
-- `docker-compose` 구형 바이너리는 버전 충돌을 일으키기 쉽다.
-
-## 5. signaling 이미지 실행
+## 4. signaling 이미지 실행
 
 현재 배포 이미지는 아래를 사용한다.
 
@@ -208,29 +105,7 @@ docker ps
 docker logs signaling
 ```
 
-## 6. nginx 설치
-
-VM 안에서 실행:
-
-```bash
-sudo apt update
-sudo apt install -y nginx
-```
-
-확인:
-
-```bash
-nginx -v
-sudo systemctl enable nginx
-sudo systemctl start nginx
-sudo systemctl status nginx
-```
-
-중요:
-
-- `systemctl`은 Cloud Shell이 아니라 실제 VM 안에서만 동작한다.
-
-## 7. nginx reverse proxy 설정
+## 5. nginx reverse proxy 설정
 
 설정 파일 생성:
 
@@ -291,7 +166,7 @@ http://signaling.iamyounghun.co.kr
 }
 ```
 
-## 8. HTTPS 인증서 적용
+## 6. HTTPS 인증서 적용
 
 certbot 설치:
 
@@ -306,21 +181,7 @@ sudo apt install -y certbot python3-certbot-nginx
 sudo certbot --nginx -d signaling.iamyounghun.co.kr
 ```
 
-보통 권장 선택:
-
-- 이메일 입력
-- 약관 동의
-- HTTP -> HTTPS redirect 활성화
-
-확인:
-
-```text
-https://signaling.iamyounghun.co.kr
-```
-
-여기서도 같은 JSON 응답이 보이면 성공이다.
-
-## 9. 프론트 signaling 접속 주소 변경
+## 7. 프론트 signaling 접속 주소 변경
 
 현재 프론트는 `web/src/app/shared/rtc/useRtc.tsx`의 `SIGNALING_SERVER_URL`을 사용한다.
 
@@ -365,21 +226,11 @@ services:
       CLIENT_ORIGINS: "https://iamyounghun.co.kr,http://localhost:3000"
 ```
 
-최신 Docker 환경에서는 `version` 필드가 obsolete 경고를 낼 수 있다. 최신 `docker compose`에서는 없어도 되지만, 구버전 호환을 위해 남길 수 있다.
-
 실행:
 
 ```bash
 docker compose up -d
 ```
-
-권한 에러가 나면:
-
-```bash
-sudo docker compose up -d
-```
-
-또는 사용자 docker 그룹 권한을 먼저 맞춘다.
 
 ## 11. 운영 체크리스트
 
