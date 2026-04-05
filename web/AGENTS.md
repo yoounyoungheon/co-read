@@ -31,6 +31,13 @@
 - `read_guide` 입력:
   - `id`: 읽을 guide id
 
+## 데이터 흐름 규약
+
+- `business`, `presentation`, `page.tsx`, `layout.tsx`를 수정하거나 api-model, domain, service, presenter, view-model, UI props 경계를 건드리는 작업이면 `data-flow-layering` guide를 반드시 확인해야 한다. (MUST)
+- service는 domain까지만 반환하고, presenter가 UI용 view model을 준비해야 한다. (MUST)
+- business 레이어가 `feature/*/ui` 타입을 직접 import 하면 안 된다. (MUST NOT)
+- UI 컴포넌트가 raw API 응답 타입을 직접 props로 받으면 안 된다. (MUST NOT)
+
 ## 공통 컴포넌트 규약
 
 - 재사용 컴포넌트는 `src/app/shared/ui`에 둬야 한다. (MUST)

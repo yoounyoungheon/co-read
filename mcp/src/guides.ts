@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 export type GuideId =
   | "reusable-components"
   | "domain-components"
+  | "data-flow-layering"
   | "rsc-rendering"
   | "rcc-rendering"
   | "css-only-state"
@@ -221,8 +222,87 @@ const guides: GuideDefinition[] = [
 - \`Default\`는 기본으로 있어야 하고, 추가 story는 내부 구현 분기보다 사용자가 실제로 보게 될 상태를 드러내야 합니다.
 
 ## 주의사항
-- 도메인 데이터와 렌더링 상태는 feature 레이어에 남겨야 합니다.
-- 한 화면을 단순하게 만들기 위해 feature 전용 비즈니스 상태를 shared primitive로 옮기지 않습니다.
+      - 도메인 데이터와 렌더링 상태는 feature 레이어에 남겨야 합니다.
+      - 한 화면을 단순하게 만들기 위해 feature 전용 비즈니스 상태를 shared primitive로 옮기지 않습니다.
+      `,
+  },
+  {
+    id: "data-flow-layering",
+    title: "데이터 흐름 레이어링 가이드",
+    summary:
+      "API 응답은 api-model, domain, view-model을 순서대로 거쳐야 하며 service는 domain까지만 반환하고 presenter가 UI용 데이터를 만들어야 합니다.",
+    triggers: {
+      paths: [
+        "web/src/app/feature/*/business/**",
+        "web/src/app/feature/*/presentation/**",
+        "web/src/app/**/page.tsx",
+        "web/src/app/**/layout.tsx",
+      ],
+      keywords: [
+        "api model",
+        "view model",
+        "domain model",
+        "presenter",
+        "presentation",
+        "service",
+        "mapper",
+        "data flow",
+        "ui props",
+        "api to ui",
+        "layering",
+      ],
+    },
+    sources: [
+      "mcp/guidance/data-flow-layering.md",
+      "web/src/app/page.tsx",
+      "web/src/app/layout.tsx",
+      "web/src/app/feature/article/business/article.service.ts",
+      "web/src/app/feature/article/presentation/article.presenter.ts",
+      "web/src/app/feature/project/business/project.service.ts",
+      "web/src/app/feature/project/presentation/project.presenter.ts",
+      "web/src/app/feature/resume/business/resume.service.ts",
+      "web/src/app/feature/resume/presentation/resume.presenter.ts",
+      "web/src/app/feature/play-ground/presentation/play-ground.presenter.ts",
+      "web/README.md",
+    ],
+    canonicalSources: [
+      "mcp/guidance/data-flow-layering.md",
+      "web/src/app/page.tsx",
+      "web/src/app/layout.tsx",
+      "web/src/app/feature/article/business/article.service.ts",
+      "web/src/app/feature/article/presentation/article.presenter.ts",
+      "web/src/app/feature/project/business/project.service.ts",
+      "web/src/app/feature/project/presentation/project.presenter.ts",
+      "web/src/app/feature/resume/business/resume.service.ts",
+      "web/src/app/feature/resume/presentation/resume.presenter.ts",
+      "web/src/app/feature/play-ground/presentation/play-ground.presenter.ts",
+      "web/README.md",
+    ],
+    guideFiles: ["mcp/guidance/data-flow-layering.md"],
+    body: `# data-flow-layering
+
+이 가이드는 API 응답이 business와 presentation 레이어를 거쳐 UI까지 전달되는 동안 어떤 책임 분리가 필요한지 설명합니다.
+
+## 언제 읽어야 하나
+- \`business\`, \`presentation\`, \`page.tsx\`, \`layout.tsx\`를 수정할 때 읽습니다.
+- 작업 설명에 api-model, domain, presenter, view-model, UI props, data flow, service 경계가 언급될 때 읽습니다.
+
+## 근거 기반 규칙
+- service는 fetch와 응답 상태 검사 후 domain까지만 반환해야 합니다.
+- presenter는 domain을 UI 친화적인 view model로 바꿔야 합니다.
+- UI는 가능한 한 view model만 props로 받아야 하며 raw API shape를 직접 다루지 않아야 합니다.
+- business 레이어가 feature UI 타입을 import 하면 안 됩니다.
+
+## 현재 레포 패턴
+- \`page.tsx\`는 feature service와 presenter를 조합해 메인 화면 데이터를 준비합니다.
+- \`layout.tsx\`는 profile service와 presenter를 조합해 공통 프로필 UI 데이터를 준비합니다.
+- article, project, resume은 service가 domain을 반환하고 presenter가 view model을 만드는 구조로 정리돼 있습니다.
+- play-ground는 실시간 상태는 UI 인접 레이어에 두되, 카드 메타데이터 같은 정적인 화면 데이터는 presentation으로 올릴 수 있습니다.
+
+## 주의사항
+- api-model과 view-model은 비슷해 보여도 같은 책임이 아닙니다.
+- service에서 UI props를 바로 만들기 시작하면 business와 UI가 다시 강하게 결합됩니다.
+- page/layout에서 presenter 없이 domain을 바로 UI로 넘기면 화면 요구사항 변경이 business 레이어로 새기 쉽습니다.
 `,
   },
   {
